@@ -1,0 +1,114 @@
+# ASP.NET Web API
+
+# appsettings.json file
+appsettings*.json
+
+# Images
+*.jpg
+*.webp
+
+# Migrations folder
+backend/JewelryWebshop/JewelryWebshop/Migrations/
+
+## Binaries
+[Bb]in/
+[Oo]bj/
+
+## User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+## User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+## Mono Auto Generated Files
+mono_crash.*
+
+## Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+## Folder config file
+Desktop.ini
+
+## Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+## VS Code folders
+.vscode/
+
+## Visual Studio 2019 config folder
+.vs2019/
+
+# Rider-specific files
+.idea/
+
+# User-specific Rider settings
+.rider/
+
+# Rider project files
+*.sln.iml
+
+# Rider-generated project files
+.idea/.sln.iml
+.idea/modules.xml
+.idea/workspace.xml
+.idea/misc.xml
+.idea/jsLibraryMappings.xml
+.idea/dictionaries
+.idea/inspectionProfiles
+
+# Rider caches
+.idea/cache/
+.idea/contentRevisions
+
+# Exclude all Rider code style settings
+.idea/codeStyles/
+
+# Exclude all Rider DotSettings settings
+.idea/dotSettings
+
+# Exclude all Rider .editorconfig settings
+.idea/editorconfig/
+
+# Rider Rider.Editors settings
+.idea/RiderEditors
+
+# Exclude Rider local history
+.idea/localHistory/
+
+# Rider project folder
+.idea/.rider/
+.idea/shelf/
+.idea/vcs.xml
+
+# Exclude C# user settings
+.idea/cs
+
+# User-specific Rider files
+.idea/vcs.xml
+.idea/vcs.info
+.idea/copyright
+.idea/inspectionProfiles/
+.idea/jarRepositories.xml
+.idea/appcode/
+.idea/solutionCodeStyle/
+
+# ReSharper settings
+_ReSharper*/
+*.ReSharper*
+*.sln.iml
+*.old
+
+# Rider and ReSharper 2021.1 and later settings
+.idea/rider/
+.idea/Rider/
+.idea/caches/
+
+# User-specific Rider and ReSharper settings
+.idea/rider/
+.idea/Rider/
+/FoodImportLabelGenerator/Migrations/
+
+SolarWatch.sln.DotSettings.user

@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using VisitMonitoringSystem;
 using VisitMonitoringSystem.Models;
+using VisitMonitoringSystem.Services;
+using VisitMonitoringSystem.Services.Authentication;
 using VisitMonitoringSystem.Services.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,10 +60,16 @@ void AddServices()
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.AddScoped<IAuthService, AuthService>(); //3.Implement the registration functionality.
+    builder.Services.AddScoped<ITokenService, TokenService>(); //4.Implement the login functionality.
 
     builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IVisitRepository, VisitRepository>();
 
+ 
+    
     builder.Services.AddCors();//FOR REACT FETCHES
+  
 }
 
 void AddAuthentication() //1. Secure the endpoints
@@ -110,6 +118,7 @@ void AddDbContext() //2. Setting up identity
     builder.Services.AddDbContextFactory<VmsContext>(options =>
         //options.UseSqlServer(connectionString)); //1. Local server
         options.UseNpgsql(connectionString)); //2. Render postgresql
+       
 }
 
 void AddIdentity(){ //3.Implement the registration functionality.

@@ -225,6 +225,38 @@ namespace VisitMonitoringSystem.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("VisitMonitoringSystem.Models.Visit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Risk")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("StoreName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("StoreNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Visits");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)

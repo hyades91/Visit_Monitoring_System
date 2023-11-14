@@ -32,6 +32,20 @@ public class VisitController : ControllerBase
             throw;
         }
     }
+    
+    [HttpGet("GetFinishedVisit")]
+    public async Task<ActionResult<List<Visit>>> GetFinishedVisits()
+    {
+        try
+        {
+            return Ok(_visitrepository.GetFinished());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
     [HttpDelete("DeleteAllVisit")]
     public async Task<ActionResult<List<Visit>>> DeleteVisits()
@@ -47,25 +61,42 @@ public class VisitController : ControllerBase
         }
     }
 
-    [HttpPost("upload")]
+    [HttpPost("AddAllVisit")]
     [DisableRequestSizeLimit]
     public async Task<ActionResult> Upload(IFormFile formFile)
     {
-       // if (formFile.File.Count == 0) return NoContent();
+        // A fájl tartalmának kinyerése Stream-be
+        using var stream = formFile.OpenReadStream(); // Módosítás: Stream kinyerése az IFormFile-ból
 
-        //var file = Request.Form.Files[0];
-        var filePath = SaveFile(formFile);
+        var importedVisits = ExcelHelper.Import<VisitRequest>(stream);
 
-        // load product requests from excel file
-        var importedVisits = ExcelHelper.Import<VisitRequest>(filePath);
+        Console.WriteLine(importedVisits[0].Visitdate);
+    
+        // ... további műveletek a betöltött adatokkal ...
 
-        Console.WriteLine(importedVisits[0].Date);
-        
-        // save product requests to database
         return Ok(_visitrepository.AddAll(importedVisits));
+    }
+
+    [HttpPost("AddNewVisit")]
+    [DisableRequestSizeLimit]
+    public async Task<ActionResult> UploadNew(IFormFile formFile)
+    {
+        // A fájl tartalmának kinyerése Stream-be
+        using var stream = formFile.OpenReadStream(); // Módosítás: Stream kinyerése az IFormFile-ból
+
+        var importedVisits = ExcelHelper.Import<VisitRequest>(stream);
+
+        Console.WriteLine(importedVisits[0].Visitdate);
+    
+        // ... további műveletek a betöltött adatokkal ...
+
+        return Ok(_visitrepository.AddNewOnes(importedVisits));
 
     }
 
+    
+    
+    
     // save the uploaded file into wwwroot/uploads folder
     private string SaveFile(IFormFile file)
     {

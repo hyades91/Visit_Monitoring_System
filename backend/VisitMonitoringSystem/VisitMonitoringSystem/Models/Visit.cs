@@ -7,5 +7,6 @@ public class Visit
     public int StoreNumber { get; set; }
     public string StoreName { get; set; }
     public string Risk { get; set; }
+    public string Status { get; set; }
     public string Type { get; set; }
 }

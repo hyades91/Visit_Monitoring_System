@@ -5,24 +5,23 @@ namespace VisitMonitoringSystem.Services;
 
 public static class ExcelHelper
 {
- public static List<T> Import<T>(string filePath) where T : new()
+ public static List<T> Import<T>(Stream fileStream) where T : new()
     {
         XSSFWorkbook workbook;
-        using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-        {
-            workbook = new XSSFWorkbook(stream);
-        }
+        workbook = new XSSFWorkbook(fileStream);
 
         var sheet = workbook.GetSheetAt(0);
 
         var rowHeader = sheet.GetRow(0);
         var colIndexList = new Dictionary<string, int>();
+
         foreach (var cell in rowHeader.Cells)
         {
-            var colName = cell.StringCellValue;
+            var colName = cell.StringCellValue.Replace(" ", ""); // Szóközök törlése
             colIndexList.Add(colName, cell.ColumnIndex);
         }
 
+        
         var listResult = new List<T>();
         var currentRow = 1;
         while (currentRow <= sheet.LastRowNum)

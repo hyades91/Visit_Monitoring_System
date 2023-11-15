@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using NPOI.SS.Formula.Functions;
 using VisitMonitoringSystem.Models;
+using Newtonsoft.Json;
 
 namespace VisitMonitoringSystem.Services.Repositories;
 
@@ -31,6 +32,28 @@ public class VisitRepository:IVisitRepository
         _dbContext.RemoveRange(AllVisits);
         _dbContext.SaveChanges();
         return AllVisits;
+    }
+    
+    public async Task<int> AddAllJson(dynamic obj)
+    {
+        foreach (var importedVisit in obj.payload)
+            {
+                Console.WriteLine(importedVisit.visitDate);
+                var visit = new Visit
+                {
+                    Date = importedVisit.visitDate,
+                    StoreNumber = importedVisit.storeNumber,
+                    StoreName= importedVisit.storeName,
+                    Risk = importedVisit.riskLevel,
+                    Status = importedVisit.status,
+                    Type = importedVisit.reason
+                };
+                await _dbContext.Visits.AddAsync(visit);
+            }
+            _dbContext.SaveChanges();
+
+            return _dbContext.Visits.Count();
+            
     }
 
     public async Task<int> AddAll(IEnumerable<VisitRequest> ImportedVisits)

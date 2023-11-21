@@ -109,7 +109,7 @@ _ReSharper*/
 # User-specific Rider and ReSharper settings
 .idea/rider/
 .idea/Rider/
-/FoodImportLabelGenerator/Migrations/
+/backend/VisitMonitoringSystem/VisitMonitoringSystem/Migrations/
 
 SolarWatch.sln.DotSettings.user
 

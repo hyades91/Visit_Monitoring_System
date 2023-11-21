@@ -182,9 +182,37 @@ public class VisitController : ControllerBase
 
     }
 
+
     
+    [HttpGet("GetActiveStores")]
+    public async Task<ActionResult<List<Store>>> GetStores()
+    {
+        try
+        {
+            return Ok(_visitrepository.GetActiveStores());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
     
-    
+    [HttpDelete("DeleteAllStore")]
+    public async Task<ActionResult<List<Store>>> DeleteStores()
+    {
+        try
+        {
+            return Ok(_visitrepository.DeleteAllStores());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+
     // save the uploaded file into wwwroot/uploads folder
     private string SaveFile(IFormFile file)
     {

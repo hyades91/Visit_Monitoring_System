@@ -154,6 +154,41 @@ namespace VisitMonitoringSystem.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("VisitMonitoringSystem.Models.Store", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Format")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Risk")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("StoreName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("StoreNumber")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stores");
+                });
+
             modelBuilder.Entity("VisitMonitoringSystem.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -176,6 +211,9 @@ namespace VisitMonitoringSystem.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
+
+                    b.Property<bool>("HasAccess")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");

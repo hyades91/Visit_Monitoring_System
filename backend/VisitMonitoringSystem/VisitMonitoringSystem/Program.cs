@@ -219,7 +219,8 @@ async Task CreateAdminIfNotExists()
         var admin = new User
         {
             UserName = "admin",
-            Email = "admin@admin.com"
+            Email = "admin@admin.com",
+            HasAccess=true
         };
         
         var adminCreated = await userManager.CreateAsync(admin, "admin123");

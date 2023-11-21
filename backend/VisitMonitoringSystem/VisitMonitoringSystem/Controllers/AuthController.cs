@@ -59,15 +59,15 @@ public class AuthController : ControllerBase
         }
 
         var result = await _authenticationService.LoginAsync(request.Email, request.Password, request.Email=="admin@admin.com"?"Admin":"User");// "admin@"-> 5.Authorization
+        
 
-
-        if (!result.Success)
+        if (!result.Success )
         {
             AddErrors(result);
             return BadRequest(ModelState);
         }
 
-        return Ok(new AuthResponse(result.Email, result.UserName, result.Token));
+        return Ok(new AuthResponse(result.Email, result.UserName, result.Token, _userRepository.GetByEmail(result.Email).HasAccess));
     }
     
     //CRUD

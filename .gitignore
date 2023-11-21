@@ -112,3 +112,9 @@ _ReSharper*/
 /FoodImportLabelGenerator/Migrations/
 
 SolarWatch.sln.DotSettings.user
+
+# other folder
+.other/
+
+#excels
+.xlsx

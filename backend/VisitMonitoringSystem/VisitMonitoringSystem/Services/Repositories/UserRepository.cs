@@ -25,7 +25,8 @@ public class UserRepository : IUserRepository
         CopiedUser.SecondName = SelectedUser.SecondName;
         CopiedUser.Email = SelectedUser.Email;
         CopiedUser.PhoneNumber = SelectedUser.PhoneNumber;
-
+        CopiedUser.HasAccess =SelectedUser.HasAccess;
+            
         return CopiedUser;
     }
     

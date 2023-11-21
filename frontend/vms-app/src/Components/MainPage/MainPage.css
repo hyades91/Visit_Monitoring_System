@@ -1,0 +1,24 @@
+.LoginForm{
+
+   display: absolute;
+    margin: auto;
+    align-items: center;
+    text-align: center;
+   width: 100%;
+   height:87vh;
+   background-color: aqua;
+
+}
+
+.LoginInputs{
+    align-items: center;
+    margin-top: 300px;
+    display: relative;
+    margin: auto;
+    text-align: center;
+    background-color:brown
+ }
+
+input{
+height: 5vh;
+}

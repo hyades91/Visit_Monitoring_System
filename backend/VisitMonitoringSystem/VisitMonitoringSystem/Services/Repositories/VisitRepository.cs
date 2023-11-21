@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using NPOI.SS.Formula.Functions;
 using VisitMonitoringSystem.Models;
+using Newtonsoft.Json;
 
 namespace VisitMonitoringSystem.Services.Repositories;
 
@@ -32,6 +33,28 @@ public class VisitRepository:IVisitRepository
         _dbContext.SaveChanges();
         return AllVisits;
     }
+    
+    public async Task<int> AddAllJson(dynamic obj)
+    {
+        foreach (var importedVisit in obj.payload)
+            {
+                Console.WriteLine(importedVisit.visitDate);
+                var visit = new Visit
+                {
+                    Date = importedVisit.visitDate,
+                    StoreNumber = importedVisit.storeNumber,
+                    StoreName= importedVisit.storeName,
+                    Risk = importedVisit.riskLevel,
+                    Status = importedVisit.status,
+                    Type = importedVisit.reason
+                };
+                await _dbContext.Visits.AddAsync(visit);
+            }
+            _dbContext.SaveChanges();
+            UpdateStoreList();
+            return _dbContext.Visits.Count();
+            
+    }
 
     public async Task<int> AddAll(IEnumerable<VisitRequest> ImportedVisits)
     {
@@ -50,7 +73,7 @@ public class VisitRepository:IVisitRepository
             await _dbContext.Visits.AddAsync(visit);
         }
          _dbContext.SaveChanges();
-
+         UpdateStoreList();
         return _dbContext.Visits.Count();
     }
 
@@ -83,7 +106,50 @@ public class VisitRepository:IVisitRepository
             }
         }
         _dbContext.SaveChanges();
-
+        UpdateStoreList();
         return _dbContext.Visits.Count();
     }
+
+
+    
+    public IEnumerable<Store> GetActiveStores()
+    {
+        var AllStores = _dbContext.Stores.Where(s=>s.Active==true);
+        return AllStores;
+    }
+
+
+    public IEnumerable<Store> DeleteAllStores()
+    {
+        var AllStores = _dbContext.Stores;
+        _dbContext.RemoveRange(AllStores);
+        _dbContext.SaveChanges();
+        return AllStores;
+    }
+
+    public void UpdateStoreList()
+    {
+        var visits = _dbContext.Visits.ToList();
+       // var stores= _dbContext.Stores.ToList();
+        foreach (var visit in visits)
+        {
+            //HA NEM TARTALMAZZA A LÁTOGATÁS BOLTSZÁMÁT
+            if (!_dbContext.Stores.Select(store => store.StoreNumber).Contains(visit.StoreNumber))
+            {
+                var newStore = new Store
+                {
+                    StoreNumber = visit.StoreNumber,
+                    StoreName = visit.StoreName,
+                    Risk = visit.Risk,
+                    Country = visit.StoreNumber.ToString()[0].ToString() == "1" ? "Slovakia" :
+                        visit.StoreNumber.ToString()[0].ToString() == "2" ? "Czechia" : "Hungary",
+                    Format = visit.StoreNumber.ToString()[1].ToString() == "1" ? "HM" :
+                        visit.StoreNumber.ToString()[1].ToString() == "9" ? "DC" : "SF"
+                };
+                _dbContext.Stores.AddAsync(newStore);
+                _dbContext.SaveChanges();
+            }
+        }
+    }
+    
 }

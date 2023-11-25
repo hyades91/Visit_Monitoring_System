@@ -140,9 +140,9 @@ public class VisitRepository:IVisitRepository
                 {
                     StoreNumber = visit.StoreNumber,
                     StoreName = visit.StoreName,
-                    Risk = visit.Risk,
-                    Country = visit.StoreNumber.ToString()[0].ToString() == "1" ? "Slovakia" :
-                        visit.StoreNumber.ToString()[0].ToString() == "2" ? "Czechia" : "Hungary",
+                    Risk = visit.StoreNumber.ToString()[1].ToString() == "9" ?"4":visit.Risk, //mert a DC-nek nincs jól beállítva a TLT Portálon
+                    Country = visit.StoreNumber.ToString()[0].ToString() == "1" ? "Czechia" :
+                        visit.StoreNumber.ToString()[0].ToString() == "2" ? "Slovakia" : "Hungary",
                     Format = visit.StoreNumber.ToString()[1].ToString() == "1" ? "HM" :
                         visit.StoreNumber.ToString()[1].ToString() == "9" ? "DC" : "SF"
                 };

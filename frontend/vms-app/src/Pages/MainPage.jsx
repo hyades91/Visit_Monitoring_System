@@ -1,5 +1,6 @@
 import UserFormComponent from "../Components/UserForm/UserFormComponent";
 import MainPageComponent from "../Components/MainPage/MainPageComponent";
+import MissingVisitsComponent from "../Components/MissingVisits/MissingVisitsComponent";
 
 
 import { useEffect,  useState, useContext } from "react";
@@ -48,7 +49,9 @@ const MainPage = () => {
     const [storeList, setStoreList] = useState(null);
     const [filteredStoreList, setFilteredStoreList] = useState(null);
     const {user}= useContext(UserContext);
-
+   
+    const {page}= useContext(UserContext);
+    
     const context= useContext(UserContext);
     
     //POST FETCH (LOGIN)
@@ -93,7 +96,7 @@ const MainPage = () => {
       }
       setLoading(true)
       LoginFetch(userObject);
-      //setLogOrSign(false);
+      navigate("/");
     };
 
 
@@ -133,20 +136,16 @@ const MainPage = () => {
         .then((visits) => {
          setAllVisits(visits);
          setFilteredVisits(visits);
-        setLoading(false);
         }).catch((err)=>console.error("no visits",err))
       }catch(err){console.error("no visits",err)}
-    }, []);
-
-    useEffect(() => {
       try{
         fetchAllStore()
         .then((stores) => {
          setStoreList(stores);
          setFilteredStoreList(stores);
-        setLoading(false);
         }).catch((err)=>console.error("no stores",err))
       }catch(err){console.error("no stores",err)}
+      setLoading(false);
     }, []);
 
 
@@ -157,10 +156,13 @@ const MainPage = () => {
      user?(
       user.hasAccess?
       <>
-        {loading?
+        {!filteredVisits||!filteredStoreList?
           <Loading/> 
           :
-          <MainPageComponent visits={filteredVisits} stores={filteredStoreList} /*watchClick={clickFunction}*//>
+          page==="All"?
+           <MainPageComponent visits={filteredVisits} stores={filteredStoreList} /*watchClick={clickFunction}*//>
+          :
+            <MissingVisitsComponent visits={filteredVisits} stores={filteredStoreList} /*watchClick={clickFunction}*//>
           }
       </>
         :

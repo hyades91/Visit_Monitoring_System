@@ -3,6 +3,8 @@
 # appsettings.json file
 appsettings*.json
 
+.node_modules/
+
 # Images
 *.jpg
 *.webp

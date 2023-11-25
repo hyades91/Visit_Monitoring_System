@@ -30,19 +30,13 @@ const logout = (e) => {
         <div className="UserManagement">
         <li>
       
-          <Link to="/create">{user&&user.userName==="admin"&&("Add new product")}</Link>
+          <Link to="/create">{user&&user.userName==="admin"&&("Update Database")}</Link>
           {/*<Link>{user&&user.userName}</Link>*/}
 
           {user&&
-          <div class="dropdown">
-            <Link class="dropbtn">{user.userName}</Link>
-            <div class="dropdown-content"> 
-              <Link to="/myProfile">Profile</Link>
-              <Link to="/myOrders">My Orders</Link>
-              <Link to="/mySettings">Settings</Link>
-            </div>
+          <div class="LayoutMenu">
+            <Link to="/myProfile" class="dropbtn">{user.userName}</Link>
           </div>}
-
           <Link onClick={e=>user&&logout(e)} to={"/"}>{user?"Log out":"Log in"}</Link>
           <Link to="/signup">{!user&&("Sign up")}</Link>
         </li>

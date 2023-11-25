@@ -5,9 +5,12 @@ import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Pages/Layout";
 import ErrorPage from "./Pages/ErrorPage";
+
+import Menu from "./Pages/Menu.jsx";
 import MainPage from "./Pages/MainPage.jsx";
 import SignupPage from "./Pages/SignupPage.jsx";
 import ContactPage from "./Pages/ContactPage.jsx";
+import MyProfilePage from "./Pages/MyProfilePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,15 +20,23 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <Menu />,
+      },
+      {
+        path: "/mainpage",
         element: <MainPage />,
       },
       {
-        path: "/Signup",
+        path: "/signup",
         element: <SignupPage />,
       },
       {
         path: "/contact",
         element: <ContactPage />,
+      },
+      {
+        path: "/myprofile",
+        element: <MyProfilePage />,
       },
      
     ],
@@ -42,6 +53,7 @@ export default urlString;
 
 const App = () => {
   const [user, setUser] = React.useState(null);
+  const [page, setPage] = React.useState(null);
 
   const login = (userData) => {
     setUser(userData);
@@ -52,8 +64,11 @@ const App = () => {
   };
 
 
+
+
+
   return (
-    <UserContext.Provider value={{ user, setUser, login, logout }}>
+    <UserContext.Provider value={{ user, setUser, login, logout, page, setPage}}>
       <React.StrictMode>
         <RouterProvider router={router} />
       </React.StrictMode>

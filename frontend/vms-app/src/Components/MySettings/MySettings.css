@@ -1,0 +1,17 @@
+.detailImg{
+    width:300px;
+    height:300px;
+}
+
+.productDetailsCart h3,
+.productDetailsCart button{
+    display: inline-block;
+    vertical-align: middle; /* Opcionális, hogy az elemek középre igazítva legyenek */
+    margin-right: 20px; /* Opcionális, hogy legyen térköz az elemek között */
+
+}
+.productDetailsCart{
+    background-color: rgb(230, 230, 230);
+}
+
+

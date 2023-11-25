@@ -3,7 +3,7 @@
 # appsettings.json file
 appsettings*.json
 
-.node_modules/
+frontend/vms-app/node_modules/
 
 # Images
 *.jpg

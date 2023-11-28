@@ -11,6 +11,7 @@ import MainPage from "./Pages/MainPage.jsx";
 import SignupPage from "./Pages/SignupPage.jsx";
 import ContactPage from "./Pages/ContactPage.jsx";
 import MyProfilePage from "./Pages/MyProfilePage.jsx";
+import SettingPage from './Pages/SettingPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/myprofile",
         element: <MyProfilePage />,
+      },
+      {
+        path: "/settingpage",
+        element: <SettingPage />,
       },
      
     ],

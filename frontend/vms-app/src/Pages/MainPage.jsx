@@ -26,7 +26,7 @@ const fetchAllVisit = () => {
 const fetchAllStore = () => {
   try{
     console.log("fetching...");
-    return fetch(`${urlString}/Visit/GetActiveStores`)
+    return fetch(`${urlString}/Store/GetActiveStores`)
     .then((res) => res.json())
     .catch((err)=>console.error("Error during store fetch (first catch):"+err));
   }catch (error) {

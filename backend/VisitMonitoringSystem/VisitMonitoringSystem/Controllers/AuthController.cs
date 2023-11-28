@@ -88,7 +88,6 @@ public class AuthController : ControllerBase
     [HttpPut("UpdateProfileData"), Authorize(Roles = "Admin , User")]
     public async Task<ActionResult <User>> UpdateProfile([FromBody] User user)
     {
-        return Ok(_userRepository.UpdateUser(user.Email, user.UserName, user.FirstName, user.SecondName,
-            user.PhoneNumber));
+        return Ok(_userRepository.UpdateUser(user.Email, user.UserName, user.FirstName, user.SecondName));
     }
 }

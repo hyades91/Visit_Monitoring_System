@@ -110,23 +110,6 @@ public class VisitRepository:IVisitRepository
         return _dbContext.Visits.Count();
     }
 
-
-    
-    public IEnumerable<Store> GetActiveStores()
-    {
-        var AllStores = _dbContext.Stores.Where(s=>s.Active==true);
-        return AllStores;
-    }
-
-
-    public IEnumerable<Store> DeleteAllStores()
-    {
-        var AllStores = _dbContext.Stores;
-        _dbContext.RemoveRange(AllStores);
-        _dbContext.SaveChanges();
-        return AllStores;
-    }
-
     public void UpdateStoreList()
     {
         var visits = _dbContext.Visits.ToList();
@@ -140,9 +123,9 @@ public class VisitRepository:IVisitRepository
                 {
                     StoreNumber = visit.StoreNumber,
                     StoreName = visit.StoreName,
-                    Risk = visit.Risk,
-                    Country = visit.StoreNumber.ToString()[0].ToString() == "1" ? "Slovakia" :
-                        visit.StoreNumber.ToString()[0].ToString() == "2" ? "Czechia" : "Hungary",
+                    Risk = visit.StoreNumber.ToString()[1].ToString() == "9" ?"4":visit.Risk, //mert a DC-nek nincs jól beállítva a TLT Portálon
+                    Country = visit.StoreNumber.ToString()[0].ToString() == "1" ? "Czechia" :
+                        visit.StoreNumber.ToString()[0].ToString() == "2" ? "Slovakia" : "Hungary",
                     Format = visit.StoreNumber.ToString()[1].ToString() == "1" ? "HM" :
                         visit.StoreNumber.ToString()[1].ToString() == "9" ? "DC" : "SF"
                 };

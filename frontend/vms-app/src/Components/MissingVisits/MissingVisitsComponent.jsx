@@ -1,18 +1,19 @@
 //import { Link } from "react-router-dom";
-import "./MainPage.css";
+import "./MissingVisits.css";
 import Loading from "../Loading";
 //import { useContext } from "react";
 //import { UserContext } from "../..";
 import { useEffect,  useState, useContext } from "react";
 
 
-const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
+const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
 
   const [allVisits, setAllVisits] = useState(visits);
   const [filteredVisits, setFilteredVisits] = useState(visits);
   const [storeList, setStoreList] = useState(stores);
   const [filteredStoreList, setFilteredStoreList] = useState(stores);
-  
+  const [filteredUnderPerformedStoreList, setFilteredUnderPerformedStoreList] = useState(stores);
+
   const [selectedRisk, setSelectedRisk] = useState("All");
   const [selectedFormat, setSelectedFormat] = useState("All");
   const [selectedCountry, setSelectedCountry] = useState("All");
@@ -147,7 +148,17 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
   
     console.log(selectedFormat)
     console.log(selectedRisk)
+    //VISIT 
+    let tempVisitList=allVisits
+    //Reason
+    tempVisitList=tempVisitList.filter(visit=>selectedReason==="All"?true:visit.type===selectedReason)
+    //Date
+    setFilteredVisits(tempVisitList.filter(visit=>{
+      let visitDate=visit.date.substring(3,10).split(".").reverse().join("-")
+      return visitDate>=startDate&&visitDate<=endDate
+    }))
 
+    //STORE
     let FilterList=[selectedRisk, selectedFormat, selectedCountry]
     let keyList=["risk", "format", "country"]
     let tempStoreList=storeList
@@ -157,47 +168,31 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
       tempStoreList=FilterList[i]!=="All"?(tempStoreList.filter(store=>(store[keyList[i]]===FilterList[i]))):tempStoreList
     }
 
-   
-    setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
-    setLoading(false)
-    console.log("Store-os UseEffect")
+    setFilteredStoreList(tempStoreList)
 
-  }, [selectedFormat,selectedRisk, selectedCountry,orderDirection,orderBy]);
-
-
-  //Visit (DATE, REASON) Filter
-  useEffect(() => {
-    let tempVisitList=allVisits
-    //Reason
-    tempVisitList=tempVisitList.filter(visit=>selectedReason==="All"?true:visit.type===selectedReason)
-    //Date
-    setFilteredVisits(tempVisitList.filter(visit=>{
-      let visitDate=visit.date.substring(3,10).split(".").reverse().join("-")
-      return visitDate>=startDate&&visitDate<=endDate
-    }))
-    console.log("VisitFilteres-os UseEffect")
-
-  }, [startDate,endDate,allVisits, selectedReason]);
-
+  }, [selectedFormat, selectedRisk, selectedCountry, orderDirection, orderBy, startDate, endDate, allVisits, selectedReason]);
 
 
   useEffect(() => {
 
     let tempStoreList=filteredStoreList
-    setFilteredStoreList(tempStoreList.sort((a,b)=>sortByCustom(a,b)))
-  
-    console.log(filteredStoreList)
-    setLoading(false)
-  }, [filteredVisits]);
 
+    //Stores with underperformed visits
+    tempStoreList=tempStoreList.filter(store=>requiredVisits(store)-performedVisits(store)>0)
+   
+    setFilteredUnderPerformedStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
+    setLoading(false)
+  }, [filteredVisits, filteredStoreList]);
 
   console.log(filteredStoreList)
   console.log("duration: "+durationInMonth)
   
+
   return(
   
     <div className="MainPageContent">
       <div className="DatabaseUpdateInfo">
+        <h1>Missing Visits:</h1>
       <p>Last uploaded visit: {allVisits[0].date+" "+allVisits[0].storeName}</p>
       </div>
       <div className="DateFilter">
@@ -235,7 +230,6 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
         <label>Reason: </label>
           <button disabled={selectedReason==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedReason==="Regular"&&true} onClick={e=>watchClick(e)}>Regular</button>
-          <button disabled={selectedReason==="On-Call"&&true} onClick={e=>watchClick(e)}>On-Call</button>
         </div>
       </div>
 
@@ -251,7 +245,7 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
         </thead>
         {!loading?
         <tbody>
-          {filteredVisits&&filteredStoreList&&filteredStoreList.map(store => {
+          {filteredVisits&&filteredUnderPerformedStoreList&&filteredUnderPerformedStoreList.map(store => {
             return(
             <tr key={store.storeNumber}>
               <td>{store.storeNumber}</td>
@@ -272,4 +266,4 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
   )
 }
 
-export default MainPageComponent;
+export default MissingVisitsComponent;

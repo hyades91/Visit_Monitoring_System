@@ -62,4 +62,14 @@ table {
    color: white;
  }
 
+ .activated{
+   background-color: rgb(64, 160, 88);
+   cursor:pointer;
+}
+ .deactivated{
+   background-color: #ad1111;
+   cursor:pointer;
+}
+
+
 

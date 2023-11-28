@@ -30,7 +30,7 @@ public class UserRepository : IUserRepository
         return CopiedUser;
     }
     
-    public User UpdateUser(string Email, string UserName, string FirstName, string SecondName, string PhoneNumber)
+    public User UpdateUser(string Email, string UserName, string FirstName, string SecondName)
     {
 
         var SelectedUser = dbContext.Users.FirstOrDefault(u => u.Email == Email);
@@ -39,7 +39,6 @@ public class UserRepository : IUserRepository
         SelectedUser.UserName = UserName;
         SelectedUser.FirstName = FirstName;
         SelectedUser.SecondName = SecondName;
-        SelectedUser.PhoneNumber = PhoneNumber;
 
         dbContext.SaveChanges();
         

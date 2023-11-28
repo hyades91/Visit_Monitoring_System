@@ -18,3 +18,26 @@ code {
 
   height: 100%;
 }
+.MainMenuButtons{
+
+  display: grid;
+  text-align: center;
+  padding: 10vh;
+
+}
+
+.MainMenuButtons button{
+  height:10vh;
+  width: 40vh;
+  background-color: rgb(20, 54, 104);
+  color:white;
+  font-size: larger;
+  border:none;
+
+}
+
+.MainMenuButtons button:hover{
+
+  background-color: rgb(60, 88, 128);
+
+}

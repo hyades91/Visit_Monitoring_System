@@ -10,7 +10,7 @@ import urlString from "..";
 
 //GET THE PROFILE DATA
 const fetchUser = (user,email) => {
-  console.log("fetchelünk");
+  console.log("fetchelünk "+email);
   return fetch(`${urlString}/Auth/GetProfileData?email=${email}`,{
     headers:{
       'Authorization': `Bearer ${user.token}`,
@@ -70,6 +70,7 @@ async function updateProfile(e){
     Id:"",
     FirstName: e.target[1].value,
     SecondName: e.target[2].value,
+    UserName: e.target[3].value,
     Email: user.email,
   }
   try{

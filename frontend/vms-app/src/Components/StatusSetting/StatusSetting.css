@@ -1,0 +1,75 @@
+button{ cursor:pointer;}
+.LoginForm{
+   display: absolute;
+   margin: auto;
+   align-items: center;
+   text-align: center;
+   width: 100%;
+   height:87vh;
+   background-color: white;
+}
+
+.LoginInputs{
+    align-items: center;
+    margin-top: 300px;
+    display: relative;
+    margin: auto;
+    text-align: center;
+    background-color: white;
+ }
+
+input{
+height: 5vh;
+}
+
+th{
+   cursor:pointer;
+   width:30vh
+}
+table{
+   text-align: center;
+}
+
+
+.markedColoumn{
+  color:  #fa9d9d;
+}
+th:hover{
+   color:  #ff4949;
+ }
+
+table {
+   font-family: Arial, Helvetica, sans-serif;
+   border-collapse: collapse;
+   width: 100%;
+ }
+ 
+ table td, table th {
+   border: 1px solid #ddd;
+   padding: 8px;
+ }
+ 
+ 
+ table tr:nth-child(even){background-color: #f2f2f2;}
+
+ table tr:hover {background-color: rgb(213, 229, 233);}
+ 
+ table th {
+   padding-top: 12px;
+   padding-bottom: 12px;
+   text-align: left;
+   background-color: #777777;
+   color: white;
+ }
+
+ .activated{
+   background-color: rgb(64, 160, 88);
+   cursor:pointer;
+}
+ .deactivated{
+   background-color: #ad1111;
+   cursor:pointer;
+}
+
+
+

@@ -1,4 +1,7 @@
 import UserFormComponent from "../Components/UserForm/UserFormComponent";
+import StatusSettingComponent from "../Components/StatusSetting/StatusSettingComponent";
+import RiskSettingComponent from "../Components/RiskSetting/RiskSettingComponent";
+
 
 import { useEffect,  useState, useContext } from "react";
 import { UserContext } from "..";
@@ -7,18 +10,38 @@ import Loading from "../Components/Loading";
 import urlString from "..";
 
 
-const Menu = () => {
+
+const fetchAllStore = () => {
+  try{
+    console.log("fetching...");
+    return fetch(`${urlString}/Store/GetAllStores`)
+    .then((res) => res.json())
+    .catch((err)=>console.error("Error during store fetch (first catch):"+err));
+  }catch (error) {
+    console.error("Error during store fetch (second catch)", error);
+  };
+ 
+};
+
+const SettingPage = () => {
 
     const navigate= useNavigate();
     
     const [logOrSign, /*setLogOrSign*/] = useState("login");
     const [failedLogin, setFailedLogin] = useState(false);
     const [loading, setLoading] = useState(true);
-
-    const {user}= useContext(UserContext);
-    const {page}= useContext(UserContext);
-    const context= useContext(UserContext);
+  
+    const [storeList, setStoreList] = useState(null);
+    const [filteredStoreList, setFilteredStoreList] = useState(null);
+    const [changedStore, setChangedStore] = useState(null);
     
+    const {page}= useContext(UserContext);
+    const {user}= useContext(UserContext);
+    const context= useContext(UserContext);
+
+    
+
+
     //POST FETCH (LOGIN)
     function LoginFetch(userObject){
       console.log(userObject)
@@ -61,31 +84,38 @@ const Menu = () => {
       }
       setLoading(true)
       LoginFetch(userObject);
-      //setLogOrSign(false);
+      navigate("/");
     };
 
-    const watchClick=(e)=>{
-      e.preventDefault();
-      console.log(e)
-      if(e.target.name==="All"||e.target.name==="Missing"){
-        context.setPage(e.target.name)
-        navigate("/mainpage")
-      }
-      else if(e.target.name==="Status"||e.target.name==="Risk"){
-        context.setPage(e.target.name)
-        navigate("/settingpage")
-      }
-    }
+
+    
+    //GET AND SAVED THE VISIT VISITS
+    useEffect(() => {
+      try{
+        fetchAllStore()
+        .then((stores) => {
+         //setStoreList(stores);
+        setFilteredStoreList(stores)
+        }).catch((err)=>console.error("no stores",err))
+      }catch(err){console.error("no stores",err)}
+      setLoading(false)
+    }, [changedStore]);
+    
+    console.log(loading)
 
     return (
      user?(
       user.hasAccess?
-      <div className="MainMenuButtons">
-          <button name="All" onClick={e=>watchClick(e)}>Visits</button>
-          <button name="Missing" onClick={e=>watchClick(e)}>Underperformed Visits</button>
-          <button name="Status" onClick={e=>watchClick(e)}>Deactivate Sites</button>
-          <button name="Risk" onClick={e=>watchClick(e)}>Risk Settings</button>
-      </div>
+      <>
+        {!filteredStoreList||loading?
+          <Loading/> 
+          :
+          page==="Status"?
+           <StatusSettingComponent stores={filteredStoreList}/>
+           :
+           <RiskSettingComponent stores={filteredStoreList}/>
+          }
+      </>
         :
       <>
         <h2>You don't have a permission yet. Please contact with the admin</h2>
@@ -93,11 +123,15 @@ const Menu = () => {
      )
      :
      <>
+     {loading?
+      <Loading/> 
+      :
      <UserFormComponent status={logOrSign} isLogOrSignFailed={failedLogin} watchClick={onSubmit}/>
+     }
      </>
     )
   
   };
   
-  export default Menu;
+  export default SettingPage;
   

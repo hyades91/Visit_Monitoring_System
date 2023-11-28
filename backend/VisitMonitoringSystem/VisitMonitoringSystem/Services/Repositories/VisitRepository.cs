@@ -110,23 +110,6 @@ public class VisitRepository:IVisitRepository
         return _dbContext.Visits.Count();
     }
 
-
-    
-    public IEnumerable<Store> GetActiveStores()
-    {
-        var AllStores = _dbContext.Stores.Where(s=>s.Active==true);
-        return AllStores;
-    }
-
-
-    public IEnumerable<Store> DeleteAllStores()
-    {
-        var AllStores = _dbContext.Stores;
-        _dbContext.RemoveRange(AllStores);
-        _dbContext.SaveChanges();
-        return AllStores;
-    }
-
     public void UpdateStoreList()
     {
         var visits = _dbContext.Visits.ToList();

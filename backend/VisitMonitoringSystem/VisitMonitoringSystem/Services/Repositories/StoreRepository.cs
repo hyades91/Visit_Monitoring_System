@@ -47,6 +47,16 @@ public class StoreRepository:IStoreRepository
 
     }
 
+    public IEnumerable<Store> ChangeStoreRiskByNumber(int StoreNumber, int Risk)
+    {
+        var selectedStore = _dbContext.Stores.FirstOrDefault(store => store.StoreNumber == StoreNumber);
+        {
+            selectedStore.Risk=Risk.ToString();
+            _dbContext.SaveChanges();
+        }
+        return _dbContext.Stores;
+    }
+
     public IEnumerable<Store> UpdateRisks()
     {
         throw new NotImplementedException();

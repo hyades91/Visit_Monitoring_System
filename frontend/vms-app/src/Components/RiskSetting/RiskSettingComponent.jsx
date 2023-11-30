@@ -7,7 +7,9 @@ import { useEffect,  useState, useContext } from "react";
 import urlString from "../..";
 
 
-const ChangeStoreStatus = (storeNumber) => {
+const updateRisk = (storeNumber, risk) => {
+  console.log("fetch: "+storeNumber+", "+risk)
+  /*
   try{
     console.log("put fetching...");
     return fetch(`${urlString}/Store/ChangeActivity?StoreNumber=${storeNumber}`,{
@@ -18,7 +20,7 @@ const ChangeStoreStatus = (storeNumber) => {
   }catch (error) {
     console.error("Error during store fetch (second catch)", error);
   };
- 
+ */
 };
 
 
@@ -39,14 +41,27 @@ const RiskSettingComponent = ({ stores}) => {
   const [orderBy, setOrderBy] = useState("storeNumber");
 
   const [loading, setLoading] = useState(true)
-  const [activate, setActivate] = useState(null)
+  const [changeRisk, setChangeRisk] = useState(false)
   
+  const [riskList, setRiskList] = useState(["Low","Medium","High","High-DC"])
 
-
-  function watchActivate(e, storeNumber){
-    e.preventDefault()
-    //setLoading(true)
+  function watchRiskChanger(e, storeNumber){
+    e.preventDefault();
+    console.log(e)
     console.log(storeNumber)
+    setChangeRisk(storeNumber)
+  }
+
+  function setRisk(e){
+    e.preventDefault();
+    console.log(e.target.textContent)
+    if(e.target.textContent!=="Cancel")
+    {
+      updateRisk(changeRisk, riskList.findIndex((element)=>element===e.target.textContent)+1)
+    }
+    setChangeRisk(false)
+    //setLoading(true)
+/*
     try{
     ChangeStoreStatus(storeNumber)
     .then((storesData) => {
@@ -54,9 +69,8 @@ const RiskSettingComponent = ({ stores}) => {
 
       }).catch((err)=>console.error("hiba (1st catch)",err))
     }catch(err){console.error("hiba (2nd catch)",err)}
+  */
   }
-
-
 
   function watchClick(e){
     e.preventDefault()
@@ -90,10 +104,10 @@ const RiskSettingComponent = ({ stores}) => {
       setOrderBy("storeName")
       setLoading(true)
     }
-    else if(e.target.textContent==="Status")
+    else if(e.target.textContent==="Risk")
     {
       setOrderDirection(orderDirection*-1)
-      setOrderBy("active")
+      setOrderBy("risk")
       setLoading(true)
     }
   }
@@ -148,23 +162,42 @@ const RiskSettingComponent = ({ stores}) => {
         </div>
       </div>
 
+      {changeRisk&&
+      <div className="riskSelector">
+        <table>
+          <thead><tr><th>Change store {changeRisk} risk to:</th></tr></thead>
+          <tbody>
+            {riskList.map(risk=>
+            <tr>
+            <td className="riskSelectorButton" onClick={e=>setRisk(e)}>{risk}</td>
+            </tr>
+            )}
+            <td className="cancelRiskChanger" onClick={e=>setRisk(e)}>Cancel</td>
+          </tbody>
+        </table>
+      </div>}
+
       <table>
         <thead>
           <tr>
-            <th className={orderBy==="storeNumber"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Number</th>
+          <th className={orderBy==="storeNumber"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Number</th>
             <th className={orderBy==="storeName"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Name</th>
-            <th className={orderBy==="active"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Status</th>
+            <th className={orderBy==="risk"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Risk</th>
           </tr>
         </thead>
+
         {!loading?
+
         <tbody>
           {filteredStoreList&&filteredStoreList.map(store => {
             return(
             <tr key={store.storeNumber}>
               <td>{store.storeNumber}</td>
               <td>{store.storeName}</td>
-              <td name="status" className={store.active===true?"activated":"deactivated"} onClick={e=>watchActivate(e, store.storeNumber)}>{store.active?"Activated":"Deactivated"}</td>
-            </tr>)
+              <td name="risk" className={riskList[store.risk-1]} onClick={e=>watchRiskChanger(e, store.storeNumber)}>{riskList[store.risk-1]}</td>
+            </tr>
+            )
+
           })
           }
         </tbody>

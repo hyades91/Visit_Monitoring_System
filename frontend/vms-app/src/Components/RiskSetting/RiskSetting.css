@@ -62,14 +62,27 @@ table {
    color: white;
  }
 
- .activated{
-   background-color: rgb(64, 160, 88);
+ .Low{
+   background-color: rgba(69, 131, 85, 0.788);
    cursor:pointer;
 }
- .deactivated{
-   background-color: #ad1111;
+.Medium{
+   background-color: rgba(177, 170, 76, 0.774);
    cursor:pointer;
 }
+ .High{
+   background-color: #864040bd;
+   cursor:pointer;
+}
+.High-DC{
+   background-color: #501515be;
+   color: white;
+   cursor:pointer;
+}
+.cancelRiskChanger{
+   background-color: #ff0000bd;
+}
 
-
-
+.riskSelector{
+   z-index: 1;
+}

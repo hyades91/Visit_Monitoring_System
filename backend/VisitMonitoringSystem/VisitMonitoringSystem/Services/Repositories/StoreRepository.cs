@@ -61,7 +61,8 @@ public class StoreRepository:IStoreRepository
     {
         foreach (var store in _dbContext.Stores.ToList())
         {
-            store.Risk = _dbContext.Visits.ToList().FirstOrDefault(visit => visit.StoreNumber==store.StoreNumber).Risk;
+             //Azért kell a feltétel mert a DC-nek nincs jól beállítva a TLT Portálon
+            store.Risk = store.StoreNumber.ToString()[1].ToString() == "9" ?"4":_dbContext.Visits.ToList().FirstOrDefault(visit => visit.StoreNumber==store.StoreNumber).Risk;
         }
         _dbContext.SaveChanges();
         return _dbContext.Stores;

@@ -9,10 +9,10 @@ import urlString from "../..";
 
 const updateRisk = (storeNumber, risk) => {
   console.log("fetch: "+storeNumber+", "+risk)
-  /*
+  
   try{
     console.log("put fetching...");
-    return fetch(`${urlString}/Store/ChangeActivity?StoreNumber=${storeNumber}`,{
+    return fetch(`${urlString}/Store/ChangeRisk?StoreNumber=${storeNumber}&Risk=${risk}`,{
       method: "PUT",
     })
     .then((res) => res.json())
@@ -20,13 +20,29 @@ const updateRisk = (storeNumber, risk) => {
   }catch (error) {
     console.error("Error during store fetch (second catch)", error);
   };
- */
+ 
+};
+
+const updateAllRisk = (storeNumber, risk) => {
+  console.log("fetch: "+storeNumber+", "+risk)
+  
+  try{
+    console.log("put fetching...");
+    return fetch(`${urlString}/Store/UpdateRisks`,{
+      method: "PUT",
+    })
+    .then((res) => res.json())
+    .catch((err)=>console.error("Error during store fetch (first catch):"+err));
+  }catch (error) {
+    console.error("Error during store fetch (second catch)", error);
+  };
+ 
 };
 
 
 const RiskSettingComponent = ({ stores}) => {
 
- 
+
   const [storeList, setStoreList] = useState(stores);
   const [filteredStoreList, setFilteredStoreList] = useState(stores);
   
@@ -42,9 +58,10 @@ const RiskSettingComponent = ({ stores}) => {
 
   const [loading, setLoading] = useState(true)
   const [changeRisk, setChangeRisk] = useState(false)
+  const [changeAllRisk, setChangeAllRisk] = useState(false)
   
   const [riskList, setRiskList] = useState(["Low","Medium","High","High-DC"])
-
+  console.log(changeAllRisk)
   function watchRiskChanger(e, storeNumber){
     e.preventDefault();
     console.log(e)
@@ -57,19 +74,35 @@ const RiskSettingComponent = ({ stores}) => {
     console.log(e.target.textContent)
     if(e.target.textContent!=="Cancel")
     {
-      updateRisk(changeRisk, riskList.findIndex((element)=>element===e.target.textContent)+1)
+      try{
+        updateRisk(changeRisk, riskList.findIndex((element)=>element===e.target.textContent)+1)
+        .then((storesData) => {
+          setStoreList(storesData);
+    
+          }).catch((err)=>console.error("hiba (1st catch)",err))
+        }catch(err){console.error("hiba (2nd catch)",err)}
+     
+
     }
     setChangeRisk(false)
-    //setLoading(true)
-/*
-    try{
-    ChangeStoreStatus(storeNumber)
-    .then((storesData) => {
-      setStoreList(storesData);
+  }
 
-      }).catch((err)=>console.error("hiba (1st catch)",err))
-    }catch(err){console.error("hiba (2nd catch)",err)}
-  */
+  function setAllRisk(e){
+    e.preventDefault();
+    console.log(e.target.textContent)
+    if(e.target.textContent!=="Cancel")
+    {
+      try{
+        updateAllRisk()
+        .then((storesData) => {
+          setStoreList(storesData);
+    
+          }).catch((err)=>console.error("hiba (1st catch)",err))
+        }catch(err){console.error("hiba (2nd catch)",err)}
+     
+
+    }
+    setChangeAllRisk(false)
   }
 
   function watchClick(e){
@@ -109,6 +142,10 @@ const RiskSettingComponent = ({ stores}) => {
       setOrderDirection(orderDirection*-1)
       setOrderBy("risk")
       setLoading(true)
+    }
+    else if(e.target.textContent==="Set Risks to default")
+    {
+      setChangeAllRisk(true)
     }
   }
 
@@ -152,6 +189,7 @@ const RiskSettingComponent = ({ stores}) => {
           <button type="submit">Clear</button>
         </form>
       </div>
+      <button onClick={e=>watchClick(e)}>Set Risks to default</button>
       <div className="FilterButtons">
       <div className="Country">
         <label>Format: </label>
@@ -162,20 +200,59 @@ const RiskSettingComponent = ({ stores}) => {
         </div>
       </div>
 
-      {changeRisk&&
-      <div className="riskSelector">
-        <table>
-          <thead><tr><th>Change store {changeRisk} risk to:</th></tr></thead>
-          <tbody>
-            {riskList.map(risk=>
-            <tr>
-            <td className="riskSelectorButton" onClick={e=>setRisk(e)}>{risk}</td>
-            </tr>
-            )}
-            <td className="cancelRiskChanger" onClick={e=>setRisk(e)}>Cancel</td>
-          </tbody>
-        </table>
-      </div>}
+      {changeAllRisk !== false && (
+        <div className="modal2">
+          <div className="modal2-content">
+            <table>
+              <thead>
+                <tr>
+                  <th>The risks for all stores will be changed based on the most recently imported TLT Portal data</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td className="yesButton" onClick={setAllRisk}>
+                      Approve
+                    </td>
+                  </tr>
+                <tr>
+                  <td className="cancelButton" onClick={() => setChangeAllRisk(false)}>
+                    Cancel
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {changeRisk !== false && (
+        <div className="modal">
+          <div className="modal-content">
+            <table>
+              <thead>
+                <tr>
+                  <th>Change store {changeRisk} risk to:</th>
+                </tr>
+              </thead>
+              <tbody>
+                {riskList.map((risk) => (
+                  <tr key={risk}>
+                    <td className="riskSelectorButton" onClick={setRisk}>
+                      {risk}
+                    </td>
+                  </tr>
+                ))}
+                <tr>
+                  <td className="cancelRiskChanger" onClick={() => setChangeRisk(false)}>
+                    Cancel
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       <table>
         <thead>

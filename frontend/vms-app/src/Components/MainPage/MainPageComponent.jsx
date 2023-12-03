@@ -4,7 +4,8 @@ import Loading from "../Loading";
 //import { useContext } from "react";
 //import { UserContext } from "../..";
 import { useEffect,  useState, useContext } from "react";
-
+//Excel export
+import ExportToExcel from '../../ExportToExcel.jsx'
 
 const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
 
@@ -26,7 +27,23 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
   const [orderBy, setOrderBy] = useState("storeNumber");
 
   const [loading, setLoading] = useState(true)
-  
+      
+  //Excel
+      const [data, setData] = useState([])
+      const fileName = "Pest_Control_Visits";
+      
+      useEffect(() => {
+        const customHeadings = filteredStoreList.map(store =>({
+          "Store Number":store.storeNumber,
+          "Store Name":store.storeName,
+          "Performed visits":performedVisits(store),
+          "Missing visits":requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):"",
+          "Expected visits":requiredVisits(store)
+      }))
+        setData(customHeadings) 
+
+      }, [filteredVisits,filteredStoreList])
+    
 
 
   function watchClick(e){
@@ -208,9 +225,12 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
           <button type="submit">Search between these dates</button>
         </form>
       </div>
+      <div className="ExportButton">
+        <ExportToExcel apiData={data} fileName={fileName} />
+      </div>
       <div className="FilterButtons">
-      <div className="Country">
-        <label>Format: </label>
+        <div className="Country">
+          <label>Format: </label>
           <button disabled={selectedCountry==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedCountry==="Czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
           <button disabled={selectedCountry==="Hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
@@ -225,14 +245,14 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
           <button disabled={selectedRisk==="4"&&true} name="4" onClick={e=>watchClick(e)}>High-DC</button>
         </div>
         <div className="Format">
-        <label>Format: </label>
+         <label>Format: </label>
           <button disabled={selectedFormat==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedFormat==="HM"&&true} onClick={e=>watchClick(e)}>HM</button>
           <button disabled={selectedFormat==="SF"&&true} onClick={e=>watchClick(e)}>SF</button>
           <button disabled={selectedFormat==="DC"&&true} onClick={e=>watchClick(e)}>DC</button>
         </div>
         <div className="Reason">
-        <label>Reason: </label>
+         <label>Reason: </label>
           <button disabled={selectedReason==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedReason==="Regular"&&true} onClick={e=>watchClick(e)}>Regular</button>
           <button disabled={selectedReason==="On-Call"&&true} onClick={e=>watchClick(e)}>On-Call</button>

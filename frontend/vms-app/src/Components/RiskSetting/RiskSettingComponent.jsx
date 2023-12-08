@@ -169,7 +169,7 @@ const RiskSettingComponent = ({ stores}) => {
     }
 
    
-    setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
+    tempStoreList&&setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
     setLoading(false)
     console.log("Store-os UseEffect")
 

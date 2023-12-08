@@ -12,6 +12,8 @@ import SignupPage from "./Pages/SignupPage.jsx";
 import ContactPage from "./Pages/ContactPage.jsx";
 import MyProfilePage from "./Pages/MyProfilePage.jsx";
 import SettingPage from './Pages/SettingPage.jsx';
+import UpdateDatabasePage from './Pages/UpdateDatabasePage.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,11 @@ const router = createBrowserRouter([
         path: "/settingpage",
         element: <SettingPage />,
       },
+      {
+        path: "/updatedatabase",
+        element: <UpdateDatabasePage />,
+      },
+      
      
     ],
   },

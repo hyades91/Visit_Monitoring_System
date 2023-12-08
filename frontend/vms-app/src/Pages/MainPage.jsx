@@ -1,8 +1,6 @@
 import UserFormComponent from "../Components/UserForm/UserFormComponent";
 import MainPageComponent from "../Components/MainPage/MainPageComponent";
 import MissingVisitsComponent from "../Components/MissingVisits/MissingVisitsComponent";
-
-
 import { useEffect,  useState, useContext } from "react";
 import { UserContext } from "./..";
 import { useNavigate } from "react-router-dom";
@@ -49,11 +47,11 @@ const MainPage = () => {
     const [storeList, setStoreList] = useState(null);
     const [filteredStoreList, setFilteredStoreList] = useState(null);
     const {user}= useContext(UserContext);
-   
     const {page}= useContext(UserContext);
-    
     const context= useContext(UserContext);
-    
+
+
+
     //POST FETCH (LOGIN)
     function LoginFetch(userObject){
       console.log(userObject)
@@ -79,8 +77,9 @@ const MainPage = () => {
             console.log("Login success!");
             setFailedLogin(null);
             context.setUser(response);
+            setLoading(false)
           }
-          setLoading(false)
+      
         }).catch(error=>{ //Ez pl rossz URL-nél van, vagy a szerver nem működik
             console.log(error);
       })
@@ -160,6 +159,7 @@ const MainPage = () => {
           <Loading/> 
           :
           page==="All"?
+
            <MainPageComponent visits={filteredVisits} stores={filteredStoreList} /*watchClick={clickFunction}*//>
           :
             <MissingVisitsComponent visits={filteredVisits} stores={filteredStoreList} /*watchClick={clickFunction}*//>

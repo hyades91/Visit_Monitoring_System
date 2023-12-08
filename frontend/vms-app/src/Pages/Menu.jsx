@@ -13,7 +13,7 @@ const Menu = () => {
     
     const [logOrSign, /*setLogOrSign*/] = useState("login");
     const [failedLogin, setFailedLogin] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const {user}= useContext(UserContext);
     const {page}= useContext(UserContext);
@@ -75,16 +75,22 @@ const Menu = () => {
         context.setPage(e.target.name)
         navigate("/settingpage")
       }
+
     }
 
     return (
      user?(
-      user.hasAccess?
-      <div className="MainMenuButtons">
-          <button name="All" onClick={e=>watchClick(e)}>Visits</button>
-          <button name="Missing" onClick={e=>watchClick(e)}>Underperformed Visits</button>
-          <button name="Status" onClick={e=>watchClick(e)}>Deactivate Sites</button>
-          <button name="Risk" onClick={e=>watchClick(e)}>Risk Settings</button>
+        user.hasAccess ?
+          <div className="MainMenuButtons">
+            <div><button name="All" onClick={e => watchClick(e)}>Visits</button></div>
+            <div><button name="Missing" onClick={e => watchClick(e)}>Underperformed Visits</button></div>
+            <div><button name="Status" onClick={e => watchClick(e)}>Deactivate Sites</button></div>
+            <div><button name="Risk" onClick={e => watchClick(e)}>Risk Settings</button></div>
+            {user && user.userName === "admin" &&
+            <div className="MainMenuAdminButtons">
+              <button name="Update" onClick={() => navigate("/updatedatabase")}>Update from TLT Portal</button>
+            </div>
+        }
       </div>
         :
       <>
@@ -93,7 +99,11 @@ const Menu = () => {
      )
      :
      <>
+     {loading?
+      <Loading/> 
+      :
      <UserFormComponent status={logOrSign} isLogOrSignFailed={failedLogin} watchClick={onSubmit}/>
+     }
      </>
     )
   

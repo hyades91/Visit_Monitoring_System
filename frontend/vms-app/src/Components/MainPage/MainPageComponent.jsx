@@ -13,6 +13,7 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
   const [filteredVisits, setFilteredVisits] = useState(visits);
   const [storeList, setStoreList] = useState(stores);
   const [filteredStoreList, setFilteredStoreList] = useState(stores);
+  const [finalFilteredStoreList, setFinalFilteredStoreList] = useState(stores);
   
   const [selectedRisk, setSelectedRisk] = useState("All");
   const [selectedFormat, setSelectedFormat] = useState("All");
@@ -32,20 +33,6 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
       const [data, setData] = useState([])
       const fileName = "Pest_Control_Visits";
       
-      useEffect(() => {
-        const customHeadings = filteredStoreList.map(store =>({
-          "Store Number":store.storeNumber,
-          "Store Name":store.storeName,
-          "Performed visits":performedVisits(store),
-          "Missing visits":requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):"",
-          "Expected visits":requiredVisits(store)
-      }))
-        setData(customHeadings) 
-
-      }, [filteredVisits,filteredStoreList])
-    
-
-
   function watchClick(e){
     e.preventDefault()
     console.log(e)
@@ -158,7 +145,7 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
     }
     
   }
-
+/*
   //Store (RISK, COUNTRY, FORMAT) Filter
   useEffect(() => {
   
@@ -195,18 +182,62 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
     console.log("VisitFilteres-os UseEffect")
 
   }, [startDate,endDate,allVisits, selectedReason]);
+*/
 
-
-
-  useEffect(() => {
-
-    let tempStoreList=filteredStoreList
-    setFilteredStoreList(tempStoreList.sort((a,b)=>sortByCustom(a,b)))
+useEffect(() => {
   
-    console.log(filteredStoreList)
-    setLoading(false)
-  }, [filteredVisits]);
+  console.log(selectedFormat)
+  console.log(selectedRisk)
 
+  let tempVisitList=allVisits
+    //Reason
+    tempVisitList=tempVisitList.filter(visit=>selectedReason==="All"?true:visit.type===selectedReason)
+    //Date
+    setFilteredVisits(tempVisitList.filter(visit=>{
+      let visitDate=visit.date.substring(3,10).split(".").reverse().join("-")
+      return visitDate>=startDate&&visitDate<=endDate
+    }))
+    console.log("VisitFilteres-os UseEffect")
+
+  let FilterList=[selectedRisk, selectedFormat, selectedCountry]
+  let keyList=["risk", "format", "country"]
+  let tempStoreList=storeList
+
+  for(let i=0;i<FilterList.length;i++)
+  {
+    tempStoreList=FilterList[i]!=="All"?(tempStoreList.filter(store=>(store[keyList[i]]===FilterList[i]))):tempStoreList
+  }
+
+ 
+  setFilteredStoreList(tempStoreList);
+  console.log("Store-os UseEffect")
+
+}, [selectedFormat,selectedRisk, selectedCountry,orderDirection,orderBy, startDate,endDate,allVisits, selectedReason]);
+
+ 
+
+useEffect(() => {
+    
+    let tempStoreList=filteredStoreList
+    setFinalFilteredStoreList(tempStoreList.sort((a,b)=>sortByCustom(a,b)))
+    setLoading(false)
+  }, [filteredVisits, filteredStoreList]);
+
+  
+  useEffect(() => {
+    const customHeadings = finalFilteredStoreList.map(store =>({
+      "Store Number":store.storeNumber,
+      "Store Name":store.storeName,
+      "Performed visits":performedVisits(store),
+      "Missing visits":requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):"",
+      "Expected visits":requiredVisits(store)
+  }))
+  console.log("Exp:")
+   console.log(filteredStoreList)
+    console.log(customHeadings)
+    setData(customHeadings) 
+
+  }, [filteredVisits, finalFilteredStoreList])
 
   console.log(filteredStoreList)
   console.log("duration: "+durationInMonth)
@@ -265,19 +296,19 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
             <th className={orderBy==="storeNumber"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Number</th>
             <th className={orderBy==="storeName"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Name</th>
             <th className={orderBy==="visits"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Performed visits</th>
-            <th className={orderBy==="missingVisits"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Missing visits</th>
+            {selectedReason!="On-Call"&&<th className={orderBy==="missingVisits"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Missing visits</th>}
             <th className={orderBy==="expectedVisits"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Expected visits</th>
           </tr>
         </thead>
         {!loading?
         <tbody>
-          {filteredVisits&&filteredStoreList&&filteredStoreList.map(store => {
+          {filteredVisits&&finalFilteredStoreList&&finalFilteredStoreList.map(store => {
             return(
             <tr key={store.storeNumber}>
               <td>{store.storeNumber}</td>
               <td>{store.storeName}</td>
               <td>{performedVisits(store)}</td>
-              <td >{requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):""}</td>
+              {selectedReason!="On-Call"&&<td >{requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):""}</td>}
               <td>{requiredVisits(store)}</td>
             </tr>)
           })

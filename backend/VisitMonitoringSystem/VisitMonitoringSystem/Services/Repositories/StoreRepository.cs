@@ -59,10 +59,12 @@ public class StoreRepository:IStoreRepository
 
     public IEnumerable<Store> UpdateRisks()
     {
-        foreach (var store in _dbContext.Stores.ToList())
+        var visits = _dbContext.Visits.ToList();
+        foreach (var store in _dbContext.Stores)
         {
-             //Azért kell a feltétel mert a DC-nek nincs jól beállítva a TLT Portálon
-            store.Risk = store.StoreNumber.ToString()[1].ToString() == "9" ?"4":_dbContext.Visits.ToList().FirstOrDefault(visit => visit.StoreNumber==store.StoreNumber).Risk;
+            //Azért kell a feltétel mert a DC-nek nincs jól beállítva a TLT Portálon
+            store.Risk= store.StoreNumber.ToString()[1].ToString() == "9" ?"4":
+                visits.FirstOrDefault(visit => visit.StoreNumber==store.StoreNumber)!=null?visits.FirstOrDefault(visit => visit.StoreNumber==store.StoreNumber).Risk:"1";
         }
         _dbContext.SaveChanges();
         return _dbContext.Stores;

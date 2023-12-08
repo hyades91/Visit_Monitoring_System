@@ -149,6 +149,30 @@ public class VisitController : ControllerBase
       
     }
     
+    [HttpPost("ResetAllVisitWithJsonObj")]
+    [DisableRequestSizeLimit]
+    public async Task<ActionResult> UploadJson()
+    {
+        try
+        {
+
+            using (StreamReader reader = new StreamReader(Request.Body))
+            {
+                string jsonContent = await reader.ReadToEndAsync();
+                var obj = JsonConvert.DeserializeObject<dynamic>(jsonContent);
+                _visitrepository.DeleteAll();
+                return Ok(_visitrepository.AddAllJson(obj));
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+      
+    }
+    
+    
     [HttpPost("AddVisitsWithExcel")]
     [DisableRequestSizeLimit]
     public async Task<ActionResult> Upload(IFormFile formFile)

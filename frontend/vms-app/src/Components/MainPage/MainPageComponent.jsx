@@ -28,7 +28,8 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
   const [orderBy, setOrderBy] = useState("storeNumber");
 
   const [loading, setLoading] = useState(true)
-      
+  const [selectedStore, setSelectedStore] = useState(false)
+
   //Excel
       const [data, setData] = useState([])
       const fileName = "Pest_Control_Visits";
@@ -259,6 +260,31 @@ useEffect(() => {
       <div className="ExportButton">
         <ExportToExcel apiData={data} fileName={fileName} />
       </div>
+
+      {selectedStore !== false && (
+        <div className="modal">
+          <div className="modal-content">
+          <button onClick={() => setSelectedStore(false)}>Close</button>
+            <table>
+              <thead><h3>Store {selectedStore.storeNumber} {selectedStore.storeName}  visits:</h3>
+                <tr>
+                  <th>Date</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredVisits.filter(visit=>visit.storeNumber===selectedStore.storeNumber).map((visit) => (
+                  <tr key={visit.id}>
+                    <td>{visit.date}</td>
+                    <td>{visit.type}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       <div className="FilterButtons">
         <div className="Country">
           <label>Format: </label>
@@ -304,7 +330,7 @@ useEffect(() => {
         <tbody>
           {filteredVisits&&finalFilteredStoreList&&finalFilteredStoreList.map(store => {
             return(
-            <tr key={store.storeNumber}>
+            <tr key={store.storeNumber} onClick={()=>setSelectedStore(store)}>
               <td>{store.storeNumber}</td>
               <td>{store.storeName}</td>
               <td>{performedVisits(store)}</td>

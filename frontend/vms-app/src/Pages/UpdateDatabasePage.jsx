@@ -145,11 +145,11 @@ const UpdateDatabasePage = () => {
         <h3>2. Press Ctrl+s, or right-click and "save as"</h3>
         <img src={saveAsImage}></img>
         <h3>3. Select the saved file with "Choose File" button </h3>
-        <h3>4. Click on "Update Visits" button </h3>
-        
+
         <div>   
           <input type="file" onChange={(e)=>handleFileChange(e)} />
           <div>{rawFile && `${rawFile.name} - ${rawFile.type}`}</div>
+          <h3>4. Click on "Update Visits" button </h3>
           <button onClick={handleUploadClick}>Update Visits</button>
         </div>
         {loading?

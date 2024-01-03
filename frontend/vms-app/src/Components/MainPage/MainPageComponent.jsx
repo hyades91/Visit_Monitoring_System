@@ -20,8 +20,9 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [selectedReason, setSelectedReason] = useState("All");
 
-  const [startDate, setStartDate] = useState(new Date().getFullYear().toString()+"-03");
-  const [endDate, setEndDate] = useState(new Date().getFullYear().toString()+"-"+(new Date().getMonth()).toString());
+  const [startDate, setStartDate] = useState(new Date().getMonth()<2?(new Date().getFullYear()-1).toString()+"-03":new Date().getFullYear().toString()+"-03");
+  const [endDate, setEndDate] = useState(new Date().getMonth()!==0?(new Date().getFullYear().toString()+"-"+(new Date().getMonth()).toString()):(new Date().getFullYear()-1).toString()+"-12");
+  
   const [durationInMonth, setDurationInMonth] = useState((Number(endDate.substring(5))+12*Number(endDate.substring(0,4)))-(Number(startDate.substring(5))+12*Number(startDate.substring(0,4)))+1);
 
   const [orderDirection, setOrderDirection] = useState(1);

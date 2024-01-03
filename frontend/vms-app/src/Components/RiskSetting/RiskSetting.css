@@ -62,14 +62,101 @@ table {
    color: white;
  }
 
- .activated{
-   background-color: rgb(64, 160, 88);
+ .Low{
+   background-color: rgba(69, 131, 85, 0.788);
    cursor:pointer;
 }
- .deactivated{
-   background-color: #ad1111;
+.Medium{
+   background-color: rgba(177, 170, 76, 0.774);
    cursor:pointer;
 }
+ .High{
+   background-color: #864040bd;
+   cursor:pointer;
+}
+.High-DC{
+   background-color: #501515be;
+   color: white;
+   cursor:pointer;
+}
+.cancelRiskChanger{
+   background-color: #ff0000bd;
+}
 
+.modal {
+  
+   position: fixed; /* Abszolút pozíció */
+   z-index: 1; /* Legfelül */
+   left: 0;
+   top: 0;
+   width: 100%; /* Teljes szélesség */
+   height: 100%; /* Teljes magasság */
+   overflow: auto; /* Görgetés engedélyezése, ha szükséges */
+   background-color: rgba(0, 0, 0, 0.4); /* Fekete háttér átlátszósággal */
+ }
+ 
+ /* Modális tartalom */
+ .modal-content {
+   background-color: #fefefe;
+   margin: 15% auto; /* Középen pozícionálás */
+   padding: 20px;
+   border: 1px solid #888;
+   width: 80%;
+   max-width: 600px; /* Max. szélesség */
+ }
+ 
+ /* Modális gomb stílus */
+ .riskSelectorButton{
+   cursor: pointer;
+   padding: 8px 16px;
+   text-align: center;
+   background-color: #f2f2f2;
+   border: 1px solid #888;
+ }
+ 
+ /* Modális gomb stílus: hover */
+ .riskSelectorButton:hover {
+   background-color: #ddd;
+ }
 
+ .cancelRiskChanger {  
+    cursor: pointer;
+   padding: 8px 16px;
+   text-align: center;
+   background-color: #e49595;
+   border: 1px solid #888;
+ }
+ .cancelRiskChanger:hover {
+   background-color: #da6565;
+ }
 
+ .modal2 {
+  
+   position: fixed; /* Abszolút pozíció */
+   z-index: 1; /* Legfelül */
+   left: 0;
+   top: 0;
+   width: 100%; /* Teljes szélesség */
+   height: 100%; /* Teljes magasság */
+   overflow: auto; /* Görgetés engedélyezése, ha szükséges */
+   background-color: rgba(0, 0, 0, 0.4); /* Fekete háttér átlátszósággal */
+ }
+ 
+ /* Modális tartalom */
+ .modal2-content {
+   cursor: pointer;
+   background-color: #fefefe;
+   margin: 15% auto; /* Középen pozícionálás */
+   padding: 20px;
+   border: 1px solid #888;
+   width: 80%;
+   max-width: 600px; /* Max. szélesség */
+ }
+
+ .cancelButton:hover {
+   background-color: #da6565;
+ }
+
+ .yesButton:hover {
+   background-color: #7abd83;
+ }

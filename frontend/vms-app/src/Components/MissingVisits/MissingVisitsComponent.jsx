@@ -4,7 +4,8 @@ import Loading from "../Loading";
 //import { useContext } from "react";
 //import { UserContext } from "../..";
 import { useEffect,  useState, useContext } from "react";
-
+//Excel export
+import ExportToExcel from '../../ExportToExcel.jsx'
 
 const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
 
@@ -19,15 +20,34 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [selectedReason, setSelectedReason] = useState("All");
 
-  const [startDate, setStartDate] = useState(new Date().getFullYear().toString()+"-03");
-  const [endDate, setEndDate] = useState(new Date().getFullYear().toString()+"-"+(new Date().getMonth()).toString());
+  const [startDate, setStartDate] = useState(new Date().getMonth()<2?(new Date().getFullYear()-1).toString()+"-03":new Date().getFullYear().toString()+"-03");
+  const [endDate, setEndDate] = useState(new Date().getMonth()!==0?(new Date().getFullYear().toString()+"-"+(new Date().getMonth()).toString()):(new Date().getFullYear()-1).toString()+"-12");
+  
   const [durationInMonth, setDurationInMonth] = useState((Number(endDate.substring(5))+12*Number(endDate.substring(0,4)))-(Number(startDate.substring(5))+12*Number(startDate.substring(0,4)))+1);
 
   const [orderDirection, setOrderDirection] = useState(1);
   const [orderBy, setOrderBy] = useState("storeNumber");
 
   const [loading, setLoading] = useState(true)
+  const [selectedStore, setSelectedStore] = useState(false)
   
+  
+  //Excel
+  const [data, setData] = useState([])
+  const fileName = `Underperformed_visits_${startDate}-${endDate}`;
+  
+  useEffect(() => {
+    const customHeadings = filteredUnderPerformedStoreList.map(store =>({
+      "Store Number":store.storeNumber,
+      "Store Name":store.storeName,
+      "Performed visits":performedVisits(store),
+      "Missing visits":requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):"",
+      "Expected visits":requiredVisits(store)
+  }))
+    setData(customHeadings) 
+
+  }, [filteredVisits,filteredUnderPerformedStoreList])
+
 
 
   function watchClick(e){
@@ -186,7 +206,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
 
   console.log(filteredStoreList)
   console.log("duration: "+durationInMonth)
-  
+  console.log(selectedStore)
 
   return(
   
@@ -203,9 +223,39 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
           <button type="submit">Search between these dates</button>
         </form>
       </div>
+
+
+      <div className="ExportButton">
+        <ExportToExcel apiData={data} fileName={fileName} />
+      </div>
+
+      {selectedStore !== false && (
+        <div className="modal">
+          <div className="modal-content">
+          <button onClick={() => setSelectedStore(false)}>Close</button>
+            <table>
+              <thead><h3>Store {selectedStore.storeNumber} {selectedStore.storeName}  visits:</h3>
+                <tr>
+                  <th>Date</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredVisits.filter(visit=>visit.storeNumber===selectedStore.storeNumber).map((visit) => (
+                  <tr key={visit.id}>
+                    <td>{visit.date}</td>
+                    <td>{visit.type}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       <div className="FilterButtons">
-      <div className="Country">
-        <label>Format: </label>
+        <div className="Country">
+          <label>Format: </label>
           <button disabled={selectedCountry==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedCountry==="Czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
           <button disabled={selectedCountry==="Hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
@@ -220,14 +270,14 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
           <button disabled={selectedRisk==="4"&&true} name="4" onClick={e=>watchClick(e)}>High-DC</button>
         </div>
         <div className="Format">
-        <label>Format: </label>
+         <label>Format: </label>
           <button disabled={selectedFormat==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedFormat==="HM"&&true} onClick={e=>watchClick(e)}>HM</button>
           <button disabled={selectedFormat==="SF"&&true} onClick={e=>watchClick(e)}>SF</button>
           <button disabled={selectedFormat==="DC"&&true} onClick={e=>watchClick(e)}>DC</button>
         </div>
         <div className="Reason">
-        <label>Reason: </label>
+          <label>Reason: </label>
           <button disabled={selectedReason==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedReason==="Regular"&&true} onClick={e=>watchClick(e)}>Regular</button>
         </div>
@@ -247,7 +297,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
         <tbody>
           {filteredVisits&&filteredUnderPerformedStoreList&&filteredUnderPerformedStoreList.map(store => {
             return(
-            <tr key={store.storeNumber}>
+            <tr key={store.storeNumber} onClick={()=>setSelectedStore(store)}>
               <td>{store.storeNumber}</td>
               <td>{store.storeName}</td>
               <td>{performedVisits(store)}</td>

@@ -47,8 +47,26 @@ public class StoreRepository:IStoreRepository
 
     }
 
+    public IEnumerable<Store> ChangeStoreRiskByNumber(int StoreNumber, int Risk)
+    {
+        var selectedStore = _dbContext.Stores.FirstOrDefault(store => store.StoreNumber == StoreNumber);
+        {
+            selectedStore.Risk=Risk.ToString();
+            _dbContext.SaveChanges();
+        }
+        return _dbContext.Stores;
+    }
+
     public IEnumerable<Store> UpdateRisks()
     {
-        throw new NotImplementedException();
+        var visits = _dbContext.Visits.ToList();
+        foreach (var store in _dbContext.Stores)
+        {
+            //Azért kell a feltétel mert a DC-nek nincs jól beállítva a TLT Portálon
+            store.Risk= store.StoreNumber.ToString()[1].ToString() == "9" ?"4":
+                visits.FirstOrDefault(visit => visit.StoreNumber==store.StoreNumber)!=null?visits.FirstOrDefault(visit => visit.StoreNumber==store.StoreNumber).Risk:"1";
+        }
+        _dbContext.SaveChanges();
+        return _dbContext.Stores;
     }
 }

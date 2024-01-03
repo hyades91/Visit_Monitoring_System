@@ -4,7 +4,8 @@ import Loading from "../Loading";
 //import { useContext } from "react";
 //import { UserContext } from "../..";
 import { useEffect,  useState, useContext } from "react";
-
+//Excel export
+import ExportToExcel from '../../ExportToExcel.jsx'
 
 const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
 
@@ -12,23 +13,28 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
   const [filteredVisits, setFilteredVisits] = useState(visits);
   const [storeList, setStoreList] = useState(stores);
   const [filteredStoreList, setFilteredStoreList] = useState(stores);
+  const [finalFilteredStoreList, setFinalFilteredStoreList] = useState(stores);
   
   const [selectedRisk, setSelectedRisk] = useState("All");
   const [selectedFormat, setSelectedFormat] = useState("All");
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [selectedReason, setSelectedReason] = useState("All");
 
-  const [startDate, setStartDate] = useState(new Date().getFullYear().toString()+"-03");
-  const [endDate, setEndDate] = useState(new Date().getFullYear().toString()+"-"+(new Date().getMonth()).toString());
+  const [startDate, setStartDate] = useState(new Date().getMonth()<2?(new Date().getFullYear()-1).toString()+"-03":new Date().getFullYear().toString()+"-03");
+  const [endDate, setEndDate] = useState(new Date().getMonth()!==0?(new Date().getFullYear().toString()+"-"+(new Date().getMonth()).toString()):(new Date().getFullYear()-1).toString()+"-12");
+  
   const [durationInMonth, setDurationInMonth] = useState((Number(endDate.substring(5))+12*Number(endDate.substring(0,4)))-(Number(startDate.substring(5))+12*Number(startDate.substring(0,4)))+1);
 
   const [orderDirection, setOrderDirection] = useState(1);
   const [orderBy, setOrderBy] = useState("storeNumber");
 
   const [loading, setLoading] = useState(true)
-  
+  const [selectedStore, setSelectedStore] = useState(false)
 
-
+  //Excel
+      const [data, setData] = useState([])
+      const fileName = "Pest_Control_Visits";
+      
   function watchClick(e){
     e.preventDefault()
     console.log(e)
@@ -141,7 +147,7 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
     }
     
   }
-
+/*
   //Store (RISK, COUNTRY, FORMAT) Filter
   useEffect(() => {
   
@@ -178,18 +184,62 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
     console.log("VisitFilteres-os UseEffect")
 
   }, [startDate,endDate,allVisits, selectedReason]);
+*/
 
-
-
-  useEffect(() => {
-
-    let tempStoreList=filteredStoreList
-    setFilteredStoreList(tempStoreList.sort((a,b)=>sortByCustom(a,b)))
+useEffect(() => {
   
-    console.log(filteredStoreList)
-    setLoading(false)
-  }, [filteredVisits]);
+  console.log(selectedFormat)
+  console.log(selectedRisk)
 
+  let tempVisitList=allVisits
+    //Reason
+    tempVisitList=tempVisitList.filter(visit=>selectedReason==="All"?true:visit.type===selectedReason)
+    //Date
+    setFilteredVisits(tempVisitList.filter(visit=>{
+      let visitDate=visit.date.substring(3,10).split(".").reverse().join("-")
+      return visitDate>=startDate&&visitDate<=endDate
+    }))
+    console.log("VisitFilteres-os UseEffect")
+
+  let FilterList=[selectedRisk, selectedFormat, selectedCountry]
+  let keyList=["risk", "format", "country"]
+  let tempStoreList=storeList
+
+  for(let i=0;i<FilterList.length;i++)
+  {
+    tempStoreList=FilterList[i]!=="All"?(tempStoreList.filter(store=>(store[keyList[i]]===FilterList[i]))):tempStoreList
+  }
+
+ 
+  setFilteredStoreList(tempStoreList);
+  console.log("Store-os UseEffect")
+
+}, [selectedFormat,selectedRisk, selectedCountry,orderDirection,orderBy, startDate,endDate,allVisits, selectedReason]);
+
+ 
+
+useEffect(() => {
+    
+    let tempStoreList=filteredStoreList
+    setFinalFilteredStoreList(tempStoreList.sort((a,b)=>sortByCustom(a,b)))
+    setLoading(false)
+  }, [filteredVisits, filteredStoreList]);
+
+  
+  useEffect(() => {
+    const customHeadings = finalFilteredStoreList.map(store =>({
+      "Store Number":store.storeNumber,
+      "Store Name":store.storeName,
+      "Performed visits":performedVisits(store),
+      "Missing visits":requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):"",
+      "Expected visits":requiredVisits(store)
+  }))
+  console.log("Exp:")
+   console.log(filteredStoreList)
+    console.log(customHeadings)
+    setData(customHeadings) 
+
+  }, [filteredVisits, finalFilteredStoreList])
 
   console.log(filteredStoreList)
   console.log("duration: "+durationInMonth)
@@ -208,9 +258,37 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
           <button type="submit">Search between these dates</button>
         </form>
       </div>
+      <div className="ExportButton">
+        <ExportToExcel apiData={data} fileName={fileName} />
+      </div>
+
+      {selectedStore !== false && (
+        <div className="modal">
+          <div className="modal-content">
+          <button onClick={() => setSelectedStore(false)}>Close</button>
+            <table>
+              <thead><h3>Store {selectedStore.storeNumber} {selectedStore.storeName}  visits:</h3>
+                <tr>
+                  <th>Date</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredVisits.filter(visit=>visit.storeNumber===selectedStore.storeNumber).map((visit) => (
+                  <tr key={visit.id}>
+                    <td>{visit.date}</td>
+                    <td>{visit.type}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       <div className="FilterButtons">
-      <div className="Country">
-        <label>Format: </label>
+        <div className="Country">
+          <label>Format: </label>
           <button disabled={selectedCountry==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedCountry==="Czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
           <button disabled={selectedCountry==="Hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
@@ -225,14 +303,14 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
           <button disabled={selectedRisk==="4"&&true} name="4" onClick={e=>watchClick(e)}>High-DC</button>
         </div>
         <div className="Format">
-        <label>Format: </label>
+         <label>Format: </label>
           <button disabled={selectedFormat==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedFormat==="HM"&&true} onClick={e=>watchClick(e)}>HM</button>
           <button disabled={selectedFormat==="SF"&&true} onClick={e=>watchClick(e)}>SF</button>
           <button disabled={selectedFormat==="DC"&&true} onClick={e=>watchClick(e)}>DC</button>
         </div>
         <div className="Reason">
-        <label>Reason: </label>
+         <label>Reason: </label>
           <button disabled={selectedReason==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedReason==="Regular"&&true} onClick={e=>watchClick(e)}>Regular</button>
           <button disabled={selectedReason==="On-Call"&&true} onClick={e=>watchClick(e)}>On-Call</button>
@@ -245,19 +323,19 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
             <th className={orderBy==="storeNumber"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Number</th>
             <th className={orderBy==="storeName"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Name</th>
             <th className={orderBy==="visits"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Performed visits</th>
-            <th className={orderBy==="missingVisits"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Missing visits</th>
+            {selectedReason!="On-Call"&&<th className={orderBy==="missingVisits"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Missing visits</th>}
             <th className={orderBy==="expectedVisits"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Expected visits</th>
           </tr>
         </thead>
         {!loading?
         <tbody>
-          {filteredVisits&&filteredStoreList&&filteredStoreList.map(store => {
+          {filteredVisits&&finalFilteredStoreList&&finalFilteredStoreList.map(store => {
             return(
-            <tr key={store.storeNumber}>
+            <tr key={store.storeNumber} onClick={()=>setSelectedStore(store)}>
               <td>{store.storeNumber}</td>
               <td>{store.storeName}</td>
               <td>{performedVisits(store)}</td>
-              <td >{requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):""}</td>
+              {selectedReason!="On-Call"&&<td >{requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):""}</td>}
               <td>{requiredVisits(store)}</td>
             </tr>)
           })

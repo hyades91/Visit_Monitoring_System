@@ -41,3 +41,11 @@ code {
   background-color: rgb(60, 88, 128);
 
 }
+
+.MainMenuAdminButtons button{
+  background-color: rgb(20, 104, 90);
+}
+
+.MainMenuAdminButtons button:hover{
+  background-color: rgb(66, 114, 106);
+}

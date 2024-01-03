@@ -29,12 +29,9 @@ const logout = (e) => {
         </div>
         <div className="UserManagement">
         <li>
-      
-          <Link to="/create">{user&&user.userName==="admin"&&("Update Database")}</Link>
-          {/*<Link>{user&&user.userName}</Link>*/}
-
+          <Link to="/updatedatabase">{user&&user.userName==="admin"&&("Update Database")}</Link>
           {user&&
-          <div class="LayoutMenu">
+          <div className="LayoutMenu">
             <Link to="/myProfile" class="dropbtn">{user.userName}</Link>
           </div>}
           <Link onClick={e=>user&&logout(e)} to={"/"}>{user?"Log out":"Log in"}</Link>

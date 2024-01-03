@@ -73,6 +73,20 @@ public class StoreController : ControllerBase
             throw;
         }
     }
+    
+    [HttpPut("ChangeRisk")]
+    public async Task<ActionResult<List<Store>>> ChangeRisk(int StoreNumber, int Risk)
+    {
+        try
+        {
+            return Ok(_storeRepository.ChangeStoreRiskByNumber(StoreNumber, Risk));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
     [HttpPut("UpdateRisks")]
     public async Task<ActionResult<Store>> UpdateRisks()

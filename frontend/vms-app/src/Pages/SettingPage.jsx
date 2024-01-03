@@ -100,6 +100,7 @@ const SettingPage = () => {
       }catch(err){console.error("no stores",err)}
       setLoading(false)
     }, [changedStore]);
+
     
     console.log(loading)
 

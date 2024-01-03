@@ -63,11 +63,11 @@ table {
  }
 
  .activated{
-   background-color: rgb(64, 160, 88);
+   background-color: rgba(64, 160, 88, 0.767);
    cursor:pointer;
 }
  .deactivated{
-   background-color: #ad1111;
+   background-color: #ad1111c4;
    cursor:pointer;
 }
 

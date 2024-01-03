@@ -7,10 +7,28 @@ import { useEffect,  useState, useContext } from "react";
 import urlString from "../..";
 
 
-const ChangeStoreStatus = (storeNumber) => {
+const updateRisk = (storeNumber, risk) => {
+  console.log("fetch: "+storeNumber+", "+risk)
+  
   try{
     console.log("put fetching...");
-    return fetch(`${urlString}/Store/ChangeActivity?StoreNumber=${storeNumber}`,{
+    return fetch(`${urlString}/Store/ChangeRisk?StoreNumber=${storeNumber}&Risk=${risk}`,{
+      method: "PUT",
+    })
+    .then((res) => res.json())
+    .catch((err)=>console.error("Error during store fetch (first catch):"+err));
+  }catch (error) {
+    console.error("Error during store fetch (second catch)", error);
+  };
+ 
+};
+
+const updateAllRisk = (storeNumber, risk) => {
+  console.log("fetch: "+storeNumber+", "+risk)
+  
+  try{
+    console.log("put fetching...");
+    return fetch(`${urlString}/Store/UpdateRisks`,{
       method: "PUT",
     })
     .then((res) => res.json())
@@ -24,7 +42,7 @@ const ChangeStoreStatus = (storeNumber) => {
 
 const RiskSettingComponent = ({ stores}) => {
 
- 
+
   const [storeList, setStoreList] = useState(stores);
   const [filteredStoreList, setFilteredStoreList] = useState(stores);
   
@@ -39,24 +57,53 @@ const RiskSettingComponent = ({ stores}) => {
   const [orderBy, setOrderBy] = useState("storeNumber");
 
   const [loading, setLoading] = useState(true)
-  const [activate, setActivate] = useState(null)
+  const [changeRisk, setChangeRisk] = useState(false)
+  const [changeAllRisk, setChangeAllRisk] = useState(false)
   
-
-
-  function watchActivate(e, storeNumber){
-    e.preventDefault()
-    //setLoading(true)
+  const [riskList, setRiskList] = useState(["Low","Medium","High","High-DC"])
+  console.log(changeAllRisk)
+  function watchRiskChanger(e, storeNumber){
+    e.preventDefault();
+    console.log(e)
     console.log(storeNumber)
-    try{
-    ChangeStoreStatus(storeNumber)
-    .then((storesData) => {
-      setStoreList(storesData);
-
-      }).catch((err)=>console.error("hiba (1st catch)",err))
-    }catch(err){console.error("hiba (2nd catch)",err)}
+    setChangeRisk(storeNumber)
   }
 
+  function setRisk(e){
+    e.preventDefault();
+    console.log(e.target.textContent)
+    if(e.target.textContent!=="Cancel")
+    {
+      try{
+        updateRisk(changeRisk, riskList.findIndex((element)=>element===e.target.textContent)+1)
+        .then((storesData) => {
+          setStoreList(storesData);
+    
+          }).catch((err)=>console.error("hiba (1st catch)",err))
+        }catch(err){console.error("hiba (2nd catch)",err)}
+     
 
+    }
+    setChangeRisk(false)
+  }
+
+  function setAllRisk(e){
+    e.preventDefault();
+    console.log(e.target.textContent)
+    if(e.target.textContent!=="Cancel")
+    {
+      try{
+        updateAllRisk()
+        .then((storesData) => {
+          setStoreList(storesData);
+    
+          }).catch((err)=>console.error("hiba (1st catch)",err))
+        }catch(err){console.error("hiba (2nd catch)",err)}
+     
+
+    }
+    setChangeAllRisk(false)
+  }
 
   function watchClick(e){
     e.preventDefault()
@@ -90,11 +137,15 @@ const RiskSettingComponent = ({ stores}) => {
       setOrderBy("storeName")
       setLoading(true)
     }
-    else if(e.target.textContent==="Status")
+    else if(e.target.textContent==="Risk")
     {
       setOrderDirection(orderDirection*-1)
-      setOrderBy("active")
+      setOrderBy("risk")
       setLoading(true)
+    }
+    else if(e.target.textContent==="Set Risks to default")
+    {
+      setChangeAllRisk(true)
     }
   }
 
@@ -118,7 +169,7 @@ const RiskSettingComponent = ({ stores}) => {
     }
 
    
-    setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
+    tempStoreList&&setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
     setLoading(false)
     console.log("Store-os UseEffect")
 
@@ -138,6 +189,7 @@ const RiskSettingComponent = ({ stores}) => {
           <button type="submit">Clear</button>
         </form>
       </div>
+      <button onClick={e=>watchClick(e)}>Set Risks to default</button>
       <div className="FilterButtons">
       <div className="Country">
         <label>Format: </label>
@@ -148,23 +200,81 @@ const RiskSettingComponent = ({ stores}) => {
         </div>
       </div>
 
+      {changeAllRisk !== false && (
+        <div className="modal2">
+          <div className="modal2-content">
+            <table>
+              <thead>
+                <tr>
+                  <th>The risks for all stores will be changed based on the most recently imported TLT Portal data</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td className="yesButton" onClick={setAllRisk}>
+                      Approve
+                    </td>
+                  </tr>
+                <tr>
+                  <td className="cancelButton" onClick={() => setChangeAllRisk(false)}>
+                    Cancel
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {changeRisk !== false && (
+        <div className="modal">
+          <div className="modal-content">
+            <table>
+              <thead>
+                <tr>
+                  <th>Change store {changeRisk} risk to:</th>
+                </tr>
+              </thead>
+              <tbody>
+                {riskList.map((risk) => (
+                  <tr key={risk}>
+                    <td className="riskSelectorButton" onClick={setRisk}>
+                      {risk}
+                    </td>
+                  </tr>
+                ))}
+                <tr>
+                  <td className="cancelRiskChanger" onClick={() => setChangeRisk(false)}>
+                    Cancel
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       <table>
         <thead>
           <tr>
-            <th className={orderBy==="storeNumber"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Number</th>
+          <th className={orderBy==="storeNumber"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Number</th>
             <th className={orderBy==="storeName"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Store Name</th>
-            <th className={orderBy==="active"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Status</th>
+            <th className={orderBy==="risk"?"markedColoumn":"notMarkedColoumn"} onClick={e=>watchClick(e)}>Risk</th>
           </tr>
         </thead>
+
         {!loading?
+
         <tbody>
           {filteredStoreList&&filteredStoreList.map(store => {
             return(
             <tr key={store.storeNumber}>
               <td>{store.storeNumber}</td>
               <td>{store.storeName}</td>
-              <td name="status" className={store.active===true?"activated":"deactivated"} onClick={e=>watchActivate(e, store.storeNumber)}>{store.active?"Activated":"Deactivated"}</td>
-            </tr>)
+              <td name="risk" className={riskList[store.risk-1]} onClick={e=>watchRiskChanger(e, store.storeNumber)}>{riskList[store.risk-1]}</td>
+            </tr>
+            )
+
           })
           }
         </tbody>

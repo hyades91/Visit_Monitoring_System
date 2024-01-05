@@ -2,19 +2,21 @@
 import "./RiskSetting.css";
 import Loading from "../Loading";
 //import { useContext } from "react";
-//import { UserContext } from "../..";
+import { UserContext } from "../..";
 import { useEffect,  useState, useContext } from "react";
 import urlString from "../..";
 
 
-const updateRisk = (storeNumber, risk) => {
+const updateRisk = (storeNumber, risk, user) => {
   console.log("fetch: "+storeNumber+", "+risk)
   
   try{
     console.log("put fetching...");
     return fetch(`${urlString}/Store/ChangeRisk?StoreNumber=${storeNumber}&Risk=${risk}`,{
       method: "PUT",
-    })
+      headers:{
+        'Authorization': `Bearer ${user.token}`,
+    }})
     .then((res) => res.json())
     .catch((err)=>console.error("Error during store fetch (first catch):"+err));
   }catch (error) {
@@ -23,14 +25,14 @@ const updateRisk = (storeNumber, risk) => {
  
 };
 
-const updateAllRisk = (storeNumber, risk) => {
-  console.log("fetch: "+storeNumber+", "+risk)
-  
+const updateAllRisk = (user) => {
   try{
     console.log("put fetching...");
     return fetch(`${urlString}/Store/UpdateRisks`,{
       method: "PUT",
-    })
+      headers:{
+        'Authorization': `Bearer ${user.token}`,
+    }})
     .then((res) => res.json())
     .catch((err)=>console.error("Error during store fetch (first catch):"+err));
   }catch (error) {
@@ -42,6 +44,7 @@ const updateAllRisk = (storeNumber, risk) => {
 
 const RiskSettingComponent = ({ stores}) => {
 
+  const {user}= useContext(UserContext);
 
   const [storeList, setStoreList] = useState(stores);
   const [filteredStoreList, setFilteredStoreList] = useState(stores);
@@ -74,8 +77,9 @@ const RiskSettingComponent = ({ stores}) => {
     console.log(e.target.textContent)
     if(e.target.textContent!=="Cancel")
     {
+      console.log(user);
       try{
-        updateRisk(changeRisk, riskList.findIndex((element)=>element===e.target.textContent)+1)
+        updateRisk(changeRisk, riskList.findIndex((element)=>element===e.target.textContent)+1, user)
         .then((storesData) => {
           setStoreList(storesData);
     
@@ -93,7 +97,7 @@ const RiskSettingComponent = ({ stores}) => {
     if(e.target.textContent!=="Cancel")
     {
       try{
-        updateAllRisk()
+        updateAllRisk(user)
         .then((storesData) => {
           setStoreList(storesData);
     

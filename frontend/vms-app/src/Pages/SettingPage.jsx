@@ -11,10 +11,15 @@ import urlString from "..";
 
 
 
-const fetchAllStore = () => {
+const fetchAllStore = (user) => {
   try{
     console.log("fetching...");
-    return fetch(`${urlString}/Store/GetAllStores`)
+    return fetch(`${urlString}/Store/GetAllStores`,{
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${user.token}`,
+      }
+    })
     .then((res) => res.json())
     .catch((err)=>console.error("Error during store fetch (first catch):"+err));
   }catch (error) {
@@ -91,13 +96,15 @@ const SettingPage = () => {
     
     //GET AND SAVED THE VISIT VISITS
     useEffect(() => {
-      try{
-        fetchAllStore()
-        .then((stores) => {
-         //setStoreList(stores);
-        setFilteredStoreList(stores)
-        }).catch((err)=>console.error("no stores",err))
-      }catch(err){console.error("no stores",err)}
+      if (user.hasAccess){
+        try{
+          fetchAllStore(user)
+          .then((stores) => {
+           //setStoreList(stores);
+          setFilteredStoreList(stores)
+          }).catch((err)=>console.error("no stores",err))
+        }catch(err){console.error("no stores",err)}
+      }
       setLoading(false)
     }, [changedStore]);
 

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using VisitMonitoringSystem.Models;
@@ -20,7 +21,8 @@ public class VisitController : ControllerBase
     }
 
     //CRUD...
-    [HttpGet("GetAllVisit")]
+    //
+    [HttpGet("GetAllVisit"), Authorize(Roles = "Admin ")]
     public async Task<ActionResult<List<Visit>>> GetVisits()
     {
         try
@@ -34,7 +36,7 @@ public class VisitController : ControllerBase
         }
     }
     
-    [HttpGet("GetFinishedVisit")]
+    [HttpGet("GetFinishedVisit"), Authorize(Roles = "Admin , User")]
     public async Task<ActionResult<List<Visit>>> GetFinishedVisits()
     {
         try
@@ -48,7 +50,7 @@ public class VisitController : ControllerBase
         }
     }
 
-    [HttpDelete("DeleteAllVisit")]
+    [HttpDelete("DeleteAllVisit"), Authorize(Roles = "Admin ")]
     public async Task<ActionResult<List<Visit>>> DeleteVisits()
     {
         try
@@ -102,7 +104,7 @@ public class VisitController : ControllerBase
 
   */
     
-    [HttpPost("ResetAllVisitWithJson")]
+    [HttpPost("ResetAllVisitWithJson"), Authorize(Roles = "Admin ")]
     [DisableRequestSizeLimit]
     public async Task<ActionResult> UploadJson(IFormFile file)
     {
@@ -149,7 +151,7 @@ public class VisitController : ControllerBase
       
     }
     
-    [HttpPost("ResetAllVisitWithJsonObj")]
+    [HttpPost("ResetAllVisitWithJsonObj"), Authorize(Roles = "Admin ")]
     [DisableRequestSizeLimit]
     public async Task<ActionResult> UploadJson()
     {
@@ -173,7 +175,7 @@ public class VisitController : ControllerBase
     }
     
     
-    [HttpPost("AddVisitsWithExcel")]
+    [HttpPost("AddVisitsWithExcel"), Authorize(Roles = "Admin ")]
     [DisableRequestSizeLimit]
     public async Task<ActionResult> Upload(IFormFile formFile)
     {
@@ -189,7 +191,7 @@ public class VisitController : ControllerBase
         return Ok(_visitrepository.AddAll(importedVisits));
     }
 
-    [HttpPost("AddOnlyNewVisitsWithExcel")]
+    [HttpPost("AddOnlyNewVisitsWithExcel"), Authorize(Roles = "Admin ")]
     [DisableRequestSizeLimit]
     public async Task<ActionResult> UploadNew(IFormFile formFile)
     {

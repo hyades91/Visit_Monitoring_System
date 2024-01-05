@@ -6,16 +6,14 @@ import Loading from "../Components/Loading";
 import urlString from "..";
 import saveAsImage from "../saveas.png"
 //UPLOAD json
-const uploadJson=(/*user,*/formData)=>{
+const uploadJson=(user,formData)=>{
 console.log(formData)
   return fetch(`${urlString}/Visit/ResetAllVisitWithJsonObj`, {
     method: 'POST',
    
     headers:{
-      "Content-Type":"application/json"
-      /*
-  
-      'Authorization': `Bearer ${user.token}`,*/
+      "Content-Type":"application/json",
+      'Authorization': `Bearer ${user.token}`,
     },
     body: JSON.stringify(formData),
   })
@@ -118,7 +116,7 @@ const UpdateDatabasePage = () => {
     setLoading(true)
     try
     {
-      const visitData = await uploadJson(/*user, */obj)
+      const visitData = await uploadJson(user, obj)
        .then((visitData) => {
           console.log(`VMS has been updated with ${visitData.result} visits from TLT Portal`);
           setResult(`VMS has been updated with ${visitData.result} visits from TLT Portal`)

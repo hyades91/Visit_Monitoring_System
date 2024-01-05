@@ -9,10 +9,15 @@ import urlString from "./..";
 
 
 //GET FINISHED VISITS
-const fetchAllVisit = () => {
+const fetchAllVisit = (user) => {
   try{
     console.log("fetching...");
-    return fetch(`${urlString}/Visit/GetFinishedVisit`)
+    return fetch(`${urlString}/Visit/GetFinishedVisit`,{
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${user.token}`,
+      }
+    })
     .then((res) => res.json())
     .catch((err)=>console.error("Error during visit fetch (first catch):"+err));
   }catch (error) {
@@ -21,10 +26,15 @@ const fetchAllVisit = () => {
  
 };
 
-const fetchAllStore = () => {
+const fetchAllStore = (user) => {
   try{
     console.log("fetching...");
-    return fetch(`${urlString}/Store/GetActiveStores`)
+    return fetch(`${urlString}/Store/GetActiveStores`,{
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${user.token}`,
+      }
+    })
     .then((res) => res.json())
     .catch((err)=>console.error("Error during store fetch (first catch):"+err));
   }catch (error) {
@@ -130,20 +140,22 @@ const MainPage = () => {
 
     //GET AND SAVED THE VISIT VISITS
     useEffect(() => {
-      try{
-        fetchAllVisit()
-        .then((visits) => {
-         setAllVisits(visits);
-         setFilteredVisits(visits);
-        }).catch((err)=>console.error("no visits",err))
-      }catch(err){console.error("no visits",err)}
-      try{
-        fetchAllStore()
-        .then((stores) => {
-         setStoreList(stores);
-         setFilteredStoreList(stores);
-        }).catch((err)=>console.error("no stores",err))
-      }catch(err){console.error("no stores",err)}
+      if(user.hasAccess){
+        try{
+          fetchAllVisit(user)
+            .then((visits) => {
+            setAllVisits(visits);
+            setFilteredVisits(visits);
+            }).catch((err)=>console.error("no visits",err))
+        }catch(err){console.error("no visits",err)}
+        try{
+          fetchAllStore(user)
+          .then((stores) => {
+          setStoreList(stores);
+          setFilteredStoreList(stores);
+          }).catch((err)=>console.error("no stores",err))
+        }catch(err){console.error("no stores",err)}
+      }
       setLoading(false);
     }, []);
 

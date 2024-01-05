@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using VisitMonitoringSystem.Models;
@@ -19,7 +20,7 @@ public class StoreController : ControllerBase
         _webHostEnvironment = webHostEnvironment;
     }
 
-    [HttpGet("GetAllStores")]
+    [HttpGet("GetAllStores"), Authorize(Roles = "Admin , User")]
     public async Task<ActionResult<List<Store>>> GetAllStores()
     {
         try
@@ -32,7 +33,7 @@ public class StoreController : ControllerBase
             throw;
         }
     }
-    [HttpGet("GetActiveStores")]
+    [HttpGet("GetActiveStores"), Authorize(Roles = "Admin , User")]
     public async Task<ActionResult<List<Store>>> GetStores()
     {
         try
@@ -46,7 +47,8 @@ public class StoreController : ControllerBase
         }
     }
 
-    [HttpDelete("DeleteAllStore")]
+    //Not used directly
+    [HttpDelete("DeleteAllStore"), Authorize(Roles = "Admin")]
     public async Task<ActionResult<List<Store>>> DeleteStores()
     {
         try
@@ -60,7 +62,7 @@ public class StoreController : ControllerBase
         }
     }
 
-    [HttpPut("ChangeActivity")]
+    [HttpPut("ChangeActivity"), Authorize(Roles = "Admin , User")]
     public async Task<ActionResult<List<Store>>> ChangeActivity(int StoreNumber)
     {
         try
@@ -74,7 +76,7 @@ public class StoreController : ControllerBase
         }
     }
     
-    [HttpPut("ChangeRisk")]
+    [HttpPut("ChangeRisk"), Authorize(Roles = "Admin , User")]
     public async Task<ActionResult<List<Store>>> ChangeRisk(int StoreNumber, int Risk)
     {
         try
@@ -88,7 +90,7 @@ public class StoreController : ControllerBase
         }
     }
 
-    [HttpPut("UpdateRisks")]
+    [HttpPut("UpdateRisks"), Authorize(Roles = "Admin , User")]
     public async Task<ActionResult<Store>> UpdateRisks()
     {
         try

@@ -2,16 +2,19 @@
 import "./StatusSetting.css";
 import Loading from "../Loading";
 //import { useContext } from "react";
-//import { UserContext } from "../..";
+import { UserContext } from "../..";
 import { useEffect,  useState, useContext } from "react";
 import urlString from "../..";
 
 
-const ChangeStoreStatus = (storeNumber) => {
+const ChangeStoreStatus = (storeNumber, user) => {
   try{
     console.log("put fetching...");
     return fetch(`${urlString}/Store/ChangeActivity?StoreNumber=${storeNumber}`,{
       method: "PUT",
+      headers:{
+        'Authorization': `Bearer ${user.token}`,
+      },
     })
     .then((res) => res.json())
     .catch((err)=>console.error("Error during store fetch (first catch):"+err));
@@ -24,7 +27,8 @@ const ChangeStoreStatus = (storeNumber) => {
 
 const StatusSettingComponent = ({ stores}) => {
 
- 
+  const {user}= useContext(UserContext);
+  
   const [storeList, setStoreList] = useState(stores);
   const [filteredStoreList, setFilteredStoreList] = useState(stores);
   
@@ -48,7 +52,7 @@ const StatusSettingComponent = ({ stores}) => {
     //setLoading(true)
     console.log(storeNumber)
     try{
-    ChangeStoreStatus(storeNumber)
+    ChangeStoreStatus(storeNumber, user)
     .then((storesData) => {
       setStoreList(storesData);
 

@@ -55,51 +55,47 @@ table {
  }
 */
  .Low{
-   background-color: rgba(69, 131, 85, 0.788);
+  color:white;
+  background-color: rgb(20, 104, 90);
    cursor:pointer;
+   transition: all 0.3s ease; /* Animáció simításához */
 }
 .Medium{
-   background-color: rgba(177, 170, 76, 0.774);
+  color:#ffffff;
+  background-color: rgba(170, 129, 40, 0.87);   
    cursor:pointer;
+   transition: all 0.3s ease; /* Animáció simításához */
 }
  .High{
-   background-color: #864040bd;
+  color:#ffffff;
+  background-color: rgb(87, 0, 0);   
    cursor:pointer;
+   transition: all 0.3s ease; /* Animáció simításához */
 }
 .High-DC{
-   background-color: #501515be;
-   color: white;
+  color:#ffffff;
+  background-color: rgb(26, 0, 0);   
    cursor:pointer;
+   transition: all 0.3s ease; /* Animáció simításához */
 }
-.cancelRiskChanger{
-   background-color: #ff0000bd;
+.Low:hover{
+  background-color: rgba(20, 104, 90, 0.527);
 }
+.Medium:hover{
 
-/*
-.modal {
-  
+  background-color: rgba(170, 129, 40, 0.397);   
 
+}
+.High:hover{
 
-   z-index: 1; 
-   left: 0;
-   top: 0;
-   width: 100%; 
-   height: 100%; 
-   overflow: auto; 
-   background-color: rgba(0, 0, 0, 0.4); 
- }
- 
+  background-color: rgba(87, 0, 0, 0.452);   
 
- .modal-content {
-   background-color: #fefefe;
-   margin: 15% auto; 
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 600px; 
- }
- */
- 
+}
+.High-DC:hover{
+
+  background-color: rgba(26, 0, 0, 0.425);   
+
+}
  /* Modális gomb stílus */
  .riskSelectorButton{
    cursor: pointer;

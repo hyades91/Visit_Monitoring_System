@@ -149,27 +149,30 @@ const StatusSettingComponent = ({ stores}) => {
   
   return(
   
-    <div className="MainPageContent">
-      <div className="StoreFilter">
-        <form onSubmit={e=>watchClick(e)}>
-          <label>Store Number:</label>
-          <input type="text" id="number" value={inputNumber} onChange={e=>handleChange(e)}></input>
-          <label>Store Name:</label>
-          <input type="text" id="name" value={inputName} onChange={e=>handleChange(e)}></input>
-          <button type="submit">Search</button>
-          <button onClick={e=>watchClick(e)}>Clear</button>
-        </form>
-      </div>
-      <div className="FilterButtons">
-        <div className="Country">
-          <label>Country: </label>
-            <button disabled={selectedCountry==="all"&&true} onClick={e=>watchClick(e)}>All</button>
-            <button disabled={selectedCountry==="czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
-            <button disabled={selectedCountry==="hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
-            <button disabled={selectedCountry==="slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
+    <div className="StatusSetting">
+
+      <div className="StatusSettingFilters">
+        <div className="StoreFilter">
+          <form onSubmit={e=>watchClick(e)}>
+            <label>Store Number:</label>
+            <input type="text" id="number" value={inputNumber} onChange={e=>handleChange(e)}></input>
+            <label>Store Name:</label>
+            <input type="text" id="name" value={inputName} onChange={e=>handleChange(e)}></input>
+            <button type="submit">Search</button>
+            <button onClick={e=>watchClick(e)}>Clear</button>
+          </form>
+        </div>
+
+        <div className="FilterButtons">
+          <div className="Country">
+            <label>Country: </label>
+              <button disabled={selectedCountry==="all"&&true} onClick={e=>watchClick(e)}>All</button>
+              <button disabled={selectedCountry==="czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
+              <button disabled={selectedCountry==="hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
+              <button disabled={selectedCountry==="slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
+          </div>
         </div>
       </div>
-
       <table>
         <thead>
           <tr>

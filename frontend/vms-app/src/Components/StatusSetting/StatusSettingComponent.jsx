@@ -45,7 +45,8 @@ const StatusSettingComponent = ({ stores}) => {
   const [loading, setLoading] = useState(true)
   const [activate, setActivate] = useState(null)
   
-
+  const [inputNumber, setInputNumber] = useState('')
+  const [inputName, setInputName] = useState('')
 
   function watchActivate(e, storeNumber){
     e.preventDefault()
@@ -61,17 +62,34 @@ const StatusSettingComponent = ({ stores}) => {
   }
 
 
+  function handleChange(event){
+    console.log(event)
+      if(event.target.id==="number"){
+        setInputNumber(event.target.value)
+      }
+      else if(event.target.id==="name"){
+        setInputName(event.target.value)
+      }
+    }
+  
 
   function watchClick(e){
     e.preventDefault()
     console.log(e)
 
-    //select TIME interval
+    //select store
     if(e.type==="submit")
     {
       setNumber(e.target[0].value!==""?e.target[0].value.toLowerCase():"all")
       setName(e.target[1].value!==""?e.target[1].value.toLowerCase():"all")
       //setLoading(true)  
+    }
+      
+    else if(e.target.textContent==="Clear"){
+      setNumber("all")
+      setName("all")
+      setInputNumber('')
+      setInputName('')
     }
 
     //filters
@@ -133,13 +151,13 @@ const StatusSettingComponent = ({ stores}) => {
   
     <div className="MainPageContent">
       <div className="StoreFilter">
-        <form onSubmit={e=>watchClick(e)} className="DateFilterForm">
+        <form onSubmit={e=>watchClick(e)}>
           <label>Store Number:</label>
-          <input type="text" id="number"></input>
+          <input type="text" id="number" value={inputNumber} onChange={e=>handleChange(e)}></input>
           <label>Store Name:</label>
-          <input type="text" id="name"></input>
+          <input type="text" id="name" value={inputName} onChange={e=>handleChange(e)}></input>
           <button type="submit">Search</button>
-          <button type="submit">Clear</button>
+          <button onClick={e=>watchClick(e)}>Clear</button>
         </form>
       </div>
       <div className="FilterButtons">

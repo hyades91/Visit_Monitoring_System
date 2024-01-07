@@ -211,16 +211,14 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   return(
   
     <div className="MainPageContent">
+
+<div className="Dashboard">
       <div className="DatabaseUpdateInfo">
       <h1>Missing Visits</h1>
       <p>Last uploaded visit: {allVisits[0].date+" "+allVisits[0].storeName}</p>
       </div>
 
-      <div className="ExportButton">
-        <ExportToExcel apiData={data} fileName={fileName} />
-      </div>
-
-
+      <div className="Filters">
       <div className="DateFilter">
       <label>Date: </label><br></br>
         <form onSubmit={e=>watchClick(e)} className="DateFilterForm">
@@ -286,6 +284,13 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
           <button disabled={selectedReason==="Regular"&&true} onClick={e=>watchClick(e)}>Regular</button>
         </div>
       </div>
+</div>
+
+      <div className="ExportButton">
+        <ExportToExcel apiData={data} fileName={fileName} />
+      </div>
+</div>
+
 
       <table>
         <thead>

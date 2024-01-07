@@ -5,29 +5,23 @@ button{ cursor:pointer;}
   font-weight: lighter;
 }
 
-.ExportButton{
-  padding:1vh;
-  margin-left: 2vh;
+.Dashboard{
+margin-bottom: 4vh;
 }
-.ExportButton button{
-  background-color: rgb(20, 104, 90);
-  height: 6vh;
-  width: 16vh;
-  font-size: larger;
-  color: #ffffff;
-  border-radius: 0.5vh;
-  border: 0vh;
-  transition: all 0.3s ease; /* Animáció simításához */
-}
-
-
-.ExportButton button:hover{
-  background-color: rgba(20, 104, 90, 0.671);
+.Filters{
+float: left;
+margin-bottom: 4vh;
+margin-left: 1vh;
+background-color: rgba(0, 40, 58, 0.096);
+width:60%;
+border-radius: 0.5vh;
 }
 
 .DateFilter{
   font-weight: bolder;
-  padding:2vh;
+  margin-left: 1vh;
+  margin-bottom: 0.5vh;
+
 }
 .DateFilter input{
   font-weight: bold;
@@ -35,7 +29,7 @@ button{ cursor:pointer;}
   height:3vh;
   color: #ffffff;
   margin-left: 1vh;
-  margin-bottom: 1vh;
+  margin-bottom: 0.5vh;
 
   border: 0vh;
   transition: all 0.3s ease; /* Animáció simításához */
@@ -48,8 +42,8 @@ button{ cursor:pointer;}
 .DateFilter button{
   margin-left: 1vh;
   background-color: rgb(0, 44, 65);
-  height: 4.5vh;
-  width: 22vh;;
+  height: 3.5vh;
+  width: 32vh;;
   color: #ffffff;
   
   border-radius: 0.5vh;
@@ -62,59 +56,95 @@ button{ cursor:pointer;}
 }
 
  .FilterButtons{
- font-weight: bolder;
- padding:2vh;
+
+  font-weight: bolder;
+ margin-left: 1vh
 }
  .FilterButtons button{
   background-color: rgba(0, 44, 65, 0.603);
-  height: 4vh;
+  height: 3vh;
   width: 10vh;;
   color: #ffffff;
-  margin-bottom: 2vh;
+  margin-bottom: 0.5vh;
   margin-left: 1vh;
   border-radius: 0.5vh;
   border: 0vh;
   transition: all 0.3s ease; /* Animáció simításához */
- 
+
 }
 .FilterButtons button:disabled,
 .FilterButtons button[disabled]{
-  height: 4.5vh;
+  height: 3.5vh;
   width: 11vh;;
   background-color: rgb(0, 44, 65);
 }
 
 .FilterButtons button:hover{
-height: 4.5vh;
+height: 3.5vh;
 width: 11vh;;
 background-color: rgb(0, 44, 65);
 }
 
-th{
-   cursor:pointer;
-   width:30vh
+
+.ExportButton{
+
+ 
 }
+.ExportButton button{
+
+ margin-left: 10%;
+  background-color: rgb(20, 104, 90);
+  height: 6vh;
+  width: 24vh;
+  font-size: larger;
+  color: #ffffff;
+  border-radius: 0.5vh;
+  border: 0vh;
+  transition: all 0.3s ease; /* Animáció simításához */
+}
+
+
+.ExportButton button:hover{
+  background-color: rgba(20, 104, 90, 0.671);
+}
+
+
+
+.MainTable{
+
+}
+
 table{
-   text-align: center;
+
+  clear: both;
+  margin:auto;
+
+  border-collapse: collapse;
+  text-align: center;
+  width:80%;
+
 }
+
+th{
+  cursor:pointer;
+  width:20vh;
+  background-color: #808080;
+  color: white;
+}
+
+th:hover{
+  color: rgb(0, 84, 122);
+ }
 
 
 .markedColoumn{
-  color:  #fa9d9d;
+  color: rgb(0, 44, 65);
 }
-th:hover{
-   color:  #ff4949;
- }
 
-table {
-   font-family: Arial, Helvetica, sans-serif;
-   border-collapse: collapse;
-   width: 100%;
- }
  
  table td, table th {
-   border: 1px solid #ddd;
-   padding: 8px;
+  border: 0.1vh solid #ddd;
+  padding: 0.8vh;
  }
  
  
@@ -122,12 +152,4 @@ table {
 
  table tr:hover {background-color: rgb(213, 229, 233);}
  
- table th {
-   padding-top: 12px;
-   padding-bottom: 12px;
-   text-align: left;
-   background-color: #777777;
-   color: white;
- }
-
 

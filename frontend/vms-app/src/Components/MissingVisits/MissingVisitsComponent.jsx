@@ -20,7 +20,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [selectedReason, setSelectedReason] = useState("All");
 
-  const [startDate, setStartDate] = useState(new Date().getMonth()<2?(new Date().getFullYear()-1).toString()+"-03":new Date().getFullYear().toString()+"-03");
+  const [startDate, setStartDate] = useState(new Date().getMonth()<3?(new Date().getFullYear()-1).toString()+"-03":new Date().getFullYear().toString()+"-03");
   const [endDate, setEndDate] = useState(new Date().getMonth()!==0?(new Date().getFullYear().toString()+"-"+(new Date().getMonth()).toString()):(new Date().getFullYear()-1).toString()+"-12");
   
   const [durationInMonth, setDurationInMonth] = useState((Number(endDate.substring(5))+12*Number(endDate.substring(0,4)))-(Number(startDate.substring(5))+12*Number(startDate.substring(0,4)))+1);
@@ -212,10 +212,17 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   
     <div className="MainPageContent">
       <div className="DatabaseUpdateInfo">
-        <h1>Missing Visits:</h1>
+      <h1>Missing Visits</h1>
       <p>Last uploaded visit: {allVisits[0].date+" "+allVisits[0].storeName}</p>
       </div>
+
+      <div className="ExportButton">
+        <ExportToExcel apiData={data} fileName={fileName} />
+      </div>
+
+
       <div className="DateFilter">
+      <label>Date: </label><br></br>
         <form onSubmit={e=>watchClick(e)} className="DateFilterForm">
           <input type="month" min="2021-03" defaultValue={startDate} id="start"></input>
           <input type="month" min="2021-03" defaultValue={endDate} id="end"></input>
@@ -225,10 +232,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
       </div>
 
 
-      <div className="ExportButton">
-        <ExportToExcel apiData={data} fileName={fileName} />
-      </div>
-
+  
       {selectedStore !== false && (
         <div className="modal">
           <div className="modal-content">
@@ -255,14 +259,14 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
 
       <div className="FilterButtons">
         <div className="Country">
-          <label>Format: </label>
+          <label>Country: </label><br></br>
           <button disabled={selectedCountry==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedCountry==="Czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
           <button disabled={selectedCountry==="Hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
           <button disabled={selectedCountry==="Slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
         </div>
         <div className="Risk">
-          <label>Risk Level: </label>
+          <label>Risk Level: </label><br></br>
           <button disabled={selectedRisk==="All"&&true} name="All" onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedRisk==="1"&&true} name="1" onClick={e=>watchClick(e)}>Low</button>
           <button disabled={selectedRisk==="2"&&true} name="2" onClick={e=>watchClick(e)}>Medium</button>
@@ -270,14 +274,14 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
           <button disabled={selectedRisk==="4"&&true} name="4" onClick={e=>watchClick(e)}>High-DC</button>
         </div>
         <div className="Format">
-         <label>Format: </label>
+         <label>Format: </label><br></br>
           <button disabled={selectedFormat==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedFormat==="HM"&&true} onClick={e=>watchClick(e)}>HM</button>
           <button disabled={selectedFormat==="SF"&&true} onClick={e=>watchClick(e)}>SF</button>
           <button disabled={selectedFormat==="DC"&&true} onClick={e=>watchClick(e)}>DC</button>
         </div>
         <div className="Reason">
-          <label>Reason: </label>
+          <label>Reason: </label><br></br>
           <button disabled={selectedReason==="All"&&true} onClick={e=>watchClick(e)}>All</button>
           <button disabled={selectedReason==="Regular"&&true} onClick={e=>watchClick(e)}>Regular</button>
         </div>

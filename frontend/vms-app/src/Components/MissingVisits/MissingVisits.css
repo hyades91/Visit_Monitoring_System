@@ -1,25 +1,7 @@
-button{ cursor:pointer;}
-.LoginForm{
-   display: absolute;
-   margin: auto;
-   align-items: center;
-   text-align: center;
-   width: 100%;
-   height:87vh;
-   background-color: white;
-}
 
-.LoginInputs{
-    align-items: center;
-    margin-top: 300px;
-    display: relative;
-    margin: auto;
-    text-align: center;
-    background-color: white;
- }
 
 input{
-height: 5vh;
+height: 10vh;
 }
 
 th{

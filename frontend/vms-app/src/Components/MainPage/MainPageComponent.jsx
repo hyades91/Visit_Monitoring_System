@@ -39,6 +39,7 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
     e.preventDefault()
     console.log(e)
 
+   
     //select TIME interval
     if(e.type==="submit")
     {
@@ -49,7 +50,6 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
         setLoading(true)
     
       }
-      
     }
 
     //filters
@@ -110,6 +110,11 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
       setOrderBy("expectedVisits")
       setLoading(true)
     }
+
+    else if(e.target.className==="modal")
+    {
+      setSelectedStore(false);
+    }
     
   }
 
@@ -147,44 +152,6 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
     }
     
   }
-/*
-  //Store (RISK, COUNTRY, FORMAT) Filter
-  useEffect(() => {
-  
-    console.log(selectedFormat)
-    console.log(selectedRisk)
-
-    let FilterList=[selectedRisk, selectedFormat, selectedCountry]
-    let keyList=["risk", "format", "country"]
-    let tempStoreList=storeList
-
-    for(let i=0;i<FilterList.length;i++)
-    {
-      tempStoreList=FilterList[i]!=="All"?(tempStoreList.filter(store=>(store[keyList[i]]===FilterList[i]))):tempStoreList
-    }
-
-   
-    setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
-    setLoading(false)
-    console.log("Store-os UseEffect")
-
-  }, [selectedFormat,selectedRisk, selectedCountry,orderDirection,orderBy]);
-
-
-  //Visit (DATE, REASON) Filter
-  useEffect(() => {
-    let tempVisitList=allVisits
-    //Reason
-    tempVisitList=tempVisitList.filter(visit=>selectedReason==="All"?true:visit.type===selectedReason)
-    //Date
-    setFilteredVisits(tempVisitList.filter(visit=>{
-      let visitDate=visit.date.substring(3,10).split(".").reverse().join("-")
-      return visitDate>=startDate&&visitDate<=endDate
-    }))
-    console.log("VisitFilteres-os UseEffect")
-
-  }, [startDate,endDate,allVisits, selectedReason]);
-*/
 
 useEffect(() => {
   
@@ -249,11 +216,13 @@ useEffect(() => {
     <div className="MainPageContent">
 
       <div className="Dashboard">
+
         <div className="DatabaseUpdateInfo">
         <p>Last uploaded visit: {allVisits[0].date+" "+allVisits[0].storeName}</p>
         </div>
 
         <div className="Filters">
+
           <div className="DateFilter">
           <label>Date: </label><br></br>
             <form onSubmit={e=>watchClick(e)} className="DateFilterForm">
@@ -263,32 +232,6 @@ useEffect(() => {
               <button type="submit">Search between these dates</button>
             </form>
           </div>
-
-      
-
-          {selectedStore !== false && (
-            <div className="modal">
-              <div className="modal-content">
-              <button onClick={() => setSelectedStore(false)}>Close</button>
-                <table>
-                  <thead><h3>Store {selectedStore.storeNumber} {selectedStore.storeName}  visits:</h3>
-                    <tr>
-                      <th>Date</th>
-                      <th>Reason</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredVisits.filter(visit=>visit.storeNumber===selectedStore.storeNumber).map((visit) => (
-                      <tr key={visit.id}>
-                        <td>{visit.date}</td>
-                        <td>{visit.type}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
 
           <div className="FilterButtons">
             <div className="Country">
@@ -320,12 +263,40 @@ useEffect(() => {
               <button disabled={selectedReason==="On-Call"&&true} onClick={e=>watchClick(e)}>On-Call</button>
             </div>
           </div>
-      </div>
+        </div>
 
         <div className="ExportButton">
         <ExportToExcel apiData={data} fileName={fileName} />
         </div>
+
     </div>
+
+    
+    {selectedStore !== false && (
+            <div className="modal" onClick={(e=>watchClick(e))}>
+              <div className="modal-content">
+                <div className="modal-content-UpperLine">
+                  <h3>Store {selectedStore.storeNumber} {selectedStore.storeName}  visits:
+                  <button onClick={() => setSelectedStore(false)}>Close</button></h3>
+                 
+                </div>
+                <table>
+                    <tr>
+                      <th>Date</th>
+                      <th>Reason</th>
+                    </tr>
+                  <tbody>
+                    {filteredVisits.filter(visit=>visit.storeNumber===selectedStore.storeNumber).map((visit) => (
+                      <tr key={visit.id}>
+                        <td>{visit.date}</td>
+                        <td>{visit.type}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                </div>
+            </div>
+          )}
 
     <div className="MainTable">
       <table>

@@ -22,7 +22,6 @@ nav ul {
   color: #fff;
 
 
-
 }
 
 nav ul li a{
@@ -31,8 +30,8 @@ nav ul li a{
   text-decoration: none;
   margin: 0 15px;
   font-weight: bold;
-  font-size: 16px;
-
+  font-size: larger;
+  transition: all 0.3s ease; 
 }
 
 
@@ -48,13 +47,8 @@ nav ul li a{
 
 
 nav ul li a:hover {
-  display: inline;
-  color: rgb(146, 230, 236); /* Set the color to white */
-  text-decoration: none;
-  margin: 0 15px;
-  font-weight: bold;
-  font-size: 16px;
-
+ 
+  color: rgb(0, 122, 179);
 }
 
 

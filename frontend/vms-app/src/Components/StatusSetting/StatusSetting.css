@@ -21,7 +21,7 @@ button{ cursor:pointer;}
 input{
 height: 5vh;
 }
-
+/*
 th{
    cursor:pointer;
    width:30vh
@@ -30,13 +30,6 @@ table{
    text-align: center;
 }
 
-
-.markedColoumn{
-  color:  #fa9d9d;
-}
-th:hover{
-   color:  #ff4949;
- }
 
 table {
    font-family: Arial, Helvetica, sans-serif;
@@ -61,7 +54,7 @@ table {
    background-color: #777777;
    color: white;
  }
-
+*/
  .activated{
    background-color: rgba(64, 160, 88, 0.767);
    cursor:pointer;

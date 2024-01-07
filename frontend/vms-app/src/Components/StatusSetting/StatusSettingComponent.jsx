@@ -143,12 +143,12 @@ const StatusSettingComponent = ({ stores}) => {
         </form>
       </div>
       <div className="FilterButtons">
-      <div className="Country">
-        <label>Format: </label>
-          <button disabled={selectedCountry==="All"&&true} onClick={e=>watchClick(e)}>All</button>
-          <button disabled={selectedCountry==="Czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
-          <button disabled={selectedCountry==="Hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
-          <button disabled={selectedCountry==="Slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
+        <div className="Country">
+          <label>Country: </label>
+            <button disabled={selectedCountry==="all"&&true} onClick={e=>watchClick(e)}>All</button>
+            <button disabled={selectedCountry==="czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
+            <button disabled={selectedCountry==="hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
+            <button disabled={selectedCountry==="slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
         </div>
       </div>
 

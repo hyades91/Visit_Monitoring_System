@@ -216,7 +216,7 @@ const RiskSettingComponent = ({ stores}) => {
      
      <div className="RiskSettingDashboard">
         <div className="RiskUpdaterButton">
-          <button onClick={e=>watchClick(e)}>Set All risks to default</button>
+          <button onClick={e=>watchClick(e)}>Set all risks to default</button>
         </div>
 
         <div className="StoreFilter">

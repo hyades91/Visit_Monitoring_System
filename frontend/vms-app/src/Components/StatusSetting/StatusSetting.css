@@ -2,16 +2,19 @@ button{ cursor:pointer;}
 
 .StatusSettingFilters{
 padding:2vh;
+font-size: 1.8vh;
 }
 
 .StoreFilter{
 font-weight: bolder;
 padding: 1vh;
+
 }
 
 .StoreFilter input{
 
    height: 3vh;
+   width:18vh;
    margin-left: 1vh;
    margin-right: 2vh;
 }

@@ -2,14 +2,15 @@ button{ cursor:pointer;}
 
 .RiskSettingDashboard{
   padding:2vh;
+  font-size: 1.8vh;
 }
 .RiskUpdaterButton button{
 
   margin-left: 1vh;
    background-color: rgb(20, 104, 90);
-   height: 3.5vh;
+   height: 4vh;
    width: 24vh;
-   font-size: 1.5vh;
+   font-size: 1.7vh;
    color: #ffffff;
    border-radius: 0.5vh;
    border: 0vh;

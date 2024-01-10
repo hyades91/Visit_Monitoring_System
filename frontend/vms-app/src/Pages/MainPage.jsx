@@ -140,7 +140,8 @@ const MainPage = () => {
 
     //GET AND SAVED THE VISIT VISITS
     useEffect(() => {
-      if(user.hasAccess){
+   
+      if(user&&user.hasAccess){
         try{
           fetchAllVisit(user)
             .then((visits) => {
@@ -158,10 +159,6 @@ const MainPage = () => {
       }
       setLoading(false);
     }, []);
-
-
-    console.log(storeList)
-    console.log(allVisits)
 
     return (
      user?(

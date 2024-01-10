@@ -96,7 +96,7 @@ const SettingPage = () => {
     
     //GET AND SAVED THE VISIT VISITS
     useEffect(() => {
-      if (user.hasAccess){
+      if (user&&user.hasAccess){
         try{
           fetchAllStore(user)
           .then((stores) => {

@@ -40,14 +40,6 @@ padding: 1vh;
    color: rgba(65, 0, 0, 0.603);
  }
 
- .MainMenuAdminButtons button{
-
- }
- 
- .MainMenuAdminButtons button:hover{
- 
-
- }
  .activated{
    color:#ffffff;
    background-color: rgb(20, 104, 90);

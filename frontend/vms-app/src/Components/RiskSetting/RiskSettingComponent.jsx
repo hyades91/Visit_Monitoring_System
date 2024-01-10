@@ -167,10 +167,20 @@ const RiskSettingComponent = ({ stores}) => {
       setOrderBy("risk")
       setLoading(true)
     }
-    else if(e.target.textContent==="Set Risks to default")
+    else if(e.target.textContent==="Set All risks to default")
     {
       setChangeAllRisk(true)
     }
+
+    else if(e.target.className==="modal")
+    {
+      setChangeRisk(false);
+    }
+    else if(e.target.className==="modal2")
+    {
+      setChangeAllRisk(false);
+    }
+
   }
 
   function sortByCustom(a,b){
@@ -203,37 +213,39 @@ const RiskSettingComponent = ({ stores}) => {
   return(
   
     <div className="MainPageContent">
-      <div className="StoreFilter">
-        <form onSubmit={e=>watchClick(e)}>
-          <label>Store Number:</label>
-          <input type="text" id="number" value={inputNumber} onChange={e=>handleChange(e)}></input>
-          <label>Store Name:</label>
-          <input type="text" id="name" value={inputName} onChange={e=>handleChange(e)}></input>
-          <button type="submit">Search</button>
-          <button onClick={e=>watchClick(e)}>Clear</button>
-        </form>
-      </div>
-      <button onClick={e=>watchClick(e)}>Set Risks to default</button>
      
-      <div className="FilterButtons">
-        <div className="Country">
-          <label>Country: </label>
-            <button disabled={selectedCountry==="all"&&true} onClick={e=>watchClick(e)}>All</button>
-            <button disabled={selectedCountry==="czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
-            <button disabled={selectedCountry==="hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
-            <button disabled={selectedCountry==="slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
+     <div className="RiskSettingDashboard">
+        <div className="RiskUpdaterButton">
+          <button onClick={e=>watchClick(e)}>Set All risks to default</button>
+        </div>
+
+        <div className="StoreFilter">
+          <form onSubmit={e=>watchClick(e)}>
+            <label>Store Number:</label>
+            <input type="text" id="number" value={inputNumber} onChange={e=>handleChange(e)}></input>
+            <label>Store Name:</label>
+            <input type="text" id="name" value={inputName} onChange={e=>handleChange(e)}></input>
+            <button type="submit">Search</button>
+            <button onClick={e=>watchClick(e)}>Clear</button>
+          </form>
+        </div>
+
+      
+        <div className="FilterButtons">
+          <div className="Country">
+            <label>Country: </label>
+              <button disabled={selectedCountry==="all"&&true} onClick={e=>watchClick(e)}>All</button>
+              <button disabled={selectedCountry==="czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
+              <button disabled={selectedCountry==="hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
+              <button disabled={selectedCountry==="slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
+          </div>
         </div>
       </div>
-
       {changeAllRisk !== false && (
-        <div className="modal2">
+        <div className="modal2"  onClick={(e=>watchClick(e))}>
           <div className="modal2-content">
+            <h3>The risks for all stores will be changed based on the most recently imported TLT Portal data</h3>
             <table>
-              <thead>
-                <tr>
-                  <th>The risks for all stores will be changed based on the most recently imported TLT Portal data</th>
-                </tr>
-              </thead>
               <tbody>
                   <tr>
                     <td className="yesButton" onClick={setAllRisk}>
@@ -252,29 +264,24 @@ const RiskSettingComponent = ({ stores}) => {
       )}
 
       {changeRisk !== false && (
-        <div className="modal">
+        <div className="modal" onClick={(e=>watchClick(e))}>
           <div className="modal-content">
+            <div className="modal-content-UpperLine">
+              <h3>Change store {changeRisk} risk to: 
+              <button onClick={() => setChangeRisk(false)}>Close</button></h3>
+            </div>
             <table>
-              <thead>
-                <tr>
-                  <th>Change store {changeRisk} risk to:</th>
-                </tr>
-              </thead>
               <tbody>
                 {riskList.map((risk) => (
                   <tr key={risk}>
-                    <td className="riskSelectorButton" onClick={setRisk}>
+                    <td className={"riskSelectorButton"} onClick={setRisk}>
                       {risk}
                     </td>
                   </tr>
                 ))}
-                <tr>
-                  <td className="cancelRiskChanger" onClick={() => setChangeRisk(false)}>
-                    Cancel
-                  </td>
-                </tr>
               </tbody>
             </table>
+
           </div>
         </div>
       )}

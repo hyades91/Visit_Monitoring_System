@@ -10,7 +10,7 @@ import urlString from "..";
 
 //GET THE PROFILE DATA
 const fetchUser = (user,email) => {
-  console.log("fetchelünk "+email);
+  //console.log("fetchelünk "+email);
   return fetch(`${urlString}/Auth/GetProfileData?email=${email}`,{
     headers:{
       'Authorization': `Bearer ${user.token}`,
@@ -28,7 +28,7 @@ const UpdateUser = (user, userObject) => {
   body: JSON.stringify(userObject)
 })
   .then((res) => {
-    console.log(res)
+    //console.log(res)
     return res.json()})
   .catch((err) => console.error(err));
 };
@@ -44,12 +44,12 @@ const MyProfilePage = () => {
   
   const navigate=useNavigate()
 
-  console.log(profile);
-  console.log(user);
+  //console.log(profile);
+  //console.log(user);
 
 async function watchClick(event){
   event.preventDefault();
-  console.log(event);
+  //console.log(event);
   if(event.target.className==="BackToMainPage"){
     navigate("/")
   }
@@ -65,7 +65,7 @@ async function watchClick(event){
 
 async function updateProfile(e){
   e.preventDefault();
-  console.log(e)
+  //console.log(e)
   let UserObject={
     Id:"",
     FirstName: e.target[1].value,
@@ -77,7 +77,7 @@ async function updateProfile(e){
     UpdateUser(user, UserObject)
     .then((profileData) => {
       setLoading(false);
-      console.log(profileData)
+      //console.log(profileData)
       setProfile(profileData);
     }).catch(err=>console.error("nem sikerült a user fetch",err))
   }catch(err){console.error("nem sikerült a user fetch (masodik catch)",err)}
@@ -89,7 +89,7 @@ async function updateProfile(e){
       fetchUser(user,user.email)
       .then((profileData) => {
         setLoading(false);
-        console.log(profileData)
+        //console.log(profileData)
         setProfile(profileData);
       }).catch(err=>console.error("nem sikerült a user fetch",err))
     }catch(err){console.error("nem sikerült a user fetch (masodik catch)",err)}

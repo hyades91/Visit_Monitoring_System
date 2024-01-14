@@ -11,7 +11,7 @@ import urlString from "./..";
 //GET FINISHED VISITS
 const fetchAllVisit = (user) => {
   try{
-    console.log("fetching...");
+    //console.log("fetching...");
     return fetch(`${urlString}/Visit/GetFinishedVisit`,{
       method: 'GET',
       headers: {
@@ -28,7 +28,7 @@ const fetchAllVisit = (user) => {
 
 const fetchAllStore = (user) => {
   try{
-    console.log("fetching...");
+    //console.log("fetching...");
     return fetch(`${urlString}/Store/GetActiveStores`,{
       method: 'GET',
       headers: {
@@ -64,7 +64,7 @@ const MainPage = () => {
 
     //POST FETCH (LOGIN)
     function LoginFetch(userObject){
-      console.log(userObject)
+      //console.log(userObject)
   
         fetch(`${urlString}/Auth/Login`,{
           method: "POST",
@@ -74,31 +74,31 @@ const MainPage = () => {
           body: JSON.stringify(userObject)
         })
         .then(response=>{ 
-          console.log(response)
+          //console.log(response)
           return response.json()
         })
         .then(response=>{ //Ha jó az URL és van szerver, akkor ezt dobja vissza, 200-as ha jó a jelszó, vagy pl.400-as ha nem
-          console.log(response);
+          //console.log(response);
           if (response["Bad credentials"]){
-            console.log("Login failed!")
+            //console.log("Login failed!")
             setFailedLogin(response["Bad credentials"])
           }
           else{
-            console.log("Login success!");
+            //console.log("Login success!");
             setFailedLogin(null);
             context.setUser(response);
             setLoading(false)
           }
       
         }).catch(error=>{ //Ez pl rossz URL-nél van, vagy a szerver nem működik
-            console.log(error);
+            //console.log(error);
       })
     }
       
   
     const onSubmit = (e) => {
       e.preventDefault();
-      console.log(e.target[0].value)
+      //console.log(e.target[0].value)
       let userObject={
         Email: e.target[0].value,
         Password: e.target[1].value,
@@ -131,9 +131,9 @@ const MainPage = () => {
         "High": "3",
         "High-DC": "4",
       }
-      console.log(e)
+      //console.log(e)
       let riskLevel=riskLevelObject[e.target.textContent]
-      console.log(riskLevel)
+      //console.log(riskLevel)
       riskLevel?setFilteredStoreList(storeList.filter(store=>store.risk===riskLevel)):setFilteredStoreList(storeList)
     }
 */

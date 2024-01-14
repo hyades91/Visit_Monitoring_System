@@ -7,7 +7,7 @@ import urlString from "..";
 import saveAsImage from "../saveas.png"
 //UPLOAD json
 const uploadJson=(user,formData)=>{
-console.log(formData)
+//console.log(formData)
   return fetch(`${urlString}/Visit/ResetAllVisitWithJsonObj`, {
     method: 'POST',
    
@@ -18,10 +18,10 @@ console.log(formData)
     body: JSON.stringify(formData),
   })
     .then((res) =>{
-      console.log(res)
+      ////console.log(res)
       return res.json()})
     .then((data) => {
-      console.log(data)
+      //console.log(data)
       return data
     })
     .catch((err) => console.error(err));
@@ -37,9 +37,9 @@ const UpdateDatabasePage = () => {
   const {user}= useContext(UserContext);
 
   function TranslateJson(jsonFile){
-    console.log("jsonFile")
-    console.log(jsonFile)
-    console.log(jsonFile.payload[1])
+    //console.log("jsonFile")
+    //console.log(jsonFile)
+    //console.log(jsonFile.payload[1])
     jsonFile.payload=jsonFile.payload.map(visit=>{
       
       switch (visit.status){
@@ -93,13 +93,13 @@ const UpdateDatabasePage = () => {
   const handleFileChange = (e) => {
     e.preventDefault();
     setRawFile(e.target.files[0])
-    console.log(e.target.files[0])
+    //console.log(e.target.files[0])
     if (e.target.files) {
 
       const fileReader = new FileReader();
       fileReader.readAsText(e.target.files[0], "UTF-8");
       fileReader.onload = e => {
-        console.log("e.target.result", e);
+        //console.log("e.target.result", e);
         setObj(TranslateJson(JSON.parse(e.target.result)));
       }
 
@@ -118,14 +118,14 @@ const UpdateDatabasePage = () => {
     {
       const visitData = await uploadJson(user, obj)
        .then((visitData) => {
-          console.log(`VMS has been updated with ${visitData.result} visits from TLT Portal`);
+          //console.log(`VMS has been updated with ${visitData.result} visits from TLT Portal`);
           setResult(`VMS has been updated with ${visitData.result} visits from TLT Portal`)
           setLoading(false)
         })
         .catch((err)=>{
-          console.log(err)
+          //console.log(err)
         })
-        console.log(visitData);
+        //console.log(visitData);
     }catch(error){
       console.error("Hiba történt a JSON feltöltése során:", error);
       setResult("Hiba történt a JSON feltöltése során:", error)

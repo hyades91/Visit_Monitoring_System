@@ -9,7 +9,7 @@ import urlString from "../..";
 
 const ChangeStoreStatus = (storeNumber, user) => {
   try{
-    console.log("put fetching...");
+    //console.log("put fetching...");
     return fetch(`${urlString}/Store/ChangeActivity?StoreNumber=${storeNumber}`,{
       method: "PUT",
       headers:{
@@ -51,7 +51,7 @@ const StatusSettingComponent = ({ stores}) => {
   function watchActivate(e, storeNumber){
     e.preventDefault()
     //setLoading(true)
-    console.log(storeNumber)
+    //console.log(storeNumber)
     try{
     ChangeStoreStatus(storeNumber, user)
     .then((storesData) => {
@@ -63,7 +63,7 @@ const StatusSettingComponent = ({ stores}) => {
 
 
   function handleChange(event){
-    console.log(event)
+    //console.log(event)
       if(event.target.id==="number"){
         setInputNumber(event.target.value)
       }
@@ -75,7 +75,7 @@ const StatusSettingComponent = ({ stores}) => {
 
   function watchClick(e){
     e.preventDefault()
-    console.log(e)
+    //console.log(e)
 
     //select store
     if(e.type==="submit")
@@ -127,8 +127,8 @@ const StatusSettingComponent = ({ stores}) => {
 
   //Store (RISK, COUNTRY, FORMAT) Filter
   useEffect(() => {
-    console.log(name)
-    console.log(number)
+    //console.log(name)
+    //console.log(number)
 
     let FilterList=[selectedCountry,name,number]
     let keyList=["country","storeName","storeNumber"]
@@ -142,7 +142,7 @@ const StatusSettingComponent = ({ stores}) => {
    
     setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
     setLoading(false)
-    console.log("Store-os UseEffect")
+    //console.log("Store-os UseEffect")
 
   }, [storeList, selectedCountry,orderDirection,orderBy, number, name]);
 

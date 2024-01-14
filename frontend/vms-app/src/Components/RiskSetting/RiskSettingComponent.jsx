@@ -8,10 +8,10 @@ import urlString from "../..";
 
 
 const updateRisk = (storeNumber, risk, user) => {
-  console.log("fetch: "+storeNumber+", "+risk)
+  //console.log("fetch: "+storeNumber+", "+risk)
   
   try{
-    console.log("put fetching...");
+    //console.log("put fetching...");
     return fetch(`${urlString}/Store/ChangeRisk?StoreNumber=${storeNumber}&Risk=${risk}`,{
       method: "PUT",
       headers:{
@@ -27,7 +27,7 @@ const updateRisk = (storeNumber, risk, user) => {
 
 const updateAllRisk = (user) => {
   try{
-    console.log("put fetching...");
+    //console.log("put fetching...");
     return fetch(`${urlString}/Store/UpdateRisks`,{
       method: "PUT",
       headers:{
@@ -65,20 +65,20 @@ const RiskSettingComponent = ({ stores}) => {
   const [inputNumber, setInputNumber] = useState('')
   const [inputName, setInputName] = useState('')
 
-  console.log(changeAllRisk)
+  //console.log(changeAllRisk)
   function watchRiskChanger(e, storeNumber){
     e.preventDefault();
-    console.log(e)
-    console.log(storeNumber)
+    //console.log(e)
+    //console.log(storeNumber)
     setChangeRisk(storeNumber)
   }
 
   function setRisk(e){
     e.preventDefault();
-    console.log(e.target.textContent)
+    //console.log(e.target.textContent)
     if(e.target.textContent!=="Cancel")
     {
-      console.log(user);
+      //console.log(user);
       try{
         updateRisk(changeRisk, riskList.findIndex((element)=>element===e.target.textContent)+1, user)
         .then((storesData) => {
@@ -94,7 +94,7 @@ const RiskSettingComponent = ({ stores}) => {
 
   function setAllRisk(e){
     e.preventDefault();
-    console.log(e.target.textContent)
+    //console.log(e.target.textContent)
     if(e.target.textContent!=="Cancel")
     {
       try{
@@ -111,7 +111,7 @@ const RiskSettingComponent = ({ stores}) => {
   }
 
   function handleChange(event){
-  console.log(event)
+  //console.log(event)
     if(event.target.id==="number"){
       setInputNumber(event.target.value)
     }
@@ -122,7 +122,7 @@ const RiskSettingComponent = ({ stores}) => {
 
   function watchClick(e){
     e.preventDefault()
-    console.log(e)
+    //console.log(e)
 
     //select store
     if(e.type==="submit")
@@ -190,8 +190,8 @@ const RiskSettingComponent = ({ stores}) => {
 
   //Store (RISK, COUNTRY, FORMAT) Filter
   useEffect(() => {
-    console.log(name)
-    console.log(number)
+    //console.log(name)
+    //console.log(number)
 
     let FilterList=[selectedCountry,name,number]
     let keyList=["country","storeName","storeNumber"]
@@ -205,7 +205,7 @@ const RiskSettingComponent = ({ stores}) => {
    
     tempStoreList&&setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
     setLoading(false)
-    console.log("Store-os UseEffect")
+    //console.log("Store-os UseEffect")
 
   }, [storeList, selectedCountry,orderDirection,orderBy, number, name]);
 

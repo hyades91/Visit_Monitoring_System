@@ -9,10 +9,10 @@ const SigninPage = () => {
   const [failedSignin, setFailedSignin] = useState(false);
   
 
-  console.log(logOrSign)
+  //console.log(logOrSign)
 
   function SigninFetch(userObject){
-      console.log(userObject)
+      //console.log(userObject)
       try{
         fetch(`${urlString}/Auth/Register`,{
           method: "POST",
@@ -22,19 +22,19 @@ const SigninPage = () => {
         })
         .then(response=>response.json())
         .then(response=>{
-          console.log(response);
+          //console.log(response);
           if (Object.keys(response)[0]!=="email"){
-            console.log("Signin failed!")
+            //console.log("Signin failed!")
             setFailedSignin(response[Object.keys(response)[1]])
           }
           else{
-            console.log("Signin success!")
+            //console.log("Signin success!")
             setFailedSignin("You're registration has been completed. Please Log in!")
           }
         })
         .catch(error=>{
-            console.log(error);
-            console.log("HIBA")
+            //console.log(error);
+            //console.log("HIBA")
         })
       }catch(error){console.err(error)}
     }
@@ -43,7 +43,7 @@ const SigninPage = () => {
  
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target[0].value)
+    //console.log(e.target[0].value)
     let userObject={
       Email: e.target[0].value,
       Username: e.target[1].value,

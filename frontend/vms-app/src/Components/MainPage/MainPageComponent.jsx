@@ -37,7 +37,7 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
       
   function watchClick(e){
     e.preventDefault()
-    console.log(e)
+    //console.log(e)
 
    
     //select TIME interval
@@ -155,8 +155,8 @@ const MainPageComponent = ({visits, stores/*, watchClick*/}) => {
 
 useEffect(() => {
   
-  console.log(selectedFormat)
-  console.log(selectedRisk)
+  //console.log(selectedFormat)
+  //console.log(selectedRisk)
 
   let tempVisitList=allVisits
     //Reason
@@ -166,7 +166,7 @@ useEffect(() => {
       let visitDate=visit.date.substring(3,10).split(".").reverse().join("-")
       return visitDate>=startDate&&visitDate<=endDate
     }))
-    console.log("VisitFilteres-os UseEffect")
+    //console.log("VisitFilteres-os UseEffect")
 
   let FilterList=[selectedRisk, selectedFormat, selectedCountry]
   let keyList=["risk", "format", "country"]
@@ -179,7 +179,7 @@ useEffect(() => {
 
  
   setFilteredStoreList(tempStoreList);
-  console.log("Store-os UseEffect")
+  //console.log("Store-os UseEffect")
 
 }, [selectedFormat,selectedRisk, selectedCountry,orderDirection,orderBy, startDate,endDate,allVisits, selectedReason]);
 
@@ -201,15 +201,15 @@ useEffect(() => {
       "Missing visits":requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):"",
       "Expected visits":requiredVisits(store)
   }))
-  console.log("Exp:")
-   console.log(filteredStoreList)
-    console.log(customHeadings)
+  //console.log("Exp:")
+   //console.log(filteredStoreList)
+    //console.log(customHeadings)
     setData(customHeadings) 
 
   }, [filteredVisits, finalFilteredStoreList])
 
-  console.log(filteredStoreList)
-  console.log("duration: "+durationInMonth)
+  //console.log(filteredStoreList)
+  //console.log("duration: "+durationInMonth)
   
   return(
   

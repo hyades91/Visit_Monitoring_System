@@ -52,7 +52,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
 
   function watchClick(e){
     e.preventDefault()
-    console.log(e)
+    //console.log(e)
 
     //select TIME interval
     if(e.type==="submit")
@@ -169,8 +169,8 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   //Store (RISK, COUNTRY, FORMAT) Filter
   useEffect(() => {
   
-    console.log(selectedFormat)
-    console.log(selectedRisk)
+    //console.log(selectedFormat)
+    //console.log(selectedRisk)
     //VISIT 
     let tempVisitList=allVisits
     //Reason
@@ -207,9 +207,9 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
     setLoading(false)
   }, [filteredVisits, filteredStoreList]);
 
-  console.log(filteredStoreList)
-  console.log("duration: "+durationInMonth)
-  console.log(selectedStore)
+  //console.log(filteredStoreList)
+  //console.log("duration: "+durationInMonth)
+  //console.log(selectedStore)
 
   return(
   

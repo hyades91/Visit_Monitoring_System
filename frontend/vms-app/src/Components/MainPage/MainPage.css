@@ -123,6 +123,7 @@ th{
   width:20vh;
   background-color: #808080;
   color: white;
+  transition: all 0.3s ease; /* Animáció simításához */
 }
 
 th:hover{

@@ -167,7 +167,7 @@ const RiskSettingComponent = ({ stores}) => {
       setOrderBy("risk")
       setLoading(true)
     }
-    else if(e.target.textContent==="Set All risks to default")
+    else if(e.target.textContent==="Set all risks to default")
     {
       setChangeAllRisk(true)
     }

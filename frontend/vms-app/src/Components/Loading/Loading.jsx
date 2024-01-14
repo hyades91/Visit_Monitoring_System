@@ -16,7 +16,7 @@ Loading.propTypes = {
 Loading.defaultProps = {
   background: '#f5f5f5',
   color: '#002c41',
-  duration: 1.4,
+  duration: 1.0,
   size: 12,
 };
 

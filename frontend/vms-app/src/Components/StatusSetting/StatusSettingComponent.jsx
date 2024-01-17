@@ -9,7 +9,7 @@ import urlString from "../..";
 
 const ChangeStoreStatus = (storeNumber, user) => {
   try{
-    console.log("put fetching...");
+    //console.log("put fetching...");
     return fetch(`${urlString}/Store/ChangeActivity?StoreNumber=${storeNumber}`,{
       method: "PUT",
       headers:{
@@ -45,12 +45,13 @@ const StatusSettingComponent = ({ stores}) => {
   const [loading, setLoading] = useState(true)
   const [activate, setActivate] = useState(null)
   
-
+  const [inputNumber, setInputNumber] = useState('')
+  const [inputName, setInputName] = useState('')
 
   function watchActivate(e, storeNumber){
     e.preventDefault()
     //setLoading(true)
-    console.log(storeNumber)
+    //console.log(storeNumber)
     try{
     ChangeStoreStatus(storeNumber, user)
     .then((storesData) => {
@@ -61,17 +62,34 @@ const StatusSettingComponent = ({ stores}) => {
   }
 
 
+  function handleChange(event){
+    //console.log(event)
+      if(event.target.id==="number"){
+        setInputNumber(event.target.value)
+      }
+      else if(event.target.id==="name"){
+        setInputName(event.target.value)
+      }
+    }
+  
 
   function watchClick(e){
     e.preventDefault()
-    console.log(e)
+    //console.log(e)
 
-    //select TIME interval
+    //select store
     if(e.type==="submit")
     {
       setNumber(e.target[0].value!==""?e.target[0].value.toLowerCase():"all")
       setName(e.target[1].value!==""?e.target[1].value.toLowerCase():"all")
       //setLoading(true)  
+    }
+      
+    else if(e.target.textContent==="Clear"){
+      setNumber("all")
+      setName("all")
+      setInputNumber('')
+      setInputName('')
     }
 
     //filters
@@ -109,8 +127,8 @@ const StatusSettingComponent = ({ stores}) => {
 
   //Store (RISK, COUNTRY, FORMAT) Filter
   useEffect(() => {
-    console.log(name)
-    console.log(number)
+    //console.log(name)
+    //console.log(number)
 
     let FilterList=[selectedCountry,name,number]
     let keyList=["country","storeName","storeNumber"]
@@ -124,34 +142,37 @@ const StatusSettingComponent = ({ stores}) => {
    
     setFilteredStoreList( tempStoreList.sort((a,b)=>sortByCustom(a,b)));
     setLoading(false)
-    console.log("Store-os UseEffect")
+    //console.log("Store-os UseEffect")
 
   }, [storeList, selectedCountry,orderDirection,orderBy, number, name]);
 
   
   return(
   
-    <div className="MainPageContent">
-      <div className="StoreFilter">
-        <form onSubmit={e=>watchClick(e)} className="DateFilterForm">
-          <label>Store Number:</label>
-          <input type="text" id="number"></input>
-          <label>Store Name:</label>
-          <input type="text" id="name"></input>
-          <button type="submit">Search</button>
-          <button type="submit">Clear</button>
-        </form>
-      </div>
-      <div className="FilterButtons">
-      <div className="Country">
-        <label>Format: </label>
-          <button disabled={selectedCountry==="All"&&true} onClick={e=>watchClick(e)}>All</button>
-          <button disabled={selectedCountry==="Czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
-          <button disabled={selectedCountry==="Hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
-          <button disabled={selectedCountry==="Slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
+    <div className="StatusSetting">
+
+      <div className="StatusSettingFilters">
+        <div className="StoreFilter">
+          <form onSubmit={e=>watchClick(e)}>
+            <label>Store Number:</label>
+            <input type="text" id="number" value={inputNumber} onChange={e=>handleChange(e)}></input>
+            <label>Store Name:</label>
+            <input type="text" id="name" value={inputName} onChange={e=>handleChange(e)}></input>
+            <button type="submit">Search</button>
+            <button onClick={e=>watchClick(e)}>Clear</button>
+          </form>
+        </div>
+
+        <div className="FilterButtons">
+          <div className="Country">
+            <label>Country: </label>
+              <button disabled={selectedCountry==="all"&&true} onClick={e=>watchClick(e)}>All</button>
+              <button disabled={selectedCountry==="czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
+              <button disabled={selectedCountry==="hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
+              <button disabled={selectedCountry==="slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
+          </div>
         </div>
       </div>
-
       <table>
         <thead>
           <tr>

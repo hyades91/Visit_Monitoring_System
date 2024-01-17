@@ -21,7 +21,7 @@ const Menu = () => {
     
     //POST FETCH (LOGIN)
     function LoginFetch(userObject){
-      console.log(userObject)
+      //console.log(userObject)
   
         fetch(`${urlString}/Auth/Login`,{
           method: "POST",
@@ -31,30 +31,30 @@ const Menu = () => {
           body: JSON.stringify(userObject)
         })
         .then(response=>{ 
-          console.log(response)
+          //console.log(response)
           return response.json()
         })
         .then(response=>{ //Ha jó az URL és van szerver, akkor ezt dobja vissza, 200-as ha jó a jelszó, vagy pl.400-as ha nem
-          console.log(response);
+          //console.log(response);
           if (response["Bad credentials"]){
-            console.log("Login failed!")
+            //console.log("Login failed!")
             setFailedLogin(response["Bad credentials"])
           }
           else{
-            console.log("Login success!");
+            //console.log("Login success!");
             setFailedLogin(null);
             context.setUser(response);
           }
           setLoading(false)
         }).catch(error=>{ //Ez pl rossz URL-nél van, vagy a szerver nem működik
-            console.log(error);
+            //console.log(error);
       })
     }
       
   
     const onSubmit = (e) => {
       e.preventDefault();
-      console.log(e.target[0].value)
+      //console.log(e.target[0].value)
       let userObject={
         Email: e.target[0].value,
         Password: e.target[1].value,
@@ -66,7 +66,7 @@ const Menu = () => {
 
     const watchClick=(e)=>{
       e.preventDefault();
-      console.log(e)
+      //console.log(e)
       if(e.target.name==="All"||e.target.name==="Missing"){
         context.setPage(e.target.name)
         navigate("/mainpage")
@@ -102,7 +102,7 @@ const Menu = () => {
      {loading?
       <Loading/> 
       :
-     <UserFormComponent status={logOrSign} isLogOrSignFailed={failedLogin} watchClick={onSubmit}/>
+      <UserFormComponent status={logOrSign} isLogOrSignFailed={failedLogin} watchClick={onSubmit}/>
      }
      </>
     )

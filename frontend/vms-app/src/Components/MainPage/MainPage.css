@@ -1,52 +1,144 @@
 button{ cursor:pointer;}
-.LoginForm{
-   display: absolute;
-   margin: auto;
-   align-items: center;
-   text-align: center;
-   width: 100%;
-   height:87vh;
-   background-color: white;
+
+.DatabaseUpdateInfo{
+  margin-left: 3vh;
+  font-weight: lighter;
 }
 
-.LoginInputs{
-    align-items: center;
-    margin-top: 300px;
-    display: relative;
-    margin: auto;
-    text-align: center;
-    background-color: white;
- }
+.Dashboard{
+margin-bottom: 4vh;
+}
+.Filters{
+font-size: 1.5vh;
+float: left;
+margin-bottom: 4vh;
+margin-left: 1vh;
+background-color: rgba(0, 40, 58, 0.096);
+width:60%;
+border-radius: 0.5vh;
+}
 
-input{
-height: 5vh;
+.DateFilter{
+  font-weight: bolder;
+  margin-left: 1vh;
+  margin-bottom: 0.5vh;
+
+}
+.DateFilter input{
+  font-weight: bold;
+  background-color: rgba(0, 44, 65, 0.582);
+  height:3vh;
+  color: #ffffff;
+  margin-left: 1vh;
+  margin-bottom: 0.5vh;
+
+  border: 0vh;
+  transition: all 0.3s ease; /* Animáció simításához */
+}
+
+.DateFilter input:hover{
+  background-color: rgb(0, 44, 65);
+}
+
+.DateFilter button{
+  margin-left: 1vh;
+  background-color: rgb(0, 44, 65);
+  height: 3.5vh;
+  width: 32vh;;
+  color: #ffffff;
+  font-size: 1.5vh;
+  border-radius: 0.5vh;
+  border: 0vh;
+  transition: all 0.3s ease; /* Animáció simításához */
+}
+.DateFilter button:hover{
+  background-color: rgba(0, 44, 65, 0.603);
+
+}
+
+ .FilterButtons{
+
+  font-weight: bolder;
+ margin-left: 1vh;
+
+}
+ .FilterButtons button{
+  background-color: rgba(0, 44, 65, 0.603);
+  height: 3vh;
+  width: 10vh;;
+  color: #ffffff;
+  margin-bottom: 0.5vh;
+  margin-left: 1vh;
+  border-radius: 0.5vh;
+  border: 0vh;
+  transition: all 0.3s ease; /* Animáció simításához */
+  font-size: 1.5vh;
+
+
+}
+.FilterButtons button:disabled,
+.FilterButtons button[disabled]{
+  height: 3.5vh;
+  width: 11vh;;
+  background-color: rgb(0, 44, 65);
+}
+
+.FilterButtons button:hover{
+height: 3.5vh;
+width: 11vh;;
+background-color: rgb(0, 44, 65);
+}
+
+.ExportButton button{
+
+ margin-left: 10%;
+  background-color: rgb(20, 104, 90);
+  height: 6vh;
+  width: 24vh;
+  font-size: 2vh;
+  color: #ffffff;
+  border-radius: 0.5vh;
+  border: 0vh;
+  transition: all 0.3s ease; /* Animáció simításához */
+}
+
+
+.ExportButton button:hover{
+  background-color: rgba(20, 104, 90, 0.671);
+}
+
+table{
+
+  clear: both;
+  margin:auto;
+
+  border-collapse: collapse;
+  text-align: center;
+  width:80%;
+
 }
 
 th{
-   cursor:pointer;
-   width:30vh
+  cursor:pointer;
+  width:20vh;
+  background-color: #808080;
+  color: white;
+  transition: all 0.3s ease; /* Animáció simításához */
 }
-table{
-   text-align: center;
-}
+
+th:hover{
+  color: rgb(0, 84, 122);
+ }
 
 
 .markedColoumn{
-  color:  #fa9d9d;
+  color: rgb(0, 44, 65);
 }
-th:hover{
-   color:  #ff4949;
- }
 
-table {
-   font-family: Arial, Helvetica, sans-serif;
-   border-collapse: collapse;
-   width: 100%;
- }
  
  table td, table th {
-   border: 1px solid #ddd;
-   padding: 8px;
+  border: 0.1vh solid #ddd;
+  padding: 0.8vh;
  }
  
  
@@ -54,12 +146,51 @@ table {
 
  table tr:hover {background-color: rgb(213, 229, 233);}
  
- table th {
-   padding-top: 12px;
-   padding-bottom: 12px;
-   text-align: left;
-   background-color: #777777;
-   color: white;
- }
 
+ .modal {
+  
 
+  position: fixed; /* Abszolút pozíció */
+  z-index: 1; /* Legfelül */
+  left: 0;
+  top: 0;
+  width: 100%; /* Teljes szélesség */
+  height: 100%; /* Teljes magasság */
+  overflow: auto; /* Görgetés engedélyezése, ha szükséges */
+  background-color: rgba(0, 0, 0, 0.4); /* Fekete háttér átlátszósággal */
+}
+
+/* Modális tartalom */
+.modal-content {
+
+  background-color: #fefefe;
+  margin: 15% auto; /* Középen pozícionálás */
+  padding: 4vh;
+  width: 80%;
+  max-width: 600px; /* Max. szélesség */
+}
+.modal-content table{
+width:100%;
+}
+.modal-content th{
+  color:white;
+  cursor:auto;
+}
+
+.modal-content button{
+  background-color: rgba(65, 0, 0, 0.603);
+  height: 3vh;
+  width: 10vh;;
+  color: #ffffff;
+  border-radius: 0.5vh;
+  border: 0vh;
+  transition: all 0.3s ease; /* Animáció simításához */
+  font-size: 1.5vh;
+}
+.modal-content button:hover{
+  background-color: rgb(116, 1, 1);   
+}
+
+.modal-content-UpperLine button{
+ float: inline-end;
+}

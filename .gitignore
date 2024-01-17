@@ -5,6 +5,10 @@ appsettings*.json
 
 frontend/vms-app/node_modules/
 
+# excels
+*.xlsx
+
+
 # Images
 *.jpg
 *.webp

@@ -20,7 +20,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [selectedReason, setSelectedReason] = useState("All");
 
-  const [startDate, setStartDate] = useState(new Date().getMonth()<2?(new Date().getFullYear()-1).toString()+"-03":new Date().getFullYear().toString()+"-03");
+  const [startDate, setStartDate] = useState(new Date().getMonth()<3?(new Date().getFullYear()-1).toString()+"-03":new Date().getFullYear().toString()+"-03");
   const [endDate, setEndDate] = useState(new Date().getMonth()!==0?(new Date().getFullYear().toString()+"-"+(new Date().getMonth()).toString()):(new Date().getFullYear()-1).toString()+"-12");
   
   const [durationInMonth, setDurationInMonth] = useState((Number(endDate.substring(5))+12*Number(endDate.substring(0,4)))-(Number(startDate.substring(5))+12*Number(startDate.substring(0,4)))+1);
@@ -52,7 +52,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
 
   function watchClick(e){
     e.preventDefault()
-    console.log(e)
+    //console.log(e)
 
     //select TIME interval
     if(e.type==="submit")
@@ -125,7 +125,10 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
       setOrderBy("expectedVisits")
       setLoading(true)
     }
-    
+    else if(e.target.className==="modal")
+    {
+      setSelectedStore(false);
+    }
   }
 
   function sortByCustom(a,b){
@@ -166,8 +169,8 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   //Store (RISK, COUNTRY, FORMAT) Filter
   useEffect(() => {
   
-    console.log(selectedFormat)
-    console.log(selectedRisk)
+    //console.log(selectedFormat)
+    //console.log(selectedRisk)
     //VISIT 
     let tempVisitList=allVisits
     //Reason
@@ -204,42 +207,82 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
     setLoading(false)
   }, [filteredVisits, filteredStoreList]);
 
-  console.log(filteredStoreList)
-  console.log("duration: "+durationInMonth)
-  console.log(selectedStore)
+  //console.log(filteredStoreList)
+  //console.log("duration: "+durationInMonth)
+  //console.log(selectedStore)
 
   return(
   
     <div className="MainPageContent">
-      <div className="DatabaseUpdateInfo">
-        <h1>Missing Visits:</h1>
-      <p>Last uploaded visit: {allVisits[0].date+" "+allVisits[0].storeName}</p>
-      </div>
-      <div className="DateFilter">
-        <form onSubmit={e=>watchClick(e)} className="DateFilterForm">
-          <input type="month" min="2021-03" defaultValue={startDate} id="start"></input>
-          <input type="month" min="2021-03" defaultValue={endDate} id="end"></input>
-          <br></br>
-          <button type="submit">Search between these dates</button>
-        </form>
+
+      <div className="Dashboard">
+        <div className="DatabaseUpdateInfo">
+        <h1>Missing Visits</h1>
+        <p>Last uploaded visit: {allVisits[0].date+" "+allVisits[0].storeName}</p>
+        </div>
+
+        <div className="Filters">
+          <div className="DateFilter">
+          <label>Date: </label><br></br>
+            <form onSubmit={e=>watchClick(e)} className="DateFilterForm">
+              <input type="month" min="2021-03" defaultValue={startDate} id="start"></input>
+              <input type="month" min="2021-03" defaultValue={endDate} id="end"></input>
+              <br></br>
+              <button type="submit">Search between these dates</button>
+            </form>
+          </div>
+
+          <div className="FilterButtons">
+            <div className="Country">
+              <label>Country: </label><br></br>
+              <button disabled={selectedCountry==="All"&&true} onClick={e=>watchClick(e)}>All</button>
+              <button disabled={selectedCountry==="Czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
+              <button disabled={selectedCountry==="Hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
+              <button disabled={selectedCountry==="Slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
+            </div>
+            <div className="Risk">
+              <label>Risk Level: </label><br></br>
+              <button disabled={selectedRisk==="All"&&true} name="All" onClick={e=>watchClick(e)}>All</button>
+              <button disabled={selectedRisk==="1"&&true} name="1" onClick={e=>watchClick(e)}>Low</button>
+              <button disabled={selectedRisk==="2"&&true} name="2" onClick={e=>watchClick(e)}>Medium</button>
+              <button disabled={selectedRisk==="3"&&true} name="3" onClick={e=>watchClick(e)}>High</button>
+              <button disabled={selectedRisk==="4"&&true} name="4" onClick={e=>watchClick(e)}>High-DC</button>
+            </div>
+            <div className="Format">
+            <label>Format: </label><br></br>
+              <button disabled={selectedFormat==="All"&&true} onClick={e=>watchClick(e)}>All</button>
+              <button disabled={selectedFormat==="HM"&&true} onClick={e=>watchClick(e)}>HM</button>
+              <button disabled={selectedFormat==="SF"&&true} onClick={e=>watchClick(e)}>SF</button>
+              <button disabled={selectedFormat==="DC"&&true} onClick={e=>watchClick(e)}>DC</button>
+            </div>
+            <div className="Reason">
+              <label>Reason: </label><br></br>
+              <button disabled={selectedReason==="All"&&true} onClick={e=>watchClick(e)}>All</button>
+              <button disabled={selectedReason==="Regular"&&true} onClick={e=>watchClick(e)}>Regular</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="ExportButton">
+          <ExportToExcel apiData={data} fileName={fileName} />
+        </div>
       </div>
 
-
-      <div className="ExportButton">
-        <ExportToExcel apiData={data} fileName={fileName} />
-      </div>
-
+  
       {selectedStore !== false && (
-        <div className="modal">
+        <div className="modal" onClick={(e=>watchClick(e))}>
           <div className="modal-content">
-          <button onClick={() => setSelectedStore(false)}>Close</button>
+            <div className="modal-content-UpperLine">
+              <h3>Store {selectedStore.storeNumber} {selectedStore.storeName}  visits:
+              <button onClick={() => setSelectedStore(false)}>Close</button></h3>
+              
+            </div>
             <table>
-              <thead><h3>Store {selectedStore.storeNumber} {selectedStore.storeName}  visits:</h3>
                 <tr>
                   <th>Date</th>
                   <th>Reason</th>
                 </tr>
-              </thead>
               <tbody>
                 {filteredVisits.filter(visit=>visit.storeNumber===selectedStore.storeNumber).map((visit) => (
                   <tr key={visit.id}>
@@ -249,39 +292,9 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
                 ))}
               </tbody>
             </table>
-          </div>
+            </div>
         </div>
       )}
-
-      <div className="FilterButtons">
-        <div className="Country">
-          <label>Format: </label>
-          <button disabled={selectedCountry==="All"&&true} onClick={e=>watchClick(e)}>All</button>
-          <button disabled={selectedCountry==="Czechia"&&true} onClick={e=>watchClick(e)}>Czechia</button>
-          <button disabled={selectedCountry==="Hungary"&&true} onClick={e=>watchClick(e)}>Hungary</button>
-          <button disabled={selectedCountry==="Slovakia"&&true} onClick={e=>watchClick(e)}>Slovakia</button>
-        </div>
-        <div className="Risk">
-          <label>Risk Level: </label>
-          <button disabled={selectedRisk==="All"&&true} name="All" onClick={e=>watchClick(e)}>All</button>
-          <button disabled={selectedRisk==="1"&&true} name="1" onClick={e=>watchClick(e)}>Low</button>
-          <button disabled={selectedRisk==="2"&&true} name="2" onClick={e=>watchClick(e)}>Medium</button>
-          <button disabled={selectedRisk==="3"&&true} name="3" onClick={e=>watchClick(e)}>High</button>
-          <button disabled={selectedRisk==="4"&&true} name="4" onClick={e=>watchClick(e)}>High-DC</button>
-        </div>
-        <div className="Format">
-         <label>Format: </label>
-          <button disabled={selectedFormat==="All"&&true} onClick={e=>watchClick(e)}>All</button>
-          <button disabled={selectedFormat==="HM"&&true} onClick={e=>watchClick(e)}>HM</button>
-          <button disabled={selectedFormat==="SF"&&true} onClick={e=>watchClick(e)}>SF</button>
-          <button disabled={selectedFormat==="DC"&&true} onClick={e=>watchClick(e)}>DC</button>
-        </div>
-        <div className="Reason">
-          <label>Reason: </label>
-          <button disabled={selectedReason==="All"&&true} onClick={e=>watchClick(e)}>All</button>
-          <button disabled={selectedReason==="Regular"&&true} onClick={e=>watchClick(e)}>Regular</button>
-        </div>
-      </div>
 
       <table>
         <thead>

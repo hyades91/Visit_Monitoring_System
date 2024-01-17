@@ -1,110 +1,69 @@
 button{ cursor:pointer;}
-.LoginForm{
-   display: absolute;
-   margin: auto;
-   align-items: center;
-   text-align: center;
-   width: 100%;
-   height:87vh;
-   background-color: white;
+
+.RiskSettingDashboard{
+  padding:2vh;
+  font-size: 1.8vh;
 }
+.RiskUpdaterButton button{
 
-.LoginInputs{
-    align-items: center;
-    margin-top: 300px;
-    display: relative;
-    margin: auto;
-    text-align: center;
-    background-color: white;
- }
-
-input{
-height: 5vh;
-}
-
-th{
-   cursor:pointer;
-   width:30vh
-}
-table{
-   text-align: center;
-}
-
-
-.markedColoumn{
-  color:  #fa9d9d;
-}
-th:hover{
-   color:  #ff4949;
- }
-
-table {
-   font-family: Arial, Helvetica, sans-serif;
-   border-collapse: collapse;
-   width: 100%;
- }
- 
- table td, table th {
-   border: 1px solid #ddd;
-   padding: 8px;
+  margin-left: 1vh;
+   background-color: rgb(20, 104, 90);
+   height: 4vh;
+   width: 24vh;
+   font-size: 1.7vh;
+   color: #ffffff;
+   border-radius: 0.5vh;
+   border: 0vh;
+   transition: all 0.3s ease; /* Animáció simításához */
  }
  
  
- table tr:nth-child(even){background-color: #f2f2f2;}
-
- table tr:hover {background-color: rgb(213, 229, 233);}
- 
- table th {
-   padding-top: 12px;
-   padding-bottom: 12px;
-   text-align: left;
-   background-color: #777777;
-   color: white;
+ .RiskUpdaterButton button:hover{
+   background-color: rgba(20, 104, 90, 0.671);
  }
 
  .Low{
-   background-color: rgba(69, 131, 85, 0.788);
+  color:white;
+  background-color: rgb(20, 104, 90);
    cursor:pointer;
+   transition: all 0.3s ease; /* Animáció simításához */
 }
 .Medium{
-   background-color: rgba(177, 170, 76, 0.774);
+  color:#ffffff;
+  background-color: rgba(170, 129, 40, 0.87);   
    cursor:pointer;
+   transition: all 0.3s ease; /* Animáció simításához */
 }
  .High{
-   background-color: #864040bd;
+  color:#ffffff;
+  background-color: rgb(87, 0, 0);   
    cursor:pointer;
+   transition: all 0.3s ease; /* Animáció simításához */
 }
 .High-DC{
-   background-color: #501515be;
-   color: white;
+  color:#ffffff;
+  background-color: rgb(26, 0, 0);   
    cursor:pointer;
+   transition: all 0.3s ease; /* Animáció simításához */
 }
-.cancelRiskChanger{
-   background-color: #ff0000bd;
+.Low:hover{
+  background-color: rgba(20, 104, 90, 0.527);
 }
+.Medium:hover{
 
-.modal {
-  
-   position: fixed; /* Abszolút pozíció */
-   z-index: 1; /* Legfelül */
-   left: 0;
-   top: 0;
-   width: 100%; /* Teljes szélesség */
-   height: 100%; /* Teljes magasság */
-   overflow: auto; /* Görgetés engedélyezése, ha szükséges */
-   background-color: rgba(0, 0, 0, 0.4); /* Fekete háttér átlátszósággal */
- }
- 
- /* Modális tartalom */
- .modal-content {
-   background-color: #fefefe;
-   margin: 15% auto; /* Középen pozícionálás */
-   padding: 20px;
-   border: 1px solid #888;
-   width: 80%;
-   max-width: 600px; /* Max. szélesség */
- }
- 
+  background-color: rgba(170, 129, 40, 0.397);   
+
+}
+.High:hover{
+
+  background-color: rgba(87, 0, 0, 0.452);   
+
+}
+.High-DC:hover{
+
+  background-color: rgba(26, 0, 0, 0.425);   
+
+}
  /* Modális gomb stílus */
  .riskSelectorButton{
    cursor: pointer;
@@ -112,22 +71,12 @@ table {
    text-align: center;
    background-color: #f2f2f2;
    border: 1px solid #888;
+   transition: all 0.3s ease; /* Animáció simításához */
  }
  
  /* Modális gomb stílus: hover */
  .riskSelectorButton:hover {
-   background-color: #ddd;
- }
-
- .cancelRiskChanger {  
-    cursor: pointer;
-   padding: 8px 16px;
-   text-align: center;
-   background-color: #e49595;
-   border: 1px solid #888;
- }
- .cancelRiskChanger:hover {
-   background-color: #da6565;
+  background-color: rgba(0, 44, 65, 0.144);
  }
 
  .modal2 {
@@ -144,7 +93,7 @@ table {
  
  /* Modális tartalom */
  .modal2-content {
-   cursor: pointer;
+
    background-color: #fefefe;
    margin: 15% auto; /* Középen pozícionálás */
    padding: 20px;
@@ -153,10 +102,24 @@ table {
    max-width: 600px; /* Max. szélesség */
  }
 
- .cancelButton:hover {
-   background-color: #da6565;
+
+ .yesButton {
+  cursor: pointer;
+  color:white;
+  background-color: rgba(20, 104, 90, 0.671);
+  transition: all 0.3s ease; /* Animáció simításához */
+}
+ .yesButton:hover {
+  background-color: rgb(20, 104, 90);
  }
 
- .yesButton:hover {
-   background-color: #7abd83;
+ .cancelButton {
+  cursor: pointer;
+  color:white;
+  background-color: rgba(65, 0, 0, 0.603);
+  transition: all 0.3s ease; /* Animáció simításához */
+}
+
+ .cancelButton:hover {
+  background-color: rgb(116, 1, 1);   
  }

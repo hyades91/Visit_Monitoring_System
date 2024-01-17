@@ -1,25 +1,7 @@
-button{ cursor:pointer;}
-.LoginForm{
-   display: absolute;
-   margin: auto;
-   align-items: center;
-   text-align: center;
-   width: 100%;
-   height:87vh;
-   background-color: white;
-}
 
-.LoginInputs{
-    align-items: center;
-    margin-top: 300px;
-    display: relative;
-    margin: auto;
-    text-align: center;
-    background-color: white;
- }
-
+/*
 input{
-height: 5vh;
+height: 10vh;
 }
 
 th{
@@ -65,27 +47,27 @@ table {
 
  .modal {
   
-   position: fixed; /* Abszolút pozíció */
-   z-index: 1; /* Legfelül */
+   position: fixed; 
+   z-index: 1; 
    left: 0;
    top: 0;
-   width: 100%; /* Teljes szélesség */
-   height: 100%; /* Teljes magasság */
-   overflow: auto; /* Görgetés engedélyezése, ha szükséges */
-   background-color: rgba(0, 0, 0, 0.4); /* Fekete háttér átlátszósággal */
+   width: 100%; 
+   height: 100%; 
+   overflow: auto; 
+   background-color: rgba(0, 0, 0, 0.4); 
  }
  
- /* Modális tartalom */
+
  .modal-content {
    background-color: #fefefe;
-   margin: 15% auto; /* Középen pozícionálás */
+   margin: 15% auto; 
    padding: 20px;
    border: 1px solid #888;
    width: 80%;
-   max-width: 600px; /* Max. szélesség */
+   max-width: 600px; 
  }
  
- /* Modális gomb stílus */
+
  .riskSelectorButton{
    cursor: pointer;
    padding: 8px 16px;
@@ -94,7 +76,8 @@ table {
    border: 1px solid #888;
  }
  
- /* Modális gomb stílus: hover */
+
  .riskSelectorButton:hover {
    background-color: #ddd;
  }
+ */

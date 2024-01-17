@@ -12,7 +12,7 @@ using VisitMonitoringSystem.Services.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Appsetting használatához
+//Appsetting használatához 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("appsettings.json").Build();

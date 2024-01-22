@@ -12,7 +12,7 @@ using VisitMonitoringSystem.Services.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Appsetting használatához 
+//Appsetting használatához_
 var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("appsettings.json").Build();
@@ -212,20 +212,18 @@ async Task CreateAdminIfNotExists()
     using var scope = app.Services.CreateScope();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
-    var AdminMailString = builder.Configuration["UserSecrets: AdminMailString"];
-    var adminInDb = await userManager.FindByEmailAsync(AdminMailString);
+    var adminInDb = await userManager.FindByEmailAsync("admin@admin.com");
 
     if (adminInDb == null)
     {
         var admin = new User
         {
             UserName = "admin",
-            Email = AdminMailString,
+            Email = "admin@admin.com",
             HasAccess=true
         };
         
-        var AdminString = builder.Configuration["UserSecrets: AdminString"];
-        var adminCreated = await userManager.CreateAsync(admin, AdminString);
+        var adminCreated = await userManager.CreateAsync(admin, "admin123");
         
         if (adminCreated.Succeeded)
         {

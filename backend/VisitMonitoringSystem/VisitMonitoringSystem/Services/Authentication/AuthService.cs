@@ -24,7 +24,7 @@ public class AuthService:IAuthService
     {
         var user = new User { UserName = username, Email = email }; //IdentityUser helyett User-t írok
         var result = await _userManager.CreateAsync(user, password);
-        Console.WriteLine("result:"+result);
+        //Console.WriteLine("result:"+result);
         if (!result.Succeeded)
         {
             return FailedRegistration(result, email, username);
@@ -42,7 +42,7 @@ public class AuthService:IAuthService
             authResult.ErrorMessages.Add(error.Code, error.Description);
         }
 
-        Console.WriteLine("authResult:"+result);
+        //Console.WriteLine("authResult:"+result);
         return authResult;
     }
     

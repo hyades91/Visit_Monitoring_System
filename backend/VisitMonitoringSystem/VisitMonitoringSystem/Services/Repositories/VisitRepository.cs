@@ -38,7 +38,7 @@ public class VisitRepository:IVisitRepository
     {
         foreach (var importedVisit in obj.payload)
             {
-                Console.WriteLine(importedVisit.visitDate);
+                //Console.WriteLine(importedVisit.visitDate);
                 var visit = new Visit
                 {
                     Date = importedVisit.visitDate,
@@ -60,7 +60,7 @@ public class VisitRepository:IVisitRepository
     {
         foreach (var importedVisit in ImportedVisits)
         {
-            Console.WriteLine(importedVisit.Visitdate);
+            //Console.WriteLine(importedVisit.Visitdate);
             var visit = new Visit
             {
                 Date = importedVisit.Visitdate,
@@ -81,7 +81,7 @@ public class VisitRepository:IVisitRepository
     {
         foreach (var importedVisit in ImportedVisits)
         {
-            Console.WriteLine(importedVisit.Visitdate);
+            //Console.WriteLine(importedVisit.Visitdate);
             var visit = new Visit
             {
                 Date = importedVisit.Visitdate,

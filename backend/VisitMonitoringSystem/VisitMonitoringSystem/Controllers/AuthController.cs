@@ -58,7 +58,8 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var result = await _authenticationService.LoginAsync(request.Email, request.Password, request.Email=="admin@admin.com"?"Admin":"User");// "admin@"-> 5.Authorization
+//Environmental variable
+        var result = await _authenticationService.LoginAsync(request.Email, request.Password, request.Email=="hyades991@gmail.com"?"Admin":"User");// "admin@"-> 5.Authorization
         
 
         if (!result.Success )

@@ -212,18 +212,20 @@ async Task CreateAdminIfNotExists()
     using var scope = app.Services.CreateScope();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
-    var adminInDb = await userManager.FindByEmailAsync("admin@admin.com");
+    var AdminMailString = builder.Configuration["UserSecrets: AdminMailString"];
+    var adminInDb = await userManager.FindByEmailAsync(AdminMailString);
 
     if (adminInDb == null)
     {
         var admin = new User
         {
             UserName = "admin",
-            Email = "admin@admin.com",
+            Email = AdminMailString,
             HasAccess=true
         };
         
-        var adminCreated = await userManager.CreateAsync(admin, "admin123");
+        var AdminString = builder.Configuration["UserSecrets: AdminString"];
+        var adminCreated = await userManager.CreateAsync(admin, AdminString);
         
         if (adminCreated.Succeeded)
         {

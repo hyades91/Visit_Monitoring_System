@@ -184,7 +184,7 @@ public class VisitController : ControllerBase
 
         var importedVisits = ExcelHelper.Import<VisitRequest>(stream);
 
-        Console.WriteLine(importedVisits[0].Visitdate);
+       // Console.WriteLine(importedVisits[0].Visitdate);
     
         // ... további műveletek a betöltött adatokkal ...
 
@@ -200,7 +200,7 @@ public class VisitController : ControllerBase
 
         var importedVisits = ExcelHelper.Import<VisitRequest>(stream);
 
-        Console.WriteLine(importedVisits[0].Visitdate);
+       // Console.WriteLine(importedVisits[0].Visitdate);
     
         // ... további műveletek a betöltött adatokkal ...
 

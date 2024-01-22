@@ -1,7 +1,6 @@
 # ASP.NET Web API
 
-# appsettings.json file
-appsettings*.json
+
 
 frontend/vms-app/node_modules/
 

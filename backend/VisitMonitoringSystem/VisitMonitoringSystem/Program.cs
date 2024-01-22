@@ -12,7 +12,7 @@ using VisitMonitoringSystem.Services.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Appsetting használatához_
+//Appsetting használatához
 var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("appsettings.json").Build();
@@ -83,8 +83,8 @@ void AddAuthentication() //1. Secure the endpoints
             var appsettings = configuration.GetSection("AppSettings");
             var ValidIssuer = appsettings["ValidIssuer"];
             var ValidAudience = appsettings["ValidAudience"];
-            var issuerSigningKey = builder.Configuration["UserSecrets: IssuerSigningKey"];
-            //var issuerSigningKey=Environment.GetEnvironmentVariable("IssuerSigningKey"); //RENDER
+            //var issuerSigningKey = builder.Configuration["UserSecrets: IssuerSigningKey"]; //USERSECRET
+            var issuerSigningKey=Environment.GetEnvironmentVariable("IssuerSigningKey"); //RENDER
             options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ClockSkew = TimeSpan.Zero,
@@ -103,10 +103,10 @@ void AddAuthentication() //1. Secure the endpoints
 void AddDbContext() //2. Setting up identity
 {
     //1- User-secret
-    var connectionString = builder.Configuration["UserSecrets: ConnectionString"];
+    //var connectionString = builder.Configuration["UserSecrets: ConnectionString"];
    
     //2- Environmental Variable
-    //var connectionString = Environment.GetEnvironmentVariable("connectionString");
+    var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
 
     if (string.IsNullOrEmpty(connectionString))
     {
@@ -212,18 +212,19 @@ async Task CreateAdminIfNotExists()
     using var scope = app.Services.CreateScope();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
-    var adminInDb = await userManager.FindByEmailAsync("admin@admin.com");
+    var AdminMailString = Environment.GetEnvironmentVariable("AdminMailString");
+    var adminInDb = await userManager.FindByEmailAsync(AdminMailString);
 
     if (adminInDb == null)
     {
         var admin = new User
         {
             UserName = "admin",
-            Email = "admin@admin.com",
+            Email = AdminMailString,
             HasAccess=true
         };
-        
-        var adminCreated = await userManager.CreateAsync(admin, "admin123");
+        var AdminString = Environment.GetEnvironmentVariable("AdminString");
+        var adminCreated = await userManager.CreateAsync(admin, AdminString);
         
         if (adminCreated.Succeeded)
         {

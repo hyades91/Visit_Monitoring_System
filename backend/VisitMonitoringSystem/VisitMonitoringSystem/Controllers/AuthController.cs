@@ -59,7 +59,8 @@ public class AuthController : ControllerBase
         }
 
 //Environmental variable
-        var result = await _authenticationService.LoginAsync(request.Email, request.Password, request.Email=="hyades991@gmail.com"?"Admin":"User");// "admin@"-> 5.Authorization
+        var AdminMailString = Environment.GetEnvironmentVariable("AdminMailString");
+        var result = await _authenticationService.LoginAsync(request.Email, request.Password, request.Email==AdminMailString?"Admin":"User");// "admin@"-> 5.Authorization
         
 
         if (!result.Success )

@@ -13,7 +13,6 @@ const SigninPage = () => {
   //console.log(logOrSign)
 
   function SigninFetch(userObject){
-    setLoading(true)
       //console.log(userObject)
       try{
         fetch(`${urlString}/Auth/Register`,{
@@ -46,6 +45,7 @@ const SigninPage = () => {
  
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
     //console.log(e.target[0].value)
     let userObject={
       Email: e.target[0].value,

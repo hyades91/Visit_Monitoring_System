@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(x => x.AllowAnyHeader()
-    .AllowAnyMethod().WithOrigins("http://localhost:3000"));
+    .AllowAnyMethod().WithOrigins("https://vms-client.onrender.com","http://localhost:3000"));
 
 
 

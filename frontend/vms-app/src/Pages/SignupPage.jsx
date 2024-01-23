@@ -27,18 +27,21 @@ const SigninPage = () => {
           if (Object.keys(response)[0]!=="email"){
             //console.log("Signin failed!")
             setFailedSignin(response[Object.keys(response)[1]])
+            setLoading(false)
           }
           else{
             //console.log("Signin success!")
             setFailedSignin("You're registration has been completed. Please Log in!")
+            setLoading(false)
           }
         })
         .catch(error=>{
-            //console.log(error);
+            console.err(error);
             //console.log("HIBA")
+            setLoading(false)
         })
       }catch(error){console.err(error)}
-      setLoading(false)
+ 
     }
   
 

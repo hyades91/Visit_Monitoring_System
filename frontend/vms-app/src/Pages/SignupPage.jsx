@@ -57,12 +57,13 @@ const SigninPage = () => {
   };
 
   return (
-    <>
-   <UserFormComponent status={logOrSign} isLogOrSignFailed={failedSignin} watchClick={onSubmit}/>
-   {loading&&
+  <>
+  {loading?
     <Loading/>
-    }
-    </>
+    :
+    <UserFormComponent status={logOrSign} isLogOrSignFailed={failedSignin} watchClick={onSubmit}/>
+  }
+  </>
   )
 
 };

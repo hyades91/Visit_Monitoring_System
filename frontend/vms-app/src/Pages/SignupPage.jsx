@@ -1,4 +1,5 @@
 import UserFormComponent from "../Components/UserForm/UserFormComponent";
+import Loading from "../Components/Loading";
 import { useState } from "react";
 
 import urlString from "..";
@@ -7,11 +8,12 @@ const SigninPage = () => {
 
   const [logOrSign, /*setLogOrSign*/] = useState("signin");
   const [failedSignin, setFailedSignin] = useState(false);
-  
+  const [loading, setLoading] = useState(false);
 
   //console.log(logOrSign)
 
   function SigninFetch(userObject){
+    setLoading(true)
       //console.log(userObject)
       try{
         fetch(`${urlString}/Auth/Register`,{
@@ -37,6 +39,7 @@ const SigninPage = () => {
             //console.log("HIBA")
         })
       }catch(error){console.err(error)}
+      setLoading(false)
     }
   
 
@@ -54,7 +57,12 @@ const SigninPage = () => {
   };
 
   return (
+    <>
    <UserFormComponent status={logOrSign} isLogOrSignFailed={failedSignin} watchClick={onSubmit}/>
+   {loading&&
+    <Loading/>
+    }
+    </>
   )
 
 };

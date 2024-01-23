@@ -59,8 +59,8 @@ const router = createBrowserRouter([
 export const UserContext = React.createContext();
 
 //szerver cím
-const urlString="https://localhost:44382"
-//const urlString="https://jewelrywebshop-server.onrender.com";
+//const urlString="https://localhost:44382"
+const urlString="https://vms-server-y7pt.onrender.com";
 export default urlString;
 
 const App = () => {

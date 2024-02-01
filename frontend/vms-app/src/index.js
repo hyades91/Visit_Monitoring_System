@@ -84,11 +84,11 @@ const App = () => {
         method: 'GET',
       })
       .then((res) => {
-        console.log(res)
+        //console.log(res)
         return res.json()
       })
       .then((data)=>{
-        console.log(data)
+       // console.log(data)
       })
       .catch((err)=>console.error("Error during visit fetch (first catch):"+err))
       .finally(() => {

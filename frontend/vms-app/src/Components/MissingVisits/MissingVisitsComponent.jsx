@@ -210,9 +210,9 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   }, [filteredVisits, filteredStoreList]);
 
   //console.log(filteredStoreList)
-  console.log("duration: "+durationInMonth)
-  console.log("startDate: "+startDate)
-  console.log("endDate: "+endDate)
+  //console.log("duration: "+durationInMonth)
+  //console.log("startDate: "+startDate)
+  //console.log("endDate: "+endDate)
   //console.log(selectedStore)
 
   return(

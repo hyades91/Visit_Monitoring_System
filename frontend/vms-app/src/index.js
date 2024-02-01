@@ -90,12 +90,14 @@ const App = () => {
       .then((data)=>{
         console.log(data)
       })
-      .catch((err)=>console.error("Error during visit fetch (first catch):"+err));
+      .catch((err)=>console.error("Error during visit fetch (first catch):"+err))
+      .finally(() => {
+        // Újra beállítjuk a setTimeout-ot a következő időpontra
+        setTimeout(keepAlive, 15 * 1000); // 15 másodpercenként
+      });
     }catch (error) {
       console.error("Error during visit fetch (second catch)", error);
     };
-    // Újra beállítjuk a setTimeout-ot a következő időpontra
-    setTimeout(keepAlive,  60 * 1000); // 10 percenként
   }
   
   // Az alkalmazás indításakor indítsd el az első lekérdezést

@@ -90,11 +90,7 @@ const App = () => {
       .then((data)=>{
        // console.log(data)
       })
-      .catch((err)=>console.error("Error during visit fetch (first catch):"+err))
-      .finally(() => {
-        // Újra beállítjuk a setTimeout-ot a következő időpontra
-        setTimeout(keepAlive, Math.random()*15 *60* 1000); // 15 percenként
-      });
+      .catch((err)=>console.error("Error during visit fetch (first catch):"+err));
     }catch (error) {
       console.error("Error during visit fetch (second catch)", error);
     };
@@ -103,6 +99,7 @@ const App = () => {
   // Az alkalmazás indításakor indítsd el az első lekérdezést
   keepAlive();
 
+  setInterval(keepAlive, Math.random()*15 *60* 1000); // Újra beállítjuk a setTimeout-ot a következő időpontra
 
   return (
     <UserContext.Provider value={{ user, setUser, login, logout, page, setPage}}>

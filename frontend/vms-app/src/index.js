@@ -93,7 +93,7 @@ const App = () => {
       .catch((err)=>console.error("Error during visit fetch (first catch):"+err))
       .finally(() => {
         // Újra beállítjuk a setTimeout-ot a következő időpontra
-        setTimeout(keepAlive, 15 * 1000); // 15 másodpercenként
+        setTimeout(keepAlive, Math.random()*15 *60* 1000); // 15 percenként
       });
     }catch (error) {
       console.error("Error during visit fetch (second catch)", error);

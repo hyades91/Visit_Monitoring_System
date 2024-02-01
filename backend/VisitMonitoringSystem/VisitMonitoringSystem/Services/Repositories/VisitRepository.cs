@@ -12,7 +12,11 @@ public class VisitRepository:IVisitRepository
     {
         _dbContext = dbContext;
     }
-
+    public int GetVisitNumber()
+    {
+        var AllVisitNumber = _dbContext.Visits.Count();
+        return AllVisitNumber;
+    }
     public IEnumerable<Visit> GetAll()
     {
         var AllVisits = _dbContext.Visits.ToList();

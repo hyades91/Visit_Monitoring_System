@@ -75,8 +75,31 @@ const App = () => {
     setUser(null);
   };
 
-
-
+  function keepAlive() {
+    // Itt hajtsd végre a lekérdezést vagy műveletet, amely fenntartja a kapcsolatot
+    console.log("Keep alive executed");
+    try{
+      //console.log("fetching...");
+      return fetch(`${urlString}/Visit/GetAllVisitNumber`,{
+        method: 'GET',
+      })
+      .then((res) => {
+        console.log(res)
+        return res.json()
+      })
+      .then((data)=>{
+        console.log(data)
+      })
+      .catch((err)=>console.error("Error during visit fetch (first catch):"+err));
+    }catch (error) {
+      console.error("Error during visit fetch (second catch)", error);
+    };
+    // Újra beállítjuk a setTimeout-ot a következő időpontra
+    setTimeout(keepAlive,  60 * 1000); // 10 percenként
+  }
+  
+  // Az alkalmazás indításakor indítsd el az első lekérdezést
+  keepAlive();
 
 
   return (

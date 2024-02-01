@@ -4,6 +4,7 @@ namespace VisitMonitoringSystem.Services.Repositories;
 
 public interface IVisitRepository
 {
+    int GetVisitNumber();
     IEnumerable<Visit> GetAll();
     IEnumerable<Visit> GetFinished();
     IEnumerable<Visit> DeleteAll();

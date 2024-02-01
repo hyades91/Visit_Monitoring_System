@@ -22,6 +22,21 @@ public class VisitController : ControllerBase
 
     //CRUD...
     //
+    
+    [HttpGet("GetAllVisitNumber")]
+    public async Task<ActionResult<List<Visit>>> GetVisitNumber()
+    {
+        try
+        {
+            return Ok(_visitrepository.GetVisitNumber());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
     [HttpGet("GetAllVisit"), Authorize(Roles = "Admin ")]
     public async Task<ActionResult<List<Visit>>> GetVisits()
     {

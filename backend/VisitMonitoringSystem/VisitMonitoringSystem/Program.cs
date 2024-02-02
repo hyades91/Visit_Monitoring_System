@@ -66,7 +66,7 @@ void AddServices()
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IVisitRepository, VisitRepository>();
     builder.Services.AddScoped<IStoreRepository, StoreRepository>();
- 
+    builder.Services.AddHostedService<VisitNumberService>();
     
     builder.Services.AddCors();//FOR REACT FETCHES
   

@@ -25,9 +25,9 @@ public class VisitNumberService : BackgroundService
                 int result = _dbContext.Visits.Count();
                 // Kezelje a lekérdezés eredményét itt
                 Console.WriteLine($"Result: {result}");
-
+                var rnd = Random.Next(50, 70);
                 // Várakozás 15 percig
-                await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(rnd), stoppingToken);
             }
             catch (Exception ex)
             {

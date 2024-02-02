@@ -9,6 +9,7 @@ public class VisitNumberService : BackgroundService
 {
     private readonly VmsContext _dbContext;
 
+    private readonly Random Random;
     public VisitNumberService(VmsContext dbContext)
     {
         _dbContext = dbContext;
@@ -26,7 +27,7 @@ public class VisitNumberService : BackgroundService
                 Console.WriteLine($"Result: {result}");
 
                 // Várakozás 15 percig
-                await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(Random.Next(600,900)), stoppingToken);
             }
             catch (Exception ex)
             {

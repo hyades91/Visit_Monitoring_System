@@ -9,7 +9,7 @@ public class VisitNumberService : BackgroundService
 {
     private readonly VmsContext _dbContext;
 
-    private Random Random;
+    Random Random = new Random();
     public VisitNumberService(VmsContext dbContext)
     {
         _dbContext = dbContext;

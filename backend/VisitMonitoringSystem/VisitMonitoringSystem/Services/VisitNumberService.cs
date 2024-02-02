@@ -9,7 +9,7 @@ public class VisitNumberService : BackgroundService
 {
     private readonly VmsContext _dbContext;
 
-    private readonly Random Random;
+    private Random Random;
     public VisitNumberService(VmsContext dbContext)
     {
         _dbContext = dbContext;
@@ -22,7 +22,7 @@ public class VisitNumberService : BackgroundService
             try
             {
                 // Itt végezd el a lekérdezést
-                var result = _dbContext.Visits.Count();
+                int result = _dbContext.Visits.Count();
                 // Kezelje a lekérdezés eredményét itt
                 Console.WriteLine($"Result: {result}");
 

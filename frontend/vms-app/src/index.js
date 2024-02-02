@@ -74,7 +74,7 @@ const App = () => {
   const logout = () => {
     setUser(null);
   };
-
+/*
   function keepAlive() {
     // Itt hajtsd végre a lekérdezést vagy műveletet, amely fenntartja a kapcsolatot
     console.log("Keep alive executed");
@@ -100,7 +100,7 @@ const App = () => {
   keepAlive();
 
   setInterval(keepAlive, Math.random()*15 *60* 1000); // Újra beállítjuk a setTimeout-ot a következő időpontra
-
+*/
   return (
     <UserContext.Provider value={{ user, setUser, login, logout, page, setPage}}>
       <React.StrictMode>

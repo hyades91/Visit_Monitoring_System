@@ -27,7 +27,7 @@ public class VisitNumberService : BackgroundService
                 Console.WriteLine($"Result: {result}");
 
                 // Várakozás 15 percig
-                await Task.Delay(TimeSpan.FromSeconds(Random.Next(600,900)), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
             }
             catch (Exception ex)
             {

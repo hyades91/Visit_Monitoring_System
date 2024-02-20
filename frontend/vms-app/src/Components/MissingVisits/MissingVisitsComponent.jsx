@@ -222,7 +222,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
       <div className="Dashboard">
         <div className="DatabaseUpdateInfo">
         <h1>Missing Visits</h1>
-        <p>Last uploaded visit: {allVisits[0].date+" "+allVisits[0].storeName}</p>
+        <p>Last imported visit: {allVisits.map(v=>v.date.substring(6,10)+"."+v.date.substring(3,5)+"."+v.date.substring(0,2)+" "+v.date.substring(11,16)+" "+v.storeName).reduce((d1,d2)=>d1>d2?d1:d2)}</p>
         </div>
 
         <div className="Filters">

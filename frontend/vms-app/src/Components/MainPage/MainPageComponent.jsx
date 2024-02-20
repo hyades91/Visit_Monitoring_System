@@ -212,7 +212,11 @@ useEffect(() => {
 
   //console.log(filteredStoreList)
   //console.log("duration: "+durationInMonth)
+  //console.log(allVisits[0])
+  //console.log(allVisits.map(v=>v.date.substring(6,10)+"."+v.date.substring(3,5)+"."+v.date.substring(0,2)+" "+v.date.substring(11,16)+" "+v.storeName))
+  //console.log(allVisits.map(v=>v.date.substring(6,10)+"."+v.date.substring(3,5)+"."+v.date.substring(0,2)+" "+v.date.substring(11,16)+" "+v.storeName).reduce((d1,d2)=>d1>d2?d1:d2))
   
+
   return(
   
     <div className="MainPageContent">
@@ -220,7 +224,7 @@ useEffect(() => {
       <div className="Dashboard">
 
         <div className="DatabaseUpdateInfo">
-        <p>Last uploaded visit: {allVisits[0].date+" "+allVisits[0].storeName}</p>
+        <p>Last imported visit: {allVisits.map(v=>v.date.substring(6,10)+"."+v.date.substring(3,5)+"."+v.date.substring(0,2)+" "+v.date.substring(11,16)+" "+v.storeName).reduce((d1,d2)=>d1>d2?d1:d2)}</p>
         </div>
 
         <div className="Filters">

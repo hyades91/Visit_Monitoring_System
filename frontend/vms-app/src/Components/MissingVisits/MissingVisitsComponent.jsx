@@ -34,6 +34,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   const [loading, setLoading] = useState(true)
   const [selectedStore, setSelectedStore] = useState(false)
   
+  const [riskList, setRiskList] = useState(["Low","Medium","High","High-DC"])
   
   //Excel
   const [data, setData] = useState([])
@@ -61,7 +62,7 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
       "Store Number":visit.storeNumber,
       "Store Name":visit.storeName,
       "Reason":visit.type,
-      "Risk":visit.risk==="1"?"Low":visit.risk==="2"?"Medium":visit.risk==="3"?"High":"High-DC"
+      "Risk":riskList[filteredUnderPerformedStoreList.filter(store=>store.storeNumber===visit.storeNumber)[0].risk-1]//visit.risk==="1"?"Low":visit.risk==="2"?"Medium":visit.risk==="3"?"High":"High-DC"
       
   }):"")
   setDataAll(customHeadings.filter(cH=>cH!=="")) 

@@ -6,6 +6,7 @@ import Loading from "../Loading";
 import { useEffect,  useState, useContext } from "react";
 //Excel export
 import ExportToExcel from '../../ExportToExcel.jsx'
+import ExportToExcelAll from '../../ExportToExcelAll.jsx'
 
 const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
 
@@ -37,6 +38,8 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
   //Excel
   const [data, setData] = useState([])
   const fileName = `Underperformed_visits_${startDate}-${endDate}`;
+  const [dataAll, setDataAll] = useState([])
+  const fileNameAll = `All_Visits_${startDate}-${endDate}`;
   
   useEffect(() => {
     const customHeadings = filteredUnderPerformedStoreList.map(store =>({
@@ -46,10 +49,24 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
       "Missing visits":requiredVisits(store)-performedVisits(store)>0?requiredVisits(store)-performedVisits(store):"",
       "Expected visits":requiredVisits(store)
   }))
-    setData(customHeadings) 
+  setData(customHeadings) 
 
   }, [filteredVisits,filteredUnderPerformedStoreList])
 
+  useEffect(() => {
+    const storeNumberList=filteredUnderPerformedStoreList.map(store=>store.storeNumber)
+    const customHeadings = filteredVisits.map(visit => storeNumberList.includes(visit.storeNumber)?({
+     
+      "Date":visit.date,
+      "Store Number":visit.storeNumber,
+      "Store Name":visit.storeName,
+      "Reason":visit.type,
+      "Risk":visit.risk==="1"?"Low":visit.risk==="2"?"Medium":visit.risk==="3"?"High":"High-DC"
+      
+  }):"")
+  setDataAll(customHeadings.filter(cH=>cH!=="")) 
+
+  }, [filteredVisits,filteredUnderPerformedStoreList])
 
 
   function watchClick(e){
@@ -270,6 +287,10 @@ const MissingVisitsComponent = ({visits, stores/*, watchClick*/}) => {
 
         <div className="ExportButton">
           <ExportToExcel apiData={data} fileName={fileName} />
+        </div>
+        <br></br>
+        <div className="ExportButton">
+          <ExportToExcelAll apiData={dataAll} fileName={fileNameAll} />
         </div>
       </div>
 
